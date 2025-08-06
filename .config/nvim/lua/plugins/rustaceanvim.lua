@@ -13,6 +13,9 @@ return {
           vim.keymap.set("n", "<leader>cb", function()
             vim.cmd.RustLsp("flyCheck")
           end, { desc = "Run Clippy", buffer = bufnr })
+          vim.keymap.set("n", "<leader>ce", function()
+            vim.cmd.RustLsp("expandMacro")
+          end, { desc = "Expand Macro Recursively", buffer = bufnr })
         end,
         default_settings = {
           -- rust-analyzer language server configuration
