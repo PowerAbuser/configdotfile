@@ -1,0 +1,40 @@
+{
+    "include": [
+        "$HOME/.config/waybar/modules/modules-main.jsonc",
+        "$HOME/.config/waybar/modules/modules-groups.jsonc",
+        "$HOME/.config/waybar/modules/modules-custom.jsonc",
+    ],
+    "layer": "top",
+    "position": "top",
+    "mod": "dock",
+    "exclusive": true,
+    "passthrough": false,
+    "gtk-layer-shell": true,
+    "reload_style_on_change": true,
+    "height": 15,
+    "margin-top": 0,
+
+    "modules-left": [
+        "custom/launch_rofi",
+        "cpu",
+        "memory",
+        "custom/clipboard", 
+        "mpris",
+        "custom/cava"
+    ],
+
+    "modules-center": [
+        "hyprland/workspaces#preview",
+    ],
+
+    "modules-right": [
+        "tray",
+        "pulseaudio",
+        "pulseaudio#microphone",
+        "custom/notify",
+        "power-profiles-daemon",
+        "clock",
+        "battery",
+        "custom/power_btn"
+    ],
+}
