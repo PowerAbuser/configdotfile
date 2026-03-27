@@ -12,7 +12,7 @@ return {
           end, { desc = "Rust Debuggables", buffer = bufnr })
           vim.keymap.set("n", "<leader>cb", function()
             vim.cmd.RustLsp("flyCheck")
-          end, { desc = "Run Clippy", buffer = bufnr })
+          end, { desc = "Run Cargo Check", buffer = bufnr })
           vim.keymap.set("n", "<leader>cx", function()
             vim.cmd.RustLsp("flyCheck", "cancel")
           end, { desc = "Stop Clippy", buffer = bufnr })
@@ -21,10 +21,14 @@ return {
           end, { desc = "Expand Macro Recursively", buffer = bufnr })
         end,
         default_settings = {
-          -- rust-analyzer language server configuration
           ["rust-analyzer"] = {
+            check = {
+              -- command = "check",
+              command = "clippy",
+            },
             cargo = {
               allFeatures = true,
+              allTargets = false,
               loadOutDirsFromCheck = false,
               buildScripts = {
                 enable = true,
@@ -35,19 +39,11 @@ return {
             diagnostics = {
               enable = false,
               disabled = {
-                "proc-macro-disabled",
-                -- "proc-macros-disabled",
+                -- "proc-macro-disabled",
               },
             },
             procMacro = {
               enable = true,
-              ignored = {
-                ["async-trait"] = {},
-                ["napi-derive"] = { "napi" },
-                ["async-recursion"] = { "async_recursion" },
-                ["sqlx-macros"] = { "query" },
-                ["leptos_macro"] = { "component" },
-              },
             },
           },
         },
