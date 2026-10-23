@@ -16,7 +16,7 @@
 -- itself, so that ordering is enforced rather than implied.
 
 require("confs.settings")     -- input, misc, layouts, binds, xwayland, render, cursor
-require("confs.decoration")   -- symlink -> confs/themes/<Theme>.lua
+require("confs.decoration")   -- Catppuccin Mocha/Latte, follows confs.theme_mode
 require("confs.startup")      -- exec-once handlers
 require("confs.windowrules")  -- pulls in confs.tags and confs.configs
 require("confs.keybinds")

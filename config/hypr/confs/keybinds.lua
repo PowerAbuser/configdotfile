@@ -72,14 +72,12 @@ bind(mod .. " + V",              hl.dsp.window.float({ action = "toggle" }))
 -- bind(mod .. " + ALT + V", ...)
 bind(mod .. " + F",              hl.dsp.window.fullscreen())
 bind(mod .. " + D",              exec(scripts .. "/menu.sh || pkill rofi"))
-bind(mod .. " + ALT + D",        exec(scripts .. "/rofi_theme.sh"))
 bind(mod .. " + ALT + C",        exec(scripts .. "/cliphist.sh c")) -- clipboard manager
 bind(mod .. " + ALT + W",        exec(scripts .. "/cliphist.sh w")) -- clipboard wipe
 bind(mod .. " + SHIFT + D",      exec(rofi_emoji))
 bind(mod .. " + SHIFT + P",      hl.dsp.window.pseudo())
 bind(mod .. " + P",              hl.dsp.window.pseudo())
 bind(mod .. " + X",              exec(power_menu))
-bind(mod .. " + ALT + X",        exec(scripts .. "/powermenu_theme_select.sh"))
 bind(mod .. " + B",              exec(scripts .. "/browser.sh op")) -- open brave or chromium
 -- bind(mod .. " + B", exec("systemd-run --user --slice=browser-memory.slice " .. scripts .. "/browser.sh op"))
 
@@ -107,7 +105,6 @@ bind(mod .. " + CTRL + R", exec('hyprctl reload && notify-send "Done" "Hyprland 
 bind(mod .. " + CTRL + U", exec('kitty --title browser sh -c "' .. scripts .. '/hyprconf-v2.sh"'))
 bind(mod .. " + SHIFT + R", exec(scripts .. "/startup.sh &> /dev/null"))
 -- bind(mod .. " + S", exec('kitty --title browser sh -c "' .. scripts .. '/settings.sh"'))
-bind(mod .. " + T",       exec(scripts .. "/theme_select.sh"))
 bind(mod .. " + ALT + U", exec('kitty sh -c "' .. scripts .. '/uninstall.sh"'))
 
 -- re-generate colors if the ~/.cache/wal directory has been deleted

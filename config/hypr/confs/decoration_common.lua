@@ -1,10 +1,6 @@
 --------------------------------------------------------------------
--- LOOK AND FEEL (shared across all themes)
+-- LOOK AND FEEL
 --------------------------------------------------------------------
--- The five files in confs/themes/ were byte-identical apart from their first
--- five $variables, so the shared body lives here once and each theme just
--- supplies its palette.
---
 -- confs/decoration.lua supplies the palette: Catppuccin Mocha or Latte,
 -- following the quickshell dark/light mode (confs/theme_mode.lua).
 
