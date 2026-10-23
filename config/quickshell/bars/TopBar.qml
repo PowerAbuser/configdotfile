@@ -121,13 +121,8 @@ PanelWindow {
         interval: updateProc.running ? 999999999 : 1800000
 
         command: win.sh(`
-            # Don't run checkupdates while pacman is locked
-            if [ -e /var/lib/pacman/db.lck ]; then
-                cat /tmp/qs_updates_count 2>/dev/null || echo 0
-                exit 0
-            fi
-
-            n=$(checkupdates 2>/dev/null | wc -l)
+            # apt list doesn't take the dpkg lock, so no lock check is needed
+            n=$(apt list --upgradable 2>/dev/null | grep -c upgradable)
             echo "$n" | tee /tmp/qs_updates_count
         `)
 
@@ -303,7 +298,7 @@ PanelWindow {
 
                     Image { 
                         id: lImg
-                        source: "../lib/arch.svg"
+                        source: "../lib/ubuntu.svg"
                         visible: false
                         anchors.fill: parent
                         fillMode: Image.PreserveAspectFit
@@ -569,7 +564,7 @@ PanelWindow {
                     id: updateProc
                     running: false
                     // The process stays 'running' as long as the window is open.
-                    command: ["kitty", "-e", "bash", "-lc", "sudo pacman -Syu"]
+                    command: ["kitty", "-e", "bash", "-lc", "sudo apt update && sudo apt upgrade"]
 
                     // When running changes to false (window closed),
                     onRunningChanged: {

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ubuntu "circle of friends", single colour: the bars tint it with ColorOverlay -->
+<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <path d="M4.84 15.34 A7.9 7.9 0 0 0 12.69 19.87 L12.46 17.28 A5.3 5.3 0 0 1 7.20 14.24 Z M18.47 16.53 A7.9 7.9 0 0 0 18.47 7.47 L16.34 8.96 A5.3 5.3 0 0 1 16.34 15.04 Z M12.69 4.13 A7.9 7.9 0 0 0 4.84 8.66 L7.20 9.76 A5.3 5.3 0 0 1 12.46 6.72 Z" fill="#000"/>
+  <circle cx="2.60" cy="12.00" r="2.4" fill="#000"/>
+  <circle cx="16.70" cy="3.86" r="2.4" fill="#000"/>
+  <circle cx="16.70" cy="20.14" r="2.4" fill="#000"/>
+</svg>

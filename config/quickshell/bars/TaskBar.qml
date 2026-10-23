@@ -241,11 +241,8 @@ PanelWindow {
         id: updates
         interval: updateProc.running ? 999999999 : 1800000
         command: Lib.Shell.sh(`
-            if [ -e /var/lib/pacman/db.lck ]; then
-                cat /tmp/qs_updates_count 2>/dev/null || echo 0
-                exit 0
-            fi
-            n=$(checkupdates 2>/dev/null | wc -l)
+            # apt list doesn't take the dpkg lock, so no lock check is needed
+            n=$(apt list --upgradable 2>/dev/null | grep -c upgradable)
             echo "$n" | tee /tmp/qs_updates_count
         `)
         parse: function(o) { return String(o ?? "").trim() }
@@ -453,7 +450,7 @@ PanelWindow {
                     DockButton {
                         id: dockLauncher
                         anchors.centerIn: parent
-                        iconPath: "../lib/arch.svg"
+                        iconPath: "../lib/ubuntu.svg"
                         tooltipText: "Applications"
                         onClicked: taskbar.emitLauncherClick()
                     }
@@ -722,7 +719,7 @@ PanelWindow {
 
                             Image { 
                                 id: lImg
-                                source: "../lib/arch.svg"
+                                source: "../lib/ubuntu.svg"
                                 visible: false
                                 anchors.fill: parent
                                 fillMode: Image.PreserveAspectFit
@@ -1065,7 +1062,7 @@ PanelWindow {
                         Process {
                             id: updateProc
                             running: false
-                            command: ["kitty", "-e", "bash", "-lc", "sudo pacman -Syu"]
+                            command: ["kitty", "-e", "bash", "-lc", "sudo apt update && sudo apt upgrade"]
                             onRunningChanged: { if (!running) updates.update() }
                         }
 

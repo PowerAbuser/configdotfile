@@ -12,7 +12,7 @@ Scope {
     // Settings from disk a beat after startup;
     property bool ready: false
 
-    property string barStyle:              "task"
+    property string barStyle:              "top" 
     property bool   barForceWorkspaceMode: false
     property bool   barShowBattery:        true
     property bool   barShowTray:           true
@@ -22,13 +22,14 @@ Scope {
     // Desktop
     property bool   showScreenBorders: true
     property string desktopMode:       "snes"
-    property string wallpaperDir:      Quickshell.env("HOME") + "/Pictures/Wallpapers"
+    property string wallpaperDir:      Quickshell.env("HOME") + "/.config/hypr/Wallpapers"
 
     // External tools
     readonly property string nowPlayingBin:
         Qt.resolvedUrl("../bin/now_playing").toString().replace("file://", "")
-    readonly property string screenshotScript: Quickshell.env("HOME") + "/.config/hypr/screenshots/captureArea.sh"
-    readonly property string evercalBin:       "/opt/evercal/ever_cal"
+    readonly property string screenshotScript: Qt.resolvedUrl("../utils/capture-area.sh").toString().replace("file://", "")
+    // EverCal is Arch-only; the calendar opens ikhal (khal's TUI) instead
+    readonly property string evercalBin:       "kitty --class ikhal -e ikhal"
 
     // Hub
     property int    maxEvents: 1

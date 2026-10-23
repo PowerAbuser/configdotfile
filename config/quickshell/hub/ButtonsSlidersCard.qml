@@ -12,7 +12,7 @@ Lib.Card {
   signal wifiRequested()
   signal bluetoothRequested()
   property bool active: true
-  property bool autoMode: true
+  property bool autoMode: false  // no auto-cpufreq here: show the live governor
   property bool dnd: false
   
 
@@ -103,40 +103,12 @@ Lib.Card {
   Timer { id: pollLockout;
   interval: 5000; onTriggered: root._isChanging = false }
   
-  // Previous state, so a failed call can be undone
-  property bool _prevAutoMode: true
-  property string _prevGov: "powersave"
 
-  // -n so a machine without the sudoers drop-in fails instantly instead of
-  // feeding pam_faillock, whose tally system-auth shares with hyprlock and sddm
-  Process {
-    id: perfProc
-    onExited: (exitCode) => {
-      root._isChanging = false
-      if (exitCode !== 0) {
-        root.autoMode = root._prevAutoMode
-        root.cpuGov = root._prevGov
-      }
-    }
-  }
 
-  function _applyPerf(mode) {
-    perfProc.running = false
-    perfProc.command = ["sudo", "-n", "auto-cpufreq", "--force=" + mode]
-    perfProc.running = true
-  }
-
+  // Power profiles are owned by TUXEDO Control Center on this machine, so
+  // the button opens it; the label keeps following the live governor.
   function togglePerf() {
-    root._prevAutoMode = root.autoMode
-    root._prevGov = root.cpuGov
-    root._isChanging = true;
-    pollLockout.restart()
-    if (root.autoMode) { root.autoMode = false; root.cpuGov = "performance";
-    root._applyPerf("performance") }
-    else if (root.cpuGov === "performance") { root.cpuGov = "powersave";
-    root._applyPerf("powersave") }
-    else { root.autoMode = true;
-    root._applyPerf("reset") }
+    Quickshell.execDetached(["tuxedo-control-center"])
   }
   function getPerfIcon() { return root.autoMode ?
   "cpu_auto.svg" : (root.cpuGov === "performance" ? "cpu_max.svg" : "cpu_powersave.svg") }
