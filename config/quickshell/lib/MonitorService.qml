@@ -22,7 +22,7 @@ Scope {
     signal toast(string msg)
 
     // Descriptions treated as configured screens. 
-    property var knownPatterns: []
+    property var knownPatterns: ["PHL 243V5"]   // the two Philips monitors; laid out by hypr/confs/monitor.lua
     property var remembered: ({})          // description -> layout
 
     // Where the prompt shows. The laptop panel normally, but it is switched off
