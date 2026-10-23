@@ -78,6 +78,15 @@ check_update() {
             echo "{\"text\":\"$upd\", \"tooltip\":\"󱓽 Updates Available: $upd\n\nPress CTRL + U to update\"}"
             # update_notification "$update_sign" "Updates Available" "$upd packages"
         fi
+
+    elif [ -n "$(command -v apt)" ]; then
+        upd=$(apt-get -s upgrade 2>/dev/null | grep -c '^Inst')
+
+        if [ $upd -eq 0 ]; then
+            echo "{\"text\":\"$upd\", \"tooltip\":\"  Packages are up to date\"}"
+        else
+            echo "{\"text\":\"$upd\", \"tooltip\":\"󱓽 Updates Available: $upd\n\nPress CTRL + U to update\"}"
+        fi
     fi
 }
 
@@ -137,6 +146,21 @@ package_update() {
 
         # Calculate total available updates
         upd=$(( ofc ))
+
+        sleep 1
+
+        if [ $upd -eq 0 ]; then
+            update_notification "$done_sign" "Done" "Packages have been updated"
+        elif [ $upd -gt 0 ]; then
+            error_notification "$warning_sign" "Warning!" "Some packages may have skipped"
+        else
+            error_notification "$error_sign" "Error!" "Sorry, could not update packages"
+        fi
+
+    elif [ -n "$(command -v apt)" ]; then
+        kitty --title update sh -c "${upd_script}"
+
+        upd=$(apt-get -s upgrade 2>/dev/null | grep -c '^Inst')
 
         sleep 1
 

@@ -61,7 +61,7 @@ run_cmd() {
         elif [[ $1 == '--logout' ]]; then
             "$HOME/.config/hypr/scripts/uptime.sh"
             "$HOME/.config/hypr/scripts/notification.sh" logout
-            hyprctl dispatch exit 0
+            hyprctl dispatch 'hl.dsp.exit()'
         elif [[ $1 == '--suspend' ]]; then
             "$HOME/.config/hypr/scripts/uptime.sh"
             "$HOME/.config/hypr/scripts/notification.sh" logout

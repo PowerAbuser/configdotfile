@@ -50,8 +50,11 @@ echo "$theme" > "$themeFile"
 "$scrDir/Wallpaper.sh" &> /dev/null
 
 # hyprland themes
-hyprTheme="$HOME/.config/hypr/confs/themes/${theme}.conf"
-ln -sf "$hyprTheme" "$HOME/.config/hypr/confs/decoration.conf"
+# Hyprland now reads the Lua config (confs/themes/*.lua). The old .conf themes
+# are still on disk as a fallback; re-point decoration.conf too if you ever
+# revert hyprland.lua.
+hyprTheme="$HOME/.config/hypr/confs/themes/${theme}.lua"
+ln -sf "$hyprTheme" "$HOME/.config/hypr/confs/decoration.lua"
 
 # rofi themes
 rofiTheme="$HOME/.config/rofi/colors/${theme}.rasi"

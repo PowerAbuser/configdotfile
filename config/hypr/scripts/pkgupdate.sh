@@ -32,6 +32,8 @@ if [ $? -eq 0 ]; then
         sudo dnf update && sudo dnf upgrade -y
     elif [ -n "$(command -v zypper)" ]; then
         sudo zypper up -y
+    elif [ -n "$(command -v apt)" ]; then
+        sudo apt update && sudo apt upgrade -y
     fi
 
     sleep 1

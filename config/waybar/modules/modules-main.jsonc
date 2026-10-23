@@ -4,7 +4,7 @@
   "wlr/taskbar": {
     "format": "{icon}",
     "icon-size": 18,
-    "icon-theme": "Tela-circle-dracula",
+    "icon-theme": "Papirus-Dark",
     "spacing": 0,
     "tooltip-format": "{title}",
     "on-click": "activate",
@@ -94,27 +94,7 @@
     "on-click": "activate",
     "on-scroll-up": "hyprctl dispatch workspace e-1",
     "on-scroll-down": "hyprctl dispatch workspace e+1",
-    "format": "{icon}",
-    // "format-icons": {
-    // "1": "",
-    // "2": "",
-    // "3": "",
-    // "4": "",
-    //     "urgent": "",
-    //     "focused": "",
-    //     "default": ""
-    // },
-    "format-icons": {
-      // for arch
-      // "active": "󰮯",
-      // "default": ""
-      // for fedora
-      //  "active": "󰣛",  
-      //  "default": ""
-      // for opensuse
-      // "active": "",
-      // "default": ""
-    },
+    "format": "{name}",
     "persistent-workspaces": {
       "1": [],
       "2": [],

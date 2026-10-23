@@ -19,7 +19,6 @@
     "custom/launch_rofi",
     "clock",
     "tray",
-    "power-profiles-daemon",
     "mpris"
   ],
   "modules-center": [
@@ -33,6 +32,7 @@
     "memory",
     "custom/clipboard",
     "custom/notify",
+    "custom/tcc",
     "battery",
     "custom/power_btn"
   ]

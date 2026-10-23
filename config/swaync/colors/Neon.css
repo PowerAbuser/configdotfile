@@ -9,3 +9,29 @@
 @define-color noti-close-bg-hover #E25ECF;
 @define-color noti-urgent #4A9AAF;
 @define-color bg-selected #1e1e2e;
+
+/* --- swaync >=0.12 custom-property bridge (generated) --- */
+/* swaync 0.12 reads colours from CSS custom properties, not @define-color.
+   These mirror the palette above so the theme actually applies.
+   --noti-bg must stay a bare "R, G, B" triplet: the stock stylesheet uses it
+   as rgba(var(--noti-bg), var(--noti-bg-alpha)). */
+:root {
+  /* Derived shades, so all five themes get a consistent panel/card hierarchy */
+  --theme-base:    #010001;
+  --theme-panel:   #010001;
+  --theme-surface: #1a1a1a;
+  --theme-fg:      #e1c5e1;
+
+  --noti-bg: 1, 0, 1;
+  --noti-bg-darker: #010001;
+  --noti-bg-hover: #45475a;
+  --noti-bg-alt: #45475a;
+  --noti-bg-focus: #1e1e2e;
+  --noti-close-bg: #724B8E;
+  --noti-close-bg-hover: #E25ECF;
+  --text-color: #e1c5e1;
+  /* Muted border: the raw theme value is the *foreground* colour, which reads
+     as a bright outline around every widget when used at full opacity. */
+  --noti-border-color: alpha(#e1c5e1, 0.14);
+  --cc-bg: #010001;
+}

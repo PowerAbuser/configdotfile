@@ -22,8 +22,10 @@ if [[ "$auto_generated_setting" ]]; then
         --title "Setting up for your Monitor" -- \
         sleep 2
 
-    monitor_name=$(xrandr | grep "connected" | awk '{print $1}')
-    monitor_resolution=$(xrandr | grep "connected" | awk '{print $3}' | cut -d'+' -f1)
+    monitor_name=$(hyprctl monitors -j | jq -r '.[0].name')
+    mon_w=$(hyprctl monitors -j | jq -r '.[0].width')
+    mon_h=$(hyprctl monitors -j | jq -r '.[0].height')
+    monitor_resolution="${mon_w}x${mon_h}"
 
     display
     refresh_rate=$(gum choose \

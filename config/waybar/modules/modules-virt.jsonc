@@ -5,7 +5,7 @@
     "wlr/taskbar": {
 		"format": "{icon}",
 		"icon-size": 18,
-		"icon-theme": "Tela-circle-dracula",
+		"icon-theme": "Papirus-Dark",
         "spacing": 0,
 		"tooltip-format": "{title}",
 		"on-click": "activate",
@@ -35,7 +35,7 @@
     // network speed
     "network#speed": {
         // "interface": "wlp2*", // (Optional) To force the use of this interface
-        "format": "<span foreground='#99ffdd'> {bandwidthDownBytes}</span> <span foreground='#ffcc66'> \n{bandwidthUpBytes}</span>",
+        "format": "<span foreground='#99ffdd'> {bandwidthDownBytes}</span> <span foreground='#ffcc66'> {bandwidthUpBytes}</span>",
         "format-disconnected": "󰖪 ",
         "tooltip": false,
         "interval": 1,
@@ -93,7 +93,7 @@
         "on-click": "activate",
         "on-scroll-up": "hyprctl dispatch workspace e-1",
         "on-scroll-down": "hyprctl dispatch workspace e+1",
-        "format": "{icon}",
+        "format": "{name}",
         "persistent-workspaces": {
             "1": [],
             "2": [],

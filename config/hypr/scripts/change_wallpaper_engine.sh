@@ -1,5 +1,5 @@
 #!/bin/bash
-# Wallpaper engine changing script (swww/hyprpaper)
+# Wallpaper engine changing script (awww/hyprpaper)
 
 scripts="$HOME/.config/hypr/scripts"
 cache_dir="$HOME/.config/hypr/.cache"
@@ -9,7 +9,7 @@ touch "$engine"
 
 # Function to display the prompt
 prompt() {
-    echo "swww"
+    echo "awww"
     echo "hyprpaper"
 }
 
@@ -29,13 +29,13 @@ main() {
     fi
 
     case "$choice" in
-        "swww")
-            echo "swww" > "$engine"
+        "awww")
+            echo "awww" > "$engine"
             killall hyprpaper
             ;;
         "hyprpaper")
             echo "hyprpaper" > "$engine"
-            killall swww-daemon
+            killall awww-daemon
             ;;
         *)
             echo "Invalid choice"

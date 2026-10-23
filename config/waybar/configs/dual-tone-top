@@ -46,7 +46,7 @@
         "custom/notify_icon",
         "custom/notify",
         "clock",
-        "group/power"
+        "group/power",
         "custom/cava"
     ],
 
@@ -56,10 +56,7 @@
         "on-click": "activate",
         "on-scroll-up": "hyprctl dispatch workspace e-1",
         "on-scroll-down": "hyprctl dispatch workspace e+1",
-        "format": "{icon}",
-        "format-icons": {
-            "default": ""
-          },
+        "format": "{name}",
         "persistent-workspaces": {
             "1": [],
             "2": [],

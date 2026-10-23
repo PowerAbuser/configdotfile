@@ -2,7 +2,7 @@
   //_________\\ Custom Modules //_________\\
   // rofi app launcher
   "custom/launch_rofi": {
-    "format": "", // for arch
+    "format": "󰕈", // for ubuntu
     //  "format": "󰣛",   // for fedora
     // "format": "",  // for opensuse
     "on-click": "rofi -show drun -theme ~/.config/rofi/menu/menu.rasi || pkill rofi",
@@ -113,5 +113,15 @@
     "format": "󰿅",
     "tooltip-format": "logout",
     "on-click": "~/.config/hypr/scripts/power.sh --logout"
+  },
+  // TUXEDO Control Center - profile + charging via tccd D-Bus
+  "custom/tcc": {
+    "format": "{}",
+    "return-type": "json",
+    "exec": "~/.config/hypr/scripts/tcc.sh",
+    "exec-if": "systemctl is-active --quiet tccd",
+    "on-click-right": "/opt/tuxedo-control-center/tuxedo-control-center",
+    "interval": 5,
+    "tooltip": true
   }
 }

@@ -38,7 +38,7 @@
         "battery", 
         "backlight",  
         "pulseaudio/slider",
-        "pulseaudio#audio", 
+        "pulseaudio", 
         "group/power"
     ],
 
@@ -48,10 +48,7 @@
         "on-click": "activate",
         "on-scroll-up": "hyprctl dispatch workspace e-1",
         "on-scroll-down": "hyprctl dispatch workspace e+1",
-        "format": "{icon}",
-        "format-icons": {
-            "default": "",
-          },
+        "format": "{name}",
         "persistent-workspaces": {
             "1": [],
             "2": [],
@@ -60,7 +57,7 @@
     },
 
     "custom/launch_rofi": {
-        "format": "",
+        "format": "󰕈",
         "on-click": "rofi -show drun -theme ~/.config/rofi/menu/menu.rasi || pkill rofi",
         "on-click-right": "kitty --title yazi -e yazi",
         "tooltip": true,

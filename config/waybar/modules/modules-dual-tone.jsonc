@@ -101,9 +101,7 @@
     "on-click": "activate",
     "on-scroll-up": "hyprctl dispatch workspace e-1",
     "on-scroll-down": "hyprctl dispatch workspace e+1",
-    "format-icons": {
-      //  "default": ""
-    },
+    "format": "{name}",
     "persistent-workspaces": {
       "1": [],
       "2": [],
@@ -363,7 +361,7 @@
   "custom/updater_icon": {
     "exec": "~/.config/hypr/scripts/systemupdate.sh --check",
     "format": " ",
-    "tooltip": "false",
+    "tooltip": false,
     "interval": 86400 // once every day
   },
   "custom/updater": {
@@ -382,7 +380,7 @@
     "format": "󰅌",
     "on-click": "~/.config/hypr/scripts/cliphist.sh c",
     "on-click-right": "~/.config/hypr/scripts/cliphist.sh w",
-    "tooltip": "false",
+    "tooltip": false,
     "interval": 1
   },
   "custom/clipboard": {
@@ -390,7 +388,7 @@
     "exec": "~/.config/hypr/scripts/cliphist.sh l",
     "on-click": "~/.config/hypr/scripts/cliphist.sh c",
     "on-click-right": "~/.config/hypr/scripts/cliphist.sh w",
-    "tooltip": "true",
+    "tooltip": true,
     "tooltip-format": "Item copied: {}",
     "interval": 1
   },

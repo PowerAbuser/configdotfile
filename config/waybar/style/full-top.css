@@ -123,6 +123,7 @@ tooltip label {
 #custom-nightlight,
 #hyprland-keyboard,
 #power-profiles-daemon,
+#custom-tcc,
 #backlight {
   background: @background;
   opacity: 0.8;
@@ -350,6 +351,35 @@ tooltip label {
 #power-profiles-daemon.power-saver {
   color: #33ffcc;
   font-size: 15px;
+}
+
+/* TUXEDO Control Center - colour tracks the active fan curve.
+   Uses theme.css named colours so it follows the active palette. */
+#custom-tcc {
+  border-radius: 15px;
+  padding: 0 12px;
+  margin-right: 10px;
+}
+
+#custom-tcc.balanced {
+  color: @color3;
+}
+
+#custom-tcc.quiet {
+  color: @color2;
+}
+
+#custom-tcc.silent {
+  color: @color6;
+}
+
+#custom-tcc.off {
+  color: @color8;
+}
+
+/* scaling_max_freq pinned below hardware max - loud on purpose */
+#custom-tcc.capped {
+  color: @color1;
 }
 
 #custom-cava {

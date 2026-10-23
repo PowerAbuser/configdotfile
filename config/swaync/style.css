@@ -5,17 +5,28 @@
 /* } */
 
 :root {
-  --border-radius: 10px;
-  --cc-bg: transparent;
+  --border-radius: 12px;
 
-  --widget-background: alpha(@noti-bg, 0.5);
-  --noti-bg-alpha: 0.6;
+  /* Cards sit at the theme base, on the darker panel shell (--cc-bg).
+     Both shades come from colors.css, so theme switching still works. */
+  --widget-background: var(--theme-base);
+
+  /* Opaque. There is no compositor blur behind the panel any more, so
+     translucency just let the wallpaper bleed through and made it unreadable. */
+  --noti-bg-alpha: 1;
 
   --padding: calc(var(--border-radius) / 2);
 }
 
+/* The control center as an actual panel: rounded, bordered, raised off the
+   desktop -- previously it was fully transparent and leaned on the Hyprland
+   blur (now removed) to be legible at all. */
 .control-center {
-  border-radius: 0;
+  background: var(--cc-bg);
+  border: var(--border);
+  border-radius: var(--border-radius);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.55);
+  padding: var(--padding);
 }
 
 .widgets>.widget,
@@ -23,7 +34,7 @@
 .widget-mpris>box>button {
   background: var(--widget-background);
   border-radius: var(--border-radius);
-  padding: calc(var(--border-radius) / 2);
+  padding: var(--padding);
   border: var(--border);
 }
 
@@ -42,7 +53,7 @@
 
 .close-button:hover {
   background: transparent;
-  color: red;
+  color: @noti-close-bg-hover;
   box-shadow: none;
   transition: all 0.2s ease-in-out;
 }
@@ -55,8 +66,8 @@
 
 .notification-default-action:hover,
 .notification-action:hover {
-  -gtk-icon-effect: none;
-  background: var(--widget-background);
+  -gtk-icon-filter: none;
+  background: var(--theme-surface);
 }
 
 .notification-group {
@@ -82,7 +93,7 @@
 }
 
 .widget-mpris>box>button:hover {
-  background: var(--widget-background);
+  background: var(--theme-surface);
 }
 
 .widget-mpris-player {
@@ -95,7 +106,14 @@
   margin: 0;
 }
 
-image {
+/* Notification primary icon: square it off and gap it from the text.
+   Scoped — a bare `image {}` also hits mpris album art, widget and button icons. */
+.notification-content .image {
   border-radius: 0;
   padding: 0 20px 0 0;
+}
+
+/* Keep the square album art this theme had before the rule above was scoped. */
+.widget-mpris-album-art {
+  border-radius: 0;
 }

@@ -44,17 +44,15 @@ send_notification() {
 }
 
 case $choice in
-$option1) # full area, 3 sec delay.
-  # for time in 3 2 1; do
-  #   send_notification "$time"
-  # done
+$option1) # full area, 1 sec delay
   sleep 1
-  grimblast copysave output $temp_screenshot && ss_sound && swappy -f $temp_screenshot
+  grim "$temp_screenshot" && ss_sound && swappy -f "$temp_screenshot"
   ;;
 $option2) # drag to manually snip an area / click on a window to print it
-  sleep 1
-  grimblast --freeze copysave area $temp_screenshot && ss_sound && swappy -f $temp_screenshot
   sleep 0.5
+  selected_area=$(slurp) || exit 0
+  sleep 0.2
+  grim -g "$selected_area" "$temp_screenshot" && ss_sound && swappy -f "$temp_screenshot"
   ;;
 *) # invalid option
   print_error ;;
