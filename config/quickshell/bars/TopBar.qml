@@ -16,13 +16,17 @@ PanelWindow {
     signal requestHubToggle()
 
     anchors { top: true; left: true; right: true }
-    height: 40
+    // The bar is laid out for a dense panel; on 1080p-class screens it is
+    // drawn at full size and scaled down so it looks the same physical size.
+    readonly property real barScale: (screen && screen.height <= 1200) ? 0.8 : 1.0
+    height: Math.round(40 * barScale)
     color: "transparent"
 
     readonly property bool isDarkMode: theme.isDarkMode
 
     WlrLayershell.layer: WlrLayer.Top
-    WlrLayershell.exclusiveZone: 38
+    // bar height plus a small gap, so windows never touch the pills
+    WlrLayershell.exclusiveZone: height + 4
     WlrLayershell.namespace: "shell-bar"
 //--------------------------------------------------------------------------------
     function sh(cmd) { return ["bash", "-c", cmd] }
@@ -259,10 +263,13 @@ PanelWindow {
     }
 // ------------------ THE BAR ---------------------------------------------------------------------------------
     Rectangle {
-        anchors.fill: parent
-        anchors.margins: 4
-        anchors.leftMargin: 12
-        anchors.rightMargin: 12
+        // full-size geometry, scaled by win.barScale (see top of file)
+        x: 12
+        y: 4 * win.barScale
+        width: (win.width - 24) / win.barScale
+        height: 32
+        transformOrigin: Item.TopLeft
+        scale: win.barScale
         color: "transparent"
 
         RowLayout {
@@ -612,7 +619,7 @@ PanelWindow {
                             ColorOverlay {
                                 anchors.fill: trayImg
                                 source: trayImg
-                                color: trayPress.containsMouse ? pal.accent : pal.textPrimary
+                                color: trayPress.containsMouse ? pal.accent : pal.textSecondary
                                 cached: true
                                 Behavior on color { ColorAnimation { duration: 150 } }
                             }

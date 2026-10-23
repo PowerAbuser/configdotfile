@@ -1115,7 +1115,7 @@ PanelWindow {
                                     ColorOverlay {
                                         anchors.fill: trayImg
                                         source: trayImg
-                                        color: trayPress.containsMouse ? pal.accent : pal.textPrimary
+                                        color: trayPress.containsMouse ? pal.accent : pal.textSecondary
                                         cached: true
                                         Behavior on color { ColorAnimation { duration: 150 } }
                                     }
