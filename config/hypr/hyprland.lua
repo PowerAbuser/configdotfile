@@ -20,6 +20,7 @@ require("confs.decoration")   -- symlink -> confs/themes/<Theme>.lua
 require("confs.startup")      -- exec-once handlers
 require("confs.windowrules")  -- pulls in confs.tags and confs.configs
 require("confs.keybinds")
+require("confs.quickshell")   -- surface-dots shell: bar, hub, drawer, power menu
 require("confs.env")
 require("confs.monitor")
 require("confs.animations")

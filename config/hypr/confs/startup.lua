@@ -24,7 +24,7 @@ hl.on("hyprland.start", function()
 
     -- Then everything else
     hl.exec_cmd("hypridle")
-    hl.exec_cmd("waybar")
+    -- waybar is replaced by the quickshell shell (confs/quickshell.lua)
     hl.exec_cmd("nm-applet")
     hl.exec_cmd("blueman-applet & blueman-tray")
     hl.exec_cmd("solaar --window hide")
