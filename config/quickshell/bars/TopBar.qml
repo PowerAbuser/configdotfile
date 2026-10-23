@@ -32,8 +32,19 @@ PanelWindow {
     function sh(cmd) { return ["bash", "-c", cmd] }
     function det(cmd) { Quickshell.execDetached(sh(cmd)) }
 
-    // get active workspace ID 
-    property int activeWsId: Hyprland.focusedMonitor?.activeWorkspace?.id ?? 1
+    // Each bar shows its own monitor: that monitor's active workspace, and
+    // only the workspaces that currently live on it (sorted by id).
+    readonly property var hyMonitor: Hyprland.monitorFor(win.screen)
+    property int activeWsId: hyMonitor?.activeWorkspace?.id ?? 1
+    readonly property var wsIds: {
+        const ids = []
+        for (const ws of Hyprland.workspaces.values)
+            if (ws.id > 0 && ws.monitor === win.hyMonitor) ids.push(ws.id)
+        if (win.activeWsId > 0 && ids.indexOf(win.activeWsId) < 0) ids.push(win.activeWsId)
+        return ids.sort((a, b) => a - b)
+    }
+    // reads wsRepeater.count so bindings re-run once new delegates exist
+    function wsItem(id) { return (id > 0 && wsRepeater.count) ? wsRepeater.itemAt(win.wsIds.indexOf(id)) : null }
 
     Lib.ThemeEngine {
         id: theme
@@ -141,6 +152,24 @@ PanelWindow {
             if (!updateProc.running) updates.update()
         }
     }
+    // 6.1 CPU % + RAM used (two /proc/stat samples, 0.5s apart)
+    Lib.CommandPoll {
+        id: perfPoll
+        interval: 3000
+        command: ["bash", "-c", `
+            read -r _ a b c d e f g h _ < /proc/stat; t1=$((a+b+c+d+e+f+g+h)); i1=$((d+e))
+            sleep 0.5
+            read -r _ a b c d e f g h _ < /proc/stat; t2=$((a+b+c+d+e+f+g+h)); i2=$((d+e))
+            cpu=$(( (100 * ((t2-t1) - (i2-i1))) / ((t2-t1) > 0 ? (t2-t1) : 1) ))
+            mem=$(awk '/^MemTotal/{t=$2} /^MemAvailable/{a=$2} END{printf "%.1f", (t-a)/1048576}' /proc/meminfo)
+            echo "$cpu|$mem"
+        `]
+        parse: function(o) {
+            const p = String(o ?? "").trim().split("|")
+            return { cpu: Number(p[0]) || 0, mem: p[1] || "?" }
+        }
+    }
+
     // 6.2 BATTERY %, STATUS POLLER
     Lib.CommandPoll {
         id: powerPoll
@@ -349,15 +378,15 @@ PanelWindow {
                 color: pal.bg
                 clip: true
                 property int hoveredId: 0
-                property var hoveredItem: (hoveredId > 0) ? wsRepeater.itemAt(hoveredId - 1) : null
+                property var hoveredItem: win.wsItem(hoveredId)
                 property int pressedId: 0
-                property var pressedItem: (pressedId > 0) ? wsRepeater.itemAt(pressedId - 1) : null
+                property var pressedItem: win.wsItem(pressedId)
 
                 // ACTIVE PILL
                 Rectangle {
                     id: activePill
                     property int currentId: win.activeWsId
-                    property var targetItem: wsRepeater.itemAt(currentId - 1)
+                    property var targetItem: win.wsItem(currentId)
                     x: targetItem ? (wsRow.x + targetItem.x) : 0
                     width: targetItem ? targetItem.width : 0
                     height: 22
@@ -416,10 +445,10 @@ PanelWindow {
                     spacing: 2
                     Repeater {
                         id: wsRepeater
-                        model: 10
+                        model: win.wsIds
                         Item {
                             id: wsDelegate
-                            property int wsId: index + 1
+                            property int wsId: modelData
                             property bool isActive: win.activeWsId === wsId
 
                             // --- READ FROM CACHE ---
@@ -642,6 +671,21 @@ PanelWindow {
                         }
                     }
                 }
+            }
+
+            // 11.5 PERFORMANCE: CPU + RAM (click: btop)
+            TopBarItem {
+                id: perfItem
+                Layout.preferredWidth: implicitWidth
+                property int cpu: perfPoll.value ? perfPoll.value.cpu : 0
+                property string mem: perfPoll.value ? perfPoll.value.mem : "?"
+                property color loadColor: cpu >= 90 ? (win.isDarkMode ? "#f38ba8" : "#d20f39")
+                                        : cpu >= 70 ? (win.isDarkMode ? "#fab387" : "#fe640b")
+                                        : pal.textPrimary
+                icon: ""; text: cpu + "%  ·  " + mem + " GB"
+                bgColor: pal.bg; iconColor: loadColor; textColor: pal.textPrimary
+                borderWidth: 0; borderColor: "transparent"; hoverColor: pal.hoverSpotlight
+                onClicked: det("kitty --title btop -e btop")
             }
 
             // 12. BATTERY
