@@ -292,6 +292,7 @@ PanelWindow {
     }
 // ------------------ THE BAR ---------------------------------------------------------------------------------
     Rectangle {
+        id: barRect
         // full-size geometry, scaled by win.barScale (see top of file)
         x: 12
         y: 4 * win.barScale
@@ -556,8 +557,11 @@ PanelWindow {
                 property string trackTitle: player ? player.trackTitle : ""
                 property string trackArtist: player ? player.trackArtist : ""
 
+                // centred on the whole bar (barRect), not on the space left
+                // between the left and right groups
                 Text {
-                    anchors.centerIn: parent
+                    anchors.verticalCenter: parent.verticalCenter
+                    x: (barRect.width - width) / 2 - parent.x
                     visible: !parent.isPlaying
                     text: Hyprland.activeToplevel?.title ?? "Desktop"
                     font.family: theme.iconFont; font.weight: 700; font.pixelSize: 13
@@ -567,7 +571,8 @@ PanelWindow {
                 }
 
                 RowLayout {
-                    anchors.centerIn: parent
+                    anchors.verticalCenter: parent.verticalCenter
+                    x: (barRect.width - width) / 2 - parent.x
                     visible: parent.isPlaying
                     spacing: 10
                     Text { text: ""; font.family: theme.iconFont; font.pixelSize: 14; color: pal.accent }
@@ -676,7 +681,10 @@ PanelWindow {
             // 11.5 PERFORMANCE: CPU + RAM (click: btop)
             TopBarItem {
                 id: perfItem
-                Layout.preferredWidth: implicitWidth
+                // sized for the widest reading so the pill never resizes
+                TextMetrics { id: perfIconM; font.family: theme.iconFont; font.pixelSize: 14; text: "" }
+                TextMetrics { id: perfTextM; font.family: "Manrope"; font.pixelSize: 13; font.weight: 700; text: "100%  ·  99.9 GB" }
+                Layout.preferredWidth: Math.ceil(perfIconM.advanceWidth + 8 + perfTextM.advanceWidth + 24)
                 property int cpu: perfPoll.value ? perfPoll.value.cpu : 0
                 property string mem: perfPoll.value ? perfPoll.value.mem : "?"
                 property color loadColor: cpu >= 90 ? (win.isDarkMode ? "#f38ba8" : "#d20f39")

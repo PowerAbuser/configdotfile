@@ -91,8 +91,11 @@ PanelWindow {
     property string profileName: Config.PROFILE_NAME
     readonly property string _bundledProfile:
         Qt.resolvedUrl("../profile.jpg").toString().replace("file://", "")
-    property string profileImage: Lib.Configuration.profileImageOverride !== ""
-        ? Lib.Configuration.profileImageOverride
+    // the Settings field takes a path as typed, so expand a leading ~
+    readonly property string _profileOverride:
+        Lib.Configuration.profileImageOverride.replace(/^~(?=\/|$)/, Quickshell.env("HOME"))
+    property string profileImage: win._profileOverride !== ""
+        ? win._profileOverride
         : (Config.PROFILE_IMG !== "" ? Config.PROFILE_IMG : win._bundledProfile)
     property bool batteryCardActive: false
     property bool settingsPanelOpen: false
