@@ -17,12 +17,12 @@ Item {
     readonly property color _accent: (themed && theme.accent !== undefined) ? theme.accent : Theme.accent
 
     readonly property color _headColor: isDark
-        ? Qt.rgba(0.62, 0.66, 0.63, 0.8)
+        ? Qt.rgba(0.651, 0.678, 0.784, 0.8)
         : ((themed && theme.textSecondary !== undefined) ? Qt.rgba(theme.textSecondary.r, theme.textSecondary.g, theme.textSecondary.b, 0.85)
                                                         : Qt.rgba(0, 0, 0, 0.45))
 
     readonly property color _dayColor: isDark
-        ? Qt.rgba(0.62, 0.66, 0.63, 0.9)
+        ? Qt.rgba(0.651, 0.678, 0.784, 0.9)
         : ((themed && theme.textSecondary !== undefined) ? Qt.rgba(theme.textSecondary.r, theme.textSecondary.g, theme.textSecondary.b, 0.95)
                                                         : Qt.rgba(0, 0, 0, 0.55))
 

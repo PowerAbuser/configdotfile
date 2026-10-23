@@ -144,7 +144,7 @@ Lib.Card {
   "Auto" : (root.cpuGov === "performance" ? "Max" : "Powersave") }
   function getPerfColor() {
     if (root.autoMode) return (root.theme && !root.theme.isDarkMode) ?
-    '#283314' : (Theme.accent || "#a7c080")
+    '#11111b' : (Theme.accent || "#b4befe")
     return (root.cpuGov === "performance") ?
     Theme.accentRed : (root.theme ? root.theme.textPrimary : Theme.fgMain)
   }
@@ -251,7 +251,7 @@ Lib.Card {
                 from: 1;
                 to: 100; value: 50
                 accentColor: (root.theme && !root.theme.isDarkMode) ?
-                root.theme.accentSlider : "#83C092"
+                root.theme.accentSlider : "#b4befe"
                 onUserChanged: Lib.Shell.det("brightnessctl set " + Math.round(value) + "%")
             }
         }
@@ -272,7 +272,7 @@ Lib.Card {
                 from: 0;
                 to: 100; value: 0
                 accentColor: (root.theme && !root.theme.isDarkMode) ?
-                root.theme.accentSlider : "#83C092"
+                root.theme.accentSlider : "#b4befe"
                 onUserChanged: Lib.Shell.det("pactl set-sink-volume @DEFAULT_SINK@ " + Math.round(value) + "%")
             } 
         }

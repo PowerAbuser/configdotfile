@@ -180,12 +180,12 @@ Lib.TopCard {
   function getPerfColor() {
     if (root.autoMode) {
       return (root.theme && root.theme.isDarkMode !== undefined && !root.theme.isDarkMode)
-        ? '#283314' // Hardcoded colors for now
-        : (root.theme ? root.theme.accent : "#a7c080")
+        ? '#11111b' // Hardcoded colors for now
+        : (root.theme ? root.theme.accent : "#b4befe")
     }
     return (root.cpuGov === "performance")
-        ? (root.theme ? root.theme.accentRed : "#e67e80")
-        : (root.theme ? root.theme.textPrimary : "#d3c6aa")
+        ? (root.theme ? root.theme.accentRed : "#f38ba8")
+        : (root.theme ? root.theme.textPrimary : "#cdd6f4")
   }
 
 // --- DND ---
@@ -275,7 +275,7 @@ Lib.TopCard {
         Layout.fillWidth: true
         accentColor: (root.theme && root.theme.isDarkMode !== undefined && !root.theme.isDarkMode)
             ? root.theme.accentSlider
-            : "#83C092"
+            : "#b4befe"
         onUserChanged: det("brightnessctl set " + Math.round(value) + "%")
       }
 
@@ -293,7 +293,7 @@ Lib.TopCard {
         Layout.fillWidth: true
         accentColor: (root.theme && root.theme.isDarkMode !== undefined && !root.theme.isDarkMode)
             ? root.theme.accentSlider
-            : "#83C092"
+            : "#b4befe"
         onUserChanged: det("pactl set-sink-volume @DEFAULT_SINK@ " + Math.round(value) + "%")
       }
     }

@@ -108,13 +108,13 @@ Lib.Card {
         if (percentage > 75) {
             // Red for high
             return root.theme.isDarkMode 
-                ? Qt.rgba(0.8, 0.3, 0.3, 0.25) 
+                ? Qt.rgba(0.953, 0.545, 0.659, 0.25) 
                 : Qt.rgba(1.0, 0.0, 0.0, 0.15)
         } else if (percentage > 50) {
             // Yellow/Orange tint for medium
             return root.theme.isDarkMode 
-                ? Qt.rgba(0.8, 0.6, 0.2, 0.20) 
-                : Qt.rgba(1.0, 0.7, 0.0, 0.15)
+                ? Qt.rgba(0.980, 0.702, 0.529, 0.20) 
+                : Qt.rgba(0.976, 0.886, 0.686, 0.15)
         }
         // Default background
         return root.bgItem
@@ -122,7 +122,7 @@ Lib.Card {
 
     function getStatusIconColor(percentage) {
         if (percentage > 75) return root.theme.accentRed
-        if (percentage > 50) return root.theme.isDarkMode ? "#e3be5c" : "#d4a017"
+        if (percentage > 50) return root.theme.isDarkMode ? "#f9e2af" : "#df8e1d"
         return root.textPrimary
     }
 

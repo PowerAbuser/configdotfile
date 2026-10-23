@@ -1,5 +1,5 @@
 <!-- Reworked to single-color line-art so it recolors cleanly in both modes via ColorOverlay -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="#1e2326" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="#4c4f69" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
   <rect x="5" y="13" width="38" height="22" rx="3"/>
   <rect x="11" y="18" width="26" height="10" rx="2"/>
   <circle cx="18" cy="23" r="2.4"/>

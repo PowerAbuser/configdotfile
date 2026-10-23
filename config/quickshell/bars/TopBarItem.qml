@@ -9,10 +9,10 @@ Item {
     property string icon: ""
     property string text: ""
     property string iconSource: ""
-    property color textColor: "#d5c9b2"
+    property color textColor: "#cdd6f4"
     property color iconColor: root.textColor
     property int borderWidth: 1
-    property color bgColor: Qt.rgba(0.23, 0.25, 0.22, 0.25)
+    property color bgColor: Qt.rgba(0.271, 0.278, 0.353, 0.25)
     property color borderColor: Qt.rgba(1, 1, 1, 0)
     
     // Spotlight Color- Dynamic

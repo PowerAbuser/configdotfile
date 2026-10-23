@@ -70,7 +70,7 @@ Lib.TopCard {
           font.family: root.theme ? root.theme.textFont : "Manrope"
           font.pixelSize: 22
           font.weight: 600
-          color: (root.theme ? root.theme.textPrimary : "#d3c6aa")
+          color: (root.theme ? root.theme.textPrimary : "#cdd6f4")
           lineHeight: 0.8
           leftPadding: 5
         }
@@ -80,7 +80,7 @@ Lib.TopCard {
           font.family: root.theme ? root.theme.textFont : "Manrope"
           font.pixelSize: 54
           font.weight: 800
-          color: (root.theme ? root.theme.textPrimary : "#d3c6aa")
+          color: (root.theme ? root.theme.textPrimary : "#cdd6f4")
           lineHeight: 0.65
           lineHeightMode: Text.ProportionalHeight
         }
@@ -96,7 +96,7 @@ Lib.TopCard {
             // real emoji fall through to the system emoji font on their own
             font.family: "Symbols Nerd Font"
             font.pixelSize: 12
-            color: root.theme ? root.theme.weatherColor : "#9da9a0"
+            color: root.theme ? root.theme.weatherColor : "#a6adc8"
           }
 
           Text {
@@ -104,7 +104,7 @@ Lib.TopCard {
             font.family: root.theme ? root.theme.textFont : "Manrope"
             font.pixelSize: 11
             font.weight: 600
-            color: (root.theme ? root.theme.textSecondary : "#9da9a0")
+            color: (root.theme ? root.theme.textSecondary : "#a6adc8")
             elide: Text.ElideRight
             Layout.fillWidth: true
           }
@@ -123,7 +123,7 @@ Lib.TopCard {
           font.family: root.theme ? root.theme.textFont : "Manrope"
           font.pixelSize: 11
           font.weight: 800
-          color: (root.theme ? root.theme.accent : "#a7c080")
+          color: (root.theme ? root.theme.accent : "#b4befe")
           font.letterSpacing: 2.0
           Layout.alignment: Qt.AlignRight
         }
@@ -157,14 +157,14 @@ Lib.TopCard {
             text: ""
             font.family: root.theme ? root.theme.iconFont : "JetBrainsMono Nerd Font"
             font.pixelSize: 13
-            color: (root.theme ? root.theme.accent : "#a7c080")
+            color: (root.theme ? root.theme.accent : "#b4befe")
           }
 
           Text {
             text: modelData
             font.family: root.theme ? root.theme.textFont : "Manrope"
             font.pixelSize: 13
-            color: (root.theme ? root.theme.textPrimary : "#d3c6aa")
+            color: (root.theme ? root.theme.textPrimary : "#cdd6f4")
             elide: Text.ElideRight
             Layout.fillWidth: true
           }

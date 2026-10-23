@@ -583,11 +583,11 @@ Rectangle {
         }
         
         // Mode Overlay: 
-        // Dark Mode: Darkens the art (#1e2327) at 55%
+        // Dark Mode: Darkens the art (#1e1e2e) at 55%
         // Light Mode: Whitewashes the art (#ffffff) at 75%
         Rectangle { 
             anchors.fill: parent
-            color: root.isDark ? "#1e2327" : "#ffffff"
+            color: root.isDark ? "#1e1e2e" : "#ffffff"
             opacity: root.isDark ? 0.55 : 0.75
             
             Behavior on color { ColorAnimation { duration: 400 } }

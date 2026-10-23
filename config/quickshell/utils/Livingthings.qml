@@ -13,15 +13,15 @@ Item {
 
     QtObject {
         id: theme
-        property color card: skin.isDarkMode ? "#172022" : "#EBE9DE"
-        property color tile: skin.isDarkMode ? "#232A2E" : "#E2DFD3"
-        property color tileHover: skin.isDarkMode ? "#2D353B" : "#D1CEC0"
-        property color text: skin.isDarkMode ? "#D3C6AA" : "#5C6A72"
+        property color card: skin.isDarkMode ? "#181825" : "#e6e9ef"
+        property color tile: skin.isDarkMode ? "#11111b" : "#dce0e8"
+        property color tileHover: skin.isDarkMode ? "#313244" : "#ccd0da"
+        property color text: skin.isDarkMode ? "#cdd6f4" : "#6c6f85"
         // configurable via settings (falls back to the built-in default)
         property color accent: skin.ctrl.livingAccent !== "" ? skin.ctrl.livingAccent
-                                                            : (skin.isDarkMode ? '#859866' : "#6c8453")
-        property color danger: skin.isDarkMode ? "#E67E80" : "#F85552"
-        property color activeText: skin.isDarkMode ? "#1e2326" : "#F2F0E5"
+                                                            : (skin.isDarkMode ? '#b4befe' : "#7287fd")
+        property color danger: skin.isDarkMode ? "#f38ba8" : "#d20f39"
+        property color activeText: skin.isDarkMode ? "#1e1e2e" : "#eff1f5"
         property url activeImg: skin.isDarkMode ? skin.imgDark : skin.imgLight
     }
 
@@ -228,7 +228,7 @@ Item {
         radius: bgMask.radius
         color: "transparent"
         border.width: 1
-        border.color: skin.isDarkMode ? '#d1a8c080' : '#435133'
+        border.color: skin.isDarkMode ? '#d1b4befe' : '#7287fd'
         antialiasing: true
         enabled: false
     }

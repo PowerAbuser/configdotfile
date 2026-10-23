@@ -121,7 +121,7 @@ PanelWindow {
         property color workspaces:    Qt.rgba(theme.bgCard.r, theme.bgCard.g, theme.bgCard.b, 0.92)
         property color textPrimary:   String(theme.textPrimary)
         property color textSecondary: String(theme.textSecondary)
-        property color textAlternate: taskbar.isDarkMode ? "#2b3033" : '#2b3033'
+        property color textAlternate: taskbar.isDarkMode ? "#313244" : '#313244'
         property color accent:        String(Lib.Configuration.taskbarAccent)
         property color activePill:    String(Lib.Configuration.taskbarAccent)
         property color hoverSpotlight:String(theme.hoverSpotlight)
@@ -147,9 +147,9 @@ PanelWindow {
     property string battColor: {
         const dark = taskbar.isDarkMode
         if (isCharging) return pal.accent
-        const crit = dark ? '#ff0004' : '#ff001e'
-        const low  = dark ? "#e69875" : '#a55524'
-        const mid  = dark ? "#dbbc7f" : "#7a5b00"
+        const crit = dark ? '#f38ba8' : '#d20f39'
+        const low  = dark ? "#fab387" : '#fe640b'
+        const mid  = dark ? "#f9e2af" : "#df8e1d"
         if (cap <= 10) return crit
         if (cap <= 20) return low
         if (cap <= 30) return mid
@@ -414,7 +414,7 @@ PanelWindow {
                 anchors.fill: parent
                 anchors.bottomMargin: -12
                 radius: 9
-                color: taskbar.isDarkMode ? '#00ff0000' : '#00949689'
+                color: taskbar.isDarkMode ? '#00ff0000' : '#009ca0b0'
             }
             
             MouseArea {
@@ -917,7 +917,7 @@ PanelWindow {
                                         lineHeight: 0.8
                                         verticalAlignment: Text.AlignVCenter
                                         Behavior on color { ColorAnimation { duration: 140 } }
-                                        color: isActive ? "#2d353b" : (wsHover.hovered ? (taskbar.isDarkMode ? "#f2f2f2" : "#2d353b") : (taskbar.isDarkMode ? "#d5c9b2" : "#5c6a72"))
+                                        color: isActive ? "#313244" : (wsHover.hovered ? (taskbar.isDarkMode ? "#b4befe" : "#313244") : (taskbar.isDarkMode ? "#cdd6f4" : "#6c6f85"))
                                     }
 
                                     Row {
@@ -943,12 +943,12 @@ PanelWindow {
 
                                                 QtObject {
                                                     id: flashColor
-                                                    property color val: taskbar.isDarkMode ? "#d5c9b2" : "#1e2326"
+                                                    property color val: taskbar.isDarkMode ? "#cdd6f4" : "#1e1e2e"
                                                     SequentialAnimation on val {
                                                         running: modelData.urgent
                                                         loops: Animation.Infinite
-                                                        ColorAnimation { to: "#e67e80"; duration: 200 }
-                                                        ColorAnimation { to: "#dbbc7f"; duration: 200 }
+                                                        ColorAnimation { to: "#f38ba8"; duration: 200 }
+                                                        ColorAnimation { to: "#f9e2af"; duration: 200 }
                                                     }
                                                 }
                                                 
@@ -966,10 +966,10 @@ PanelWindow {
                                                     Behavior on color { enabled: !modelData.urgent; ColorAnimation { duration: 140 } }
                                                     scale: (wsDelegate.isActive && wsHover.hovered) ? 1.25 : 1.0
                                                     Behavior on scale { NumberAnimation { duration: 200; easing.type: Easing.OutBack; easing.overshoot: 1.5 } }
-                                                    color: wsDelegate.isActive ? '#2b3033' :
+                                                    color: wsDelegate.isActive ? '#313244' :
                                                            (modelData.urgent ? flashColor.val :
-                                                           (wsHover.hovered ? (taskbar.isDarkMode ? "#f2f2f2" : "#2d353b") :
-                                                           (taskbar.isDarkMode ? "#d5c9b2" : "#1e2326")))
+                                                           (wsHover.hovered ? (taskbar.isDarkMode ? "#b4befe" : "#313244") :
+                                                           (taskbar.isDarkMode ? "#cdd6f4" : "#1e1e2e")))
                                                 }
                                             }
                                         }
@@ -1052,8 +1052,8 @@ PanelWindow {
 
                     // Updates
                     TaskbarItem {
-                        property color updatesBg: taskbar.isDarkMode ? pal.accent : '#be7f9b58'
-                        property color updatesFg: taskbar.isDarkMode ? "#2d353b" : "#1e2326"
+                        property color updatesBg: taskbar.isDarkMode ? pal.accent : '#be7287fd'
+                        property color updatesFg: taskbar.isDarkMode ? "#313244" : "#1e1e2e"
 
                         visible: updateProc.running || (updates.value !== "0" && updates.value !== "")
                         iconSource: "../lib/pacman.svg"
@@ -1376,7 +1376,7 @@ PanelWindow {
             width: tooltipLabel.implicitWidth + 16
             height: 24
             radius: 6
-            color: taskbar.isDarkMode ? "#F01a1a1a" : "#F0f5f5f5"
+            color: taskbar.isDarkMode ? "#F0181825" : "#F0eff1f5"
             
             opacity: parent.containsMouse ? 1.0 : 0.0
             scale: parent.containsMouse ? 1.0 : 0.9
@@ -1485,7 +1485,7 @@ PanelWindow {
         width: appNameLabel.implicitWidth + 16
         height: 24
         radius: 8
-        color: taskbar.isDarkMode ? "#F01a1a1a" : "#F0f5f5f5"
+        color: taskbar.isDarkMode ? "#F0181825" : "#F0eff1f5"
         
         opacity: iconHover.hovered ? 1.0 : 0.0
         scale: iconHover.hovered ? 1.0 : 0.85
@@ -1521,9 +1521,9 @@ PanelWindow {
         property string icon: ""
         property string text: ""
         property string iconSource: ""
-        property color textColor: "#d5c9b2"
+        property color textColor: "#cdd6f4"
         property color iconColor: root.textColor
-        property color bgColor: Qt.rgba(0.23, 0.25, 0.22, 0.25)
+        property color bgColor: Qt.rgba(0.271, 0.278, 0.353, 0.25)
         
         signal clicked(var mouse)
 

@@ -66,7 +66,7 @@ Item {
                     Item { Layout.fillWidth: true }
                     Rectangle {
                         width: 84; height: 28; radius: 7
-                        color: root.theme ? root.theme.bgItem : "#2d353b"
+                        color: root.theme ? root.theme.bgItem : "#313244"
                         border.width: 1; border.color: root.theme ? root.theme.outline : "#333"
                         RowLayout {
                             anchors.fill: parent; anchors.margins: 3; spacing: 3
@@ -103,12 +103,12 @@ Item {
                     Layout.fillWidth: true; spacing: 6
                     CPicker {
                         Layout.fillWidth: true; label: "Hub accent"
-                        currentHex: root.theme ? root.flatHex(root.theme.accent, root.theme.bgMain) : "#759b61"
+                        currentHex: root.theme ? root.flatHex(root.theme.accent, root.theme.bgMain) : "#b4befe"
                         onPicked: (hex) => Lib.Configuration.setCustomAccent(!root.theme || root.theme.isDarkMode, hex)
                     }
                     CPicker {
                         Layout.fillWidth: true; label: "Background"
-                        currentHex: root.theme ? root.hex6(root.theme.bgMain) : "#141719"
+                        currentHex: root.theme ? root.hex6(root.theme.bgMain) : "#11111b"
                         onPicked: (hex) => Lib.Configuration.setCustomBg(!root.theme || root.theme.isDarkMode, hex)
                     }
                     CPicker {
@@ -120,7 +120,7 @@ Item {
                 RowLayout {
                     Layout.fillWidth: true; spacing: 8
                     SBtn { label: "Reset colors"
-                        onTriggered: { Lib.Configuration.useCustomAccent=false; Lib.Configuration.useCustomBg=false; Lib.Configuration.taskbarAccent="#759b61"; Lib.Configuration.save() }
+                        onTriggered: { Lib.Configuration.useCustomAccent=false; Lib.Configuration.useCustomBg=false; Lib.Configuration.taskbarAccent="#b4befe"; Lib.Configuration.save() }
                     }
                     Item { Layout.fillWidth: true }
                     SBtn { label: " Wallpaper"; accent: true; onTriggered: root.wallpaperRequested() }
@@ -161,7 +161,7 @@ Item {
                 // Segmented switch: Living Things & Cassini
                 Rectangle {
                     Layout.fillWidth: true; height: 34; radius: 8
-                    color: root.theme ? root.theme.bgItem : "#2d353b"
+                    color: root.theme ? root.theme.bgItem : "#313244"
                     border.width: 1; border.color: root.theme ? root.theme.outline : "#333"
                     RowLayout {
                         anchors.fill: parent; anchors.margins: 3; spacing: 3
@@ -171,13 +171,13 @@ Item {
                                 required property var modelData
                                 readonly property bool active: Lib.Configuration.powerMenuStyle === modelData.id
                                 Layout.fillWidth: true; Layout.fillHeight: true; radius: 6
-                                color: active ? (root.theme ? root.theme.accent : "#759b61") : "transparent"
+                                color: active ? (root.theme ? root.theme.accent : "#b4befe") : "transparent"
                                 Behavior on color { ColorAnimation { duration: 180 } }
                                 Text {
                                     anchors.centerIn: parent; text: modelData.label
                                     font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 14
                                     font.weight: active ? 600 : 400
-                                    color: active ? (root.theme ? root.theme.textOnAccent : "#232a2e")
+                                    color: active ? (root.theme ? root.theme.textOnAccent : "#11111b")
                                                   : (root.theme ? root.theme.textSecondary : "#888")
                                     Behavior on color { ColorAnimation { duration: 180 } }
                                 }
@@ -304,7 +304,7 @@ Item {
                     Layout.fillWidth: true; spacing: 12
                     Rectangle {
                         width: 44; height: 44; radius: 8; clip: true
-                        color: root.theme ? root.theme.bgItem : "#2d353b"
+                        color: root.theme ? root.theme.bgItem : "#313244"
                         border.width: 1; border.color: root.theme ? root.theme.outline : "#333"
                         Image {
                             anchors.fill: parent
@@ -323,8 +323,8 @@ Item {
                             color: root.theme ? root.theme.textSecondary : "#888" }
                         Rectangle {
                             Layout.fillWidth: true; height: 30; radius: 7
-                            color: root.theme ? root.theme.bgItem : "#2d353b"
-                            border.width: 1; border.color: pfpIn.activeFocus ? (root.theme ? root.theme.accent : "#759b61") : (root.theme ? root.theme.outline : "#333")
+                            color: root.theme ? root.theme.bgItem : "#313244"
+                            border.width: 1; border.color: pfpIn.activeFocus ? (root.theme ? root.theme.accent : "#b4befe") : (root.theme ? root.theme.outline : "#333")
                             Behavior on border.color { ColorAnimation { duration: 150 } }
                             Text {
                                 anchors { fill: parent; margins: 7 }
@@ -338,8 +338,8 @@ Item {
                                 anchors { fill: parent; margins: 7 }
                                 verticalAlignment: Text.AlignVCenter
                                 font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 14
-                                color: root.theme ? root.theme.textPrimary : "#dde5df"; clip: true; selectByMouse: true
-                                selectionColor: root.theme ? Qt.rgba(root.theme.accent.r,root.theme.accent.g,root.theme.accent.b,0.35) : "#40759b61"
+                                color: root.theme ? root.theme.textPrimary : "#cdd6f4"; clip: true; selectByMouse: true
+                                selectionColor: root.theme ? Qt.rgba(root.theme.accent.r,root.theme.accent.g,root.theme.accent.b,0.35) : "#40b4befe"
                                 text: Lib.Configuration.profileImageOverride
                                 onEditingFinished: { Lib.Configuration.profileImageOverride=text; Lib.Configuration.save() }
                             }
@@ -367,7 +367,7 @@ Item {
         default property alias items: scCol.data
         property string label: ""
         Layout.fillWidth: true
-        color: root.theme ? root.theme.bgCard : "#1e2326"
+        color: root.theme ? root.theme.bgCard : "#1e1e2e"
         radius: root.theme ? root.theme.radiusOuter : 12
         border.width: 1
         border.color: scHov.hovered
@@ -385,7 +385,7 @@ Item {
             Text {
                 text: sc.label
                 font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 16; font.weight: 600
-                color: root.theme ? root.theme.accent : "#9da9a0"
+                color: root.theme ? root.theme.accent : "#a6adc8"
                 opacity: 0.8
                 Layout.bottomMargin: 2
             }
@@ -394,7 +394,7 @@ Item {
 
     component SLabel: Text {
         font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 14
-        color: root.theme ? root.theme.textPrimary : "#dde5df"; Layout.fillWidth: true
+        color: root.theme ? root.theme.textPrimary : "#cdd6f4"; Layout.fillWidth: true
     }
 
     component SDivider: Rectangle {
@@ -413,7 +413,7 @@ Item {
             anchors { fill: parent; leftMargin: -4; rightMargin: -4 }
             radius: 8
             color: togHov.hovered
-                ? (root.theme ? Qt.rgba(root.theme.accent.r, root.theme.accent.g, root.theme.accent.b, 0.08) : "#1e2326")
+                ? (root.theme ? Qt.rgba(root.theme.accent.r, root.theme.accent.g, root.theme.accent.b, 0.08) : "#1e1e2e")
                 : "transparent"
             Behavior on color { ColorAnimation { duration: 150 } }
         }
@@ -425,12 +425,12 @@ Item {
             spacing: 8
             Text {
                 text: tog.label; font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 15
-                color: root.theme ? root.theme.textPrimary : "#dde5df"; Layout.fillWidth: true
+                color: root.theme ? root.theme.textPrimary : "#cdd6f4"; Layout.fillWidth: true
             }
             Item { Layout.fillWidth: true }
             Rectangle {
                 width: 42; height: 24; radius: 12
-                color: tog.checked ? (root.theme ? root.theme.accent : "#759b61") : (root.theme ? root.theme.subtleFill : "#2d353b")
+                color: tog.checked ? (root.theme ? root.theme.accent : "#b4befe") : (root.theme ? root.theme.subtleFill : "#313244")
                 Behavior on color { ColorAnimation { duration: 200 } }
                 border.width: 1; border.color: root.theme ? root.theme.outline : "#333"
                 Rectangle {
@@ -450,11 +450,11 @@ Item {
         Rectangle {
             Layout.fillWidth: true; height: 30; radius: 7
             color: sfIn.activeFocus
-                ? (root.theme ? Qt.rgba(root.theme.accent.r, root.theme.accent.g, root.theme.accent.b, 0.07) : "#2d353b")
-                : sfHov.hovered ? (root.theme ? root.theme.bgItemHover : "#374145")
-                : (root.theme ? root.theme.bgItem : "#2d353b")
+                ? (root.theme ? Qt.rgba(root.theme.accent.r, root.theme.accent.g, root.theme.accent.b, 0.07) : "#313244")
+                : sfHov.hovered ? (root.theme ? root.theme.bgItemHover : "#45475a")
+                : (root.theme ? root.theme.bgItem : "#313244")
             Behavior on color { ColorAnimation { duration: 150 } }
-            border.width: 1; border.color: sfIn.activeFocus ? (root.theme ? root.theme.accent : "#759b61")
+            border.width: 1; border.color: sfIn.activeFocus ? (root.theme ? root.theme.accent : "#b4befe")
                 : sfHov.hovered ? Qt.rgba(root.theme ? root.theme.accent.r : 0.46, root.theme ? root.theme.accent.g : 0.61, root.theme ? root.theme.accent.b : 0.38, 0.35)
                 : (root.theme ? root.theme.outline : "#333")
             Behavior on border.color { ColorAnimation { duration: 150 } }
@@ -464,9 +464,9 @@ Item {
                 anchors { fill: parent; margins: 7 }
                 verticalAlignment: Text.AlignVCenter
                 font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 13
-                color: root.theme ? root.theme.textPrimary : "#dde5df"; clip: true; selectByMouse: true
+                color: root.theme ? root.theme.textPrimary : "#cdd6f4"; clip: true; selectByMouse: true
                 echoMode: sf.isPassword ? TextInput.Password : TextInput.Normal
-                selectionColor: root.theme ? Qt.rgba(root.theme.accent.r,root.theme.accent.g,root.theme.accent.b,0.35) : "#40759b61"
+                selectionColor: root.theme ? Qt.rgba(root.theme.accent.r,root.theme.accent.g,root.theme.accent.b,0.35) : "#40b4befe"
             }
         }
     }
@@ -477,21 +477,21 @@ Item {
         spacing: 4
         Rectangle {
             width: 26; height: 26; radius: 7
-            color: dH.hovered ? (root.theme ? root.theme.subtleFillHover : "#374145") : (root.theme ? root.theme.subtleFill : "#2d353b")
+            color: dH.hovered ? (root.theme ? root.theme.subtleFillHover : "#45475a") : (root.theme ? root.theme.subtleFill : "#313244")
             Behavior on color { ColorAnimation { duration: 120 } }
             border.width: 1; border.color: root.theme ? root.theme.outline : "#333"
-            Text { anchors.centerIn: parent; text: "−"; font.pixelSize: 15; color: root.theme ? root.theme.textPrimary : "#dde5df" }
+            Text { anchors.centerIn: parent; text: "−"; font.pixelSize: 15; color: root.theme ? root.theme.textPrimary : "#cdd6f4" }
             HoverHandler { id: dH; cursorShape: Qt.PointingHandCursor }
             TapHandler { onTapped: { if(stp.value>stp.min){stp.value--;stp.stepped(stp.value)} } }
         }
         Text { text: stp.value; font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 14; font.weight: 600
-            color: root.theme ? root.theme.textPrimary : "#dde5df"; width: 22; horizontalAlignment: Text.AlignHCenter }
+            color: root.theme ? root.theme.textPrimary : "#cdd6f4"; width: 22; horizontalAlignment: Text.AlignHCenter }
         Rectangle {
             width: 26; height: 26; radius: 7
-            color: iH.hovered ? (root.theme ? root.theme.subtleFillHover : "#374145") : (root.theme ? root.theme.subtleFill : "#2d353b")
+            color: iH.hovered ? (root.theme ? root.theme.subtleFillHover : "#45475a") : (root.theme ? root.theme.subtleFill : "#313244")
             Behavior on color { ColorAnimation { duration: 120 } }
             border.width: 1; border.color: root.theme ? root.theme.outline : "#333"
-            Text { anchors.centerIn: parent; text: "+"; font.pixelSize: 15; color: root.theme ? root.theme.textPrimary : "#dde5df" }
+            Text { anchors.centerIn: parent; text: "+"; font.pixelSize: 15; color: root.theme ? root.theme.textPrimary : "#cdd6f4" }
             HoverHandler { id: iH; cursorShape: Qt.PointingHandCursor }
             TapHandler { onTapped: { if(stp.value<stp.max){stp.value++;stp.stepped(stp.value)} } }
         }
@@ -505,12 +505,12 @@ Item {
         Rectangle {
             anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter }
             height: slHov.hovered ? 7 : 5; radius: 3
-            color: root.theme ? root.theme.bgItem : "#2d353b"; border.width: 1; border.color: root.theme ? root.theme.outline : "#333"
+            color: root.theme ? root.theme.bgItem : "#313244"; border.width: 1; border.color: root.theme ? root.theme.outline : "#333"
             Behavior on height { NumberAnimation { duration: 150; easing.type: Easing.OutCubic } }
             Rectangle {
                 width: (ssl.value-ssl.from)/Math.max(1,ssl.to-ssl.from)*parent.width
                 height: parent.height; radius: parent.radius
-                color: root.theme ? root.theme.accent : "#759b61"
+                color: root.theme ? root.theme.accent : "#b4befe"
                 Behavior on color { ColorAnimation { duration: 200 } }
             }
         }
@@ -519,7 +519,7 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             width: 18; height: 18; radius: 9; color: "white"
             border.width: 2
-            border.color: sDrag.pressed ? (root.theme ? root.theme.accent : "#759b61")
+            border.color: sDrag.pressed ? (root.theme ? root.theme.accent : "#b4befe")
                         : slHov.hovered ? Qt.rgba(root.theme ? root.theme.accent.r : 0.46, root.theme ? root.theme.accent.g : 0.61, root.theme ? root.theme.accent.b : 0.38, 0.6)
                         : Qt.rgba(0,0,0,0.25)
             scale: sDrag.pressed ? 1.18 : (slHov.hovered ? 1.09 : 1.0)
@@ -542,12 +542,12 @@ Item {
         Rectangle {
             anchors.fill: parent; radius: 8
             color: sb.accent
-                ? (bMa.containsPress ? Qt.darker(root.theme ? root.theme.accent : "#759b61", 1.08)
-                    : bMa.containsMouse ? Qt.lighter(root.theme ? root.theme.accent : "#759b61", 1.14)
-                    : (root.theme ? root.theme.accent : "#759b61"))
-                : (bMa.containsPress ? (root.theme ? root.theme.bgItem : "#2d353b")
-                    : bMa.containsMouse ? (root.theme ? root.theme.subtleFillHover : "#374145")
-                    : (root.theme ? root.theme.subtleFill : "#2d353b"))
+                ? (bMa.containsPress ? Qt.darker(root.theme ? root.theme.accent : "#b4befe", 1.08)
+                    : bMa.containsMouse ? Qt.lighter(root.theme ? root.theme.accent : "#b4befe", 1.14)
+                    : (root.theme ? root.theme.accent : "#b4befe"))
+                : (bMa.containsPress ? (root.theme ? root.theme.bgItem : "#313244")
+                    : bMa.containsMouse ? (root.theme ? root.theme.subtleFillHover : "#45475a")
+                    : (root.theme ? root.theme.subtleFill : "#313244"))
             Behavior on color { ColorAnimation { duration: 100 } }
             border.width: 1
             border.color: sb.accent
@@ -556,14 +556,14 @@ Item {
             Behavior on border.color { ColorAnimation { duration: 120 } }
             Text { id: bTxt; anchors.centerIn: parent; text: sb.label
                 font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 14
-                color: sb.accent ? (root.theme ? root.theme.textOnAccent : "#232a2e") : (root.theme ? root.theme.textPrimary : "#dde5df") }
+                color: sb.accent ? (root.theme ? root.theme.textOnAccent : "#11111b") : (root.theme ? root.theme.textPrimary : "#cdd6f4") }
         }
         MouseArea { id: bMa; anchors.fill: parent; cursorShape: Qt.PointingHandCursor; hoverEnabled: true; onClicked: sb.triggered() }
     }
 
     // Color picker: label + swatch + hex input, click swatch to expand H/S/L
     component CPicker: ColumnLayout {
-        id: cp; property string label: ""; property string currentHex: "#759b61"
+        id: cp; property string label: ""; property string currentHex: "#b4befe"
         signal picked(string hex)
         Layout.fillWidth: true; spacing: 5
 
@@ -596,27 +596,27 @@ Item {
         RowLayout {
             Layout.fillWidth: true; spacing: 6
             Text { text: cp.label; font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 14
-                color: root.theme ? root.theme.textPrimary : "#dde5df"; Layout.fillWidth: true }
+                color: root.theme ? root.theme.textPrimary : "#cdd6f4"; Layout.fillWidth: true }
             Rectangle {
                 width: 24; height: 24; radius: 6
-                color: root.validHex(hexIn.text) ? hexIn.text : (root.theme ? root.theme.accent : "#759b61")
-                border.width: 2; border.color: cp._open ? (root.theme ? root.theme.accent : "#759b61") : (root.theme ? root.theme.outline : "#333")
+                color: root.validHex(hexIn.text) ? hexIn.text : (root.theme ? root.theme.accent : "#b4befe")
+                border.width: 2; border.color: cp._open ? (root.theme ? root.theme.accent : "#b4befe") : (root.theme ? root.theme.outline : "#333")
                 Behavior on color { ColorAnimation { duration: 100 } }
                 Behavior on border.color { ColorAnimation { duration: 150 } }
                 MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: cp._open=!cp._open }
             }
             Rectangle {
                 width: 82; height: 26; radius: 6
-                color: root.theme ? root.theme.bgItem : "#2d353b"
-                border.width: 1; border.color: hexIn.activeFocus ? (root.theme ? root.theme.accent : "#759b61") : (root.theme ? root.theme.outline : "#333")
+                color: root.theme ? root.theme.bgItem : "#313244"
+                border.width: 1; border.color: hexIn.activeFocus ? (root.theme ? root.theme.accent : "#b4befe") : (root.theme ? root.theme.outline : "#333")
                 Behavior on border.color { ColorAnimation { duration: 150 } }
                 TextInput {
                     id: hexIn
                     anchors { fill: parent; margins: 5 }
                     verticalAlignment: Text.AlignVCenter
                     font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 12; font.letterSpacing: 0.5
-                    color: root.theme ? root.theme.textPrimary : "#dde5df"; clip: true; selectByMouse: true
-                    selectionColor: root.theme ? Qt.rgba(root.theme.accent.r,root.theme.accent.g,root.theme.accent.b,0.35) : "#40759b61"
+                    color: root.theme ? root.theme.textPrimary : "#cdd6f4"; clip: true; selectByMouse: true
+                    selectionColor: root.theme ? Qt.rgba(root.theme.accent.r,root.theme.accent.g,root.theme.accent.b,0.35) : "#40b4befe"
                     validator: RegularExpressionValidator { regularExpression: /^#?[0-9a-fA-F]{0,6}$/ }
                     onEditingFinished: { var h=text.startsWith('#')?text:'#'+text; cp.applyHex(h) }
                 }
@@ -675,7 +675,7 @@ Item {
                 x: Math.max(0,Math.min(cs.value*(parent.width-width),parent.width-width))
                 anchors.verticalCenter: parent.verticalCenter
                 width: 16; height: 16; radius: 8; color: "white"
-                border.width: 2; border.color: csDrag.pressed ? (root.theme ? root.theme.accent : "#759b61") : Qt.rgba(0,0,0,0.3)
+                border.width: 2; border.color: csDrag.pressed ? (root.theme ? root.theme.accent : "#b4befe") : Qt.rgba(0,0,0,0.3)
                 scale: csDrag.pressed ? 1.12 : 1.0; Behavior on scale { NumberAnimation { duration: 100 } }
             }
             MouseArea { id: csDrag; anchors.fill: parent; anchors.margins: -4

@@ -4,20 +4,20 @@
 
 // Everforest-ish
 var bgPanel = "rgba(20,23,25,0.88)"
-var bgCard  = "#1e2326"
-var bgItem  = "#2d353b"
-var bgItemHover = "#374145"
+var bgCard  = "#1e1e2e"
+var bgItem  = "#313244"
+var bgItemHover = "#45475a"
 
-var fgMain  = "#E5DFC5"
-var fgMuted = "#9da9a0"
-var fgOnAccent = "#232a2e"
+var fgMain  = "#cdd6f4"
+var fgMuted = "#a6adc8"
+var fgOnAccent = "#11111b"
 
-var accent = "#99a7c080"
-var accentBlue = "#7fbbb3"
-var accentRed  = "#e67e80"
+var accent = "#99b4befe"
+var accentBlue = "#89b4fa"
+var accentRed  = "#f38ba8"
 
-var weatherd="#9da9a0"
-var weatherl="#3c4841"
+var weatherd="#a6adc8"
+var weatherl="#4c4f69"
 
 // Sizing
 var radiusOuter = 24

@@ -12,14 +12,14 @@ Rectangle {
     readonly property bool hasTheme: theme !== null
     readonly property bool isDarkMode: (!hasTheme || (theme.isDarkMode === undefined)) ? true : theme.isDarkMode
 
-    readonly property color cBg:      isDarkMode ? "#2d353b" : (hasTheme ? theme.bgItem     : Qt.rgba(0,0,0,0.05))
-    readonly property color cBgHover: (!hasTheme || isDarkMode) ? "#374145" : Qt.rgba(0,0,0,0.08)
+    readonly property color cBg:      isDarkMode ? "#313244" : (hasTheme ? theme.bgItem     : Qt.rgba(0,0,0,0.05))
+    readonly property color cBgHover: (!hasTheme || isDarkMode) ? "#45475a" : Qt.rgba(0,0,0,0.08)
     readonly property color cSheen:   (!hasTheme || isDarkMode) ? Qt.rgba(1, 1, 1, 0.06) : theme.subtleFillHover
     readonly property color cRipple:  (!hasTheme || isDarkMode) ? Qt.rgba(1,1,1,0.12)    : theme.hoverSpotlight
     readonly property color cIconBg:  (!hasTheme || isDarkMode) ? Qt.rgba(1,1,1,0.05)    : theme.subtleFill
-    readonly property color cAccent:  isDarkMode ? "#a7c080" : (hasTheme ? theme.accent        : "#3c4841")
-    readonly property color cFgMuted: isDarkMode ? "#9da9a0" : (hasTheme ? theme.textSecondary : "#232a23")
-    readonly property color cFgMain:  isDarkMode ? "#d3c6aa" : (hasTheme ? theme.textPrimary   : "#3c4841")
+    readonly property color cAccent:  isDarkMode ? "#b4befe" : (hasTheme ? theme.accent        : "#4c4f69")
+    readonly property color cFgMuted: isDarkMode ? "#a6adc8" : (hasTheme ? theme.textSecondary : "#5c5f77")
+    readonly property color cFgMain:  isDarkMode ? "#cdd6f4" : (hasTheme ? theme.textPrimary   : "#4c4f69")
 
     signal clicked()
 

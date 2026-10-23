@@ -449,7 +449,7 @@ PanelWindow {
                                 font.family: theme.iconFont; font.pixelSize: 14; lineHeight: 0.8
                                 verticalAlignment: Text.AlignVCenter
                                 Behavior on color { ColorAnimation { duration: 140 } }
-                                color: isActive ? "#2d353b" : (wsHover.hovered ? (win.isDarkMode ? "#f2f2f2" : pal.accent) : (win.isDarkMode ? "#d5c9b2" : "#5c6a72"))
+                                color: isActive ? "#313244" : (wsHover.hovered ? (win.isDarkMode ? "#b4befe" : pal.accent) : (win.isDarkMode ? "#cdd6f4" : "#6c6f85"))
                             }
 
                             Row {
@@ -472,12 +472,12 @@ PanelWindow {
 
                                         QtObject {
                                             id: flashColor
-                                            property color val: win.isDarkMode ? "#d5c9b2" : "#1e2326"
+                                            property color val: win.isDarkMode ? "#cdd6f4" : "#1e1e2e"
                                             SequentialAnimation on val {
                                                 running: modelData.urgent
                                                 loops: Animation.Infinite
-                                                ColorAnimation { to: "#e67e80"; duration: 200 }
-                                                ColorAnimation { to: "#dbbc7f"; duration: 200 }
+                                                ColorAnimation { to: "#f38ba8"; duration: 200 }
+                                                ColorAnimation { to: "#f9e2af"; duration: 200 }
                                             }
                                         }
                                         Text {
@@ -492,10 +492,10 @@ PanelWindow {
                                             Behavior on color { enabled: !modelData.urgent; ColorAnimation { duration: 140 } }
                                             scale: (wsDelegate.isActive && wsHover.hovered) ? 1.25 : 1.0
                                             Behavior on scale { NumberAnimation { duration: 200; easing.type: Easing.OutBack; easing.overshoot: 1.5 } }
-                                            color: wsDelegate.isActive ? "#2d353b" :
+                                            color: wsDelegate.isActive ? "#313244" :
                                                    (modelData.urgent ? flashColor.val :
-                                                   (wsHover.hovered ? (win.isDarkMode ? "#f2f2f2" : pal.accent) :
-                                                   (win.isDarkMode ? "#d5c9b2" : "#1e2326")))
+                                                   (wsHover.hovered ? (win.isDarkMode ? "#b4befe" : pal.accent) :
+                                                   (win.isDarkMode ? "#cdd6f4" : "#1e1e2e")))
                                         }
 
                                     }
@@ -555,8 +555,8 @@ PanelWindow {
 
             // 10. UPDATES
             TopBarItem {
-                property color updatesBg: win.isDarkMode ? '#ce829469' : '#be7f9b58'
-                property color updatesFg: win.isDarkMode ? "#2d353b" : "#1e2326"
+                property color updatesBg: win.isDarkMode ? '#ceb4befe' : '#be7287fd'
+                property color updatesFg: win.isDarkMode ? "#313244" : "#1e1e2e"
 
                 // Keep visible while update process is running
                 visible: updateProc.running || (updates.value !== "0" && updates.value !== "")
@@ -655,9 +655,9 @@ PanelWindow {
                 property string battColor: {
                     const dark = win.isDarkMode;
                     if (isCharging) return pal.accent;
-                    const crit = dark ? '#ff0004' : '#ff001e';
-                    const low  = dark ? "#e69875" : '#a55524';
-                    const mid  = dark ? "#dbbc7f" : "#7a5b00";
+                    const crit = dark ? '#f38ba8' : '#d20f39';
+                    const low  = dark ? "#fab387" : '#fe640b';
+                    const mid  = dark ? "#f9e2af" : "#df8e1d";
                     if (cap <= 10) return crit;
                     if (cap <= 20) return low;
                     if (cap <= 30) return mid;

@@ -108,15 +108,15 @@ PanelWindow {
     }
 
     // -------- Colors / Fonts --------
-    readonly property color cBg:      isDarkMode ? "#6b3f443c" : "#F0ECE6"
-    readonly property color cBgAlt:   isDarkMode ? '#6b3f443c' : '#cb97a382'
-    readonly property color cCard:    isDarkMode ? "#282c2d" : "#F0ECE6"
-    readonly property color cFg:      isDarkMode ? "#D3C6AA" : "#1e2326"
-    readonly property color cMuted:   isDarkMode ? "#859289" : '#4d6049'
-    readonly property color cBorder:  isDarkMode ? '#d4708154' : '#d4586a3c'
-    readonly property color cGreen:   isDarkMode ? "#A7C080" : "#576830"
-    readonly property color cRed:     isDarkMode ? "#E67E80" : '#b13c3a'
-    readonly property color cBlue:    isDarkMode ? '#A7C080' : '#5c7267'
+    readonly property color cBg:      isDarkMode ? "#6b45475a" : "#eff1f5"
+    readonly property color cBgAlt:   isDarkMode ? '#6b45475a' : '#cbccd0da'
+    readonly property color cCard:    isDarkMode ? "#313244" : "#eff1f5"
+    readonly property color cFg:      isDarkMode ? "#cdd6f4" : "#1e1e2e"
+    readonly property color cMuted:   isDarkMode ? "#9399b2" : '#6c6f85'
+    readonly property color cBorder:  isDarkMode ? '#d4b4befe' : '#d47287fd'
+    readonly property color cGreen:   isDarkMode ? "#b4befe" : "#40a02b"
+    readonly property color cRed:     isDarkMode ? "#f38ba8" : '#d20f39'
+    readonly property color cBlue:    isDarkMode ? '#b4befe' : '#1e66f5'
     readonly property int   cRadius: 10
 
     readonly property string fontText: "Inter"
@@ -1098,8 +1098,8 @@ PanelWindow {
                                 Layout.fillWidth: true
                                 height: 40
                                 text: isBusy ? "Connecting…" : "Connect"
-                                btnColor: isDarkMode ? '#d483c092' : '#9e2a8650'
-                                textColor: '#1e2326'
+                                btnColor: isDarkMode ? '#d4b4befe' : '#9e40a02b'
+                                textColor: '#1e1e2e'
                                 icon: "󱄙"
                                 kind: "primary"
                                 disabled: isBusy
@@ -1359,7 +1359,7 @@ PanelWindow {
 
         Layout.preferredHeight: 42
         radius: 999
-        color: isDarkMode ? '#753c4841' : '#5e97a382'
+        color: isDarkMode ? '#754c4f69' : '#5eccd0da'
         border.width: 1
         border.color: input.activeFocus ? Qt.rgba(cGreen.r, cGreen.g, cGreen.b, 0.7) : cBorder
         opacity: enabled ? 1.0 : 0.6

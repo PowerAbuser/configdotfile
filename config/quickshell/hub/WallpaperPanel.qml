@@ -14,12 +14,12 @@ Item {
     signal closeRequested()
 
     //  Theme aliases 
-    readonly property color rBg:      theme ? theme.bgCard        : "#1e2326"
-    readonly property color rItem:    theme ? theme.bgItem         : "#2d353b"
-    readonly property color rAccent:  theme ? theme.accent         : "#759b61"
-    readonly property color rText:    theme ? theme.textPrimary    : "#dde5df"
-    readonly property color rMuted:   theme ? theme.textSecondary  : "#9da9a0"
-    readonly property color rOutline: theme ? theme.outline        : "#1a2020"
+    readonly property color rBg:      theme ? theme.bgCard        : "#1e1e2e"
+    readonly property color rItem:    theme ? theme.bgItem         : "#313244"
+    readonly property color rAccent:  theme ? theme.accent         : "#b4befe"
+    readonly property color rText:    theme ? theme.textPrimary    : "#cdd6f4"
+    readonly property color rMuted:   theme ? theme.textSecondary  : "#a6adc8"
+    readonly property color rOutline: theme ? theme.outline        : "#181825"
     readonly property bool  rDark:    theme ? theme.isDarkMode     : true
     readonly property string rFont:   theme ? theme.textFont       : "Manrope"
 
@@ -466,13 +466,13 @@ Item {
                     gradient: Gradient {
                         orientation: Gradient.Vertical
                         GradientStop { position: 0.0; color: "transparent" }
-                        GradientStop { position: 1.0; color: Qt.rgba(0.04, 0.05, 0.06, 0.80) }
+                        GradientStop { position: 1.0; color: Qt.rgba(0.067, 0.067, 0.106, 0.80) }
                     }
                 }
                 Text {
                     anchors { bottom: parent.bottom; left: parent.left; right: parent.right }
                     anchors.bottomMargin: 5; anchors.leftMargin: 7; anchors.rightMargin: 7
-                    text: wpt.fileName; color: "#f3efe7"
+                    text: wpt.fileName; color: "#eff1f5"
                     font.pixelSize: 9; elide: Text.ElideRight
                 }
             }

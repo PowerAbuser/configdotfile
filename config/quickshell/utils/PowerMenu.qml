@@ -99,7 +99,7 @@ PanelWindow {
     // Dim / click-to-dismiss backdrop
     Rectangle {
         anchors.fill: parent
-        color: win.isDarkMode ? '#8c000000' : '#9ce9e7e7'
+        color: win.isDarkMode ? '#8c000000' : '#9ce6e9ef'
 
         MouseArea {
             anchors.fill: parent

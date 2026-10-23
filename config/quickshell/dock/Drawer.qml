@@ -234,7 +234,7 @@ PanelWindow {
                 width: drawerContainer.width
                 height: drawerContainer.height
                 radius: 16
-                color: drawerWin.isDarkMode ? '#141719' : "#F0ECE6"
+                color: drawerWin.isDarkMode ? '#11111b' : "#eff1f5"
                 //border.width: 1
                 //border.color: drawerWin.isDarkMode ? "#25FFFFFF" : "#40000000"
 
@@ -258,7 +258,7 @@ PanelWindow {
                             anchors.verticalCenter: parent.verticalCenter
                             text: "Type to search..."
                             font.pixelSize: 15
-                            color: drawerWin.isDarkMode ? '#d5c9b2' : '#333b26'
+                            color: drawerWin.isDarkMode ? '#cdd6f4' : '#4c4f69'
                             visible: searchField.text === ""
                         }
 
@@ -269,9 +269,9 @@ PanelWindow {
                             verticalAlignment: Text.AlignVCenter
                             font.pixelSize: 15
                             
-                            color: drawerWin.isDarkMode ? '#d5c9b2' : '#333b26'
-                            selectionColor: "#a7c080"
-                            selectedTextColor: "#282828"
+                            color: drawerWin.isDarkMode ? '#cdd6f4' : '#4c4f69'
+                            selectionColor: "#b4befe"
+                            selectedTextColor: "#11111b"
                             
                             selectByMouse: true
                             onTextChanged: drawerWin.filterApps()
@@ -438,7 +438,7 @@ PanelWindow {
                                         wrapMode: Text.Wrap
                                         maximumLineCount: 2
                                         elide: Text.ElideRight
-                                        color: drawerWin.isDarkMode ? "#fffcf4" : "#282828"
+                                        color: drawerWin.isDarkMode ? "#cdd6f4" : "#11111b"
                                         font.pixelSize: 11
                                         font.weight: Font.Medium
                                     }
@@ -460,8 +460,8 @@ PanelWindow {
         radius: 8
         z: 999 
         
-        color: "#282828"
-        border.color: "#444444"
+        color: "#11111b"
+        border.color: "#45475a"
         border.width: 1
         
         Column {
@@ -472,7 +472,7 @@ PanelWindow {
                 width: parent.width
                 height: 40
                 radius: 6
-                color: btnOpenMouse.containsMouse ? "#383838" : "transparent"
+                color: btnOpenMouse.containsMouse ? "#313244" : "transparent"
                 Text { anchors.centerIn: parent; text: "Open App"; color: "white"; font.pixelSize: 13 }
                 MouseArea {
                     id: btnOpenMouse
@@ -488,7 +488,7 @@ PanelWindow {
             Rectangle { 
                 width: parent.width - 10
                 height: 1
-                color: "#444444"
+                color: "#45475a"
                 anchors.horizontalCenter: parent.horizontalCenter 
             }
             
@@ -496,8 +496,8 @@ PanelWindow {
                 width: parent.width
                 height: 40
                 radius: 6
-                color: btnHideMouse.containsMouse ? "#4a1b1b" : "transparent"
-                Text { anchors.centerIn: parent; text: "Hide App"; color: "#ff8888"; font.pixelSize: 13 }
+                color: btnHideMouse.containsMouse ? "#45273a" : "transparent"
+                Text { anchors.centerIn: parent; text: "Hide App"; color: "#f38ba8"; font.pixelSize: 13 }
                 MouseArea {
                     id: btnHideMouse
                     anchors.fill: parent

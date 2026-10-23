@@ -35,10 +35,10 @@ Scope {
 
     property bool   useCustomAccent:   false
     property bool   useCustomBg:       false
-    property color  customAccentDark:  "#7AA1A6"
-    property color  customAccentLight: "#4A6B70"
-    property color  customBgDark:      "#141719"
-    property color  customBgLight:     "#F0ECE6"
+    property color  customAccentDark:  "#89b4fa"
+    property color  customAccentLight: "#7287fd"
+    property color  customBgDark:      "#11111b"
+    property color  customBgLight:     "#eff1f5"
 
     function setCustomAccent(dark, hex) {
         if (dark) customAccentDark = hex; else customAccentLight = hex
@@ -59,7 +59,7 @@ Scope {
 
     // Screen borders
     property int    borderThickness:    7
-    property color  borderFrameColor:   "#141719"
+    property color  borderFrameColor:   "#11111b"
     property bool   bordersEnabled:     true
     property bool   bordersForceVisible: false
     property bool   borderUseCustomColor: false
@@ -69,8 +69,8 @@ Scope {
     property bool   taskbarForceDockMode:      false
     property bool   taskbarForceWorkspaceMode: false
     property bool   taskbarCustomBg:           false
-    property color  taskbarCustomBgColor:      "#141719"
-    property color  taskbarAccent:             "#759b61"
+    property color  taskbarCustomBgColor:      "#11111b"
+    property color  taskbarAccent:             "#b4befe"
 
     // Profile
     property string profileImageOverride: ""
@@ -83,10 +83,10 @@ Scope {
     property string powerMenuStyle: "life"
 
     // Per-skin accent colours
-    property color powerMenuLifeDark:     "#859866"
-    property color powerMenuLifeLight:    "#6c8453"
-    property color powerMenuCassiniDark:  "#d57fb069"  // alpha matches the skin's original
-    property color powerMenuCassiniLight: "#759b61"
+    property color powerMenuLifeDark:     "#b4befe"
+    property color powerMenuLifeLight:    "#7287fd"
+    property color powerMenuCassiniDark:  "#d5b4befe"  // alpha matches the skin's original
+    property color powerMenuCassiniLight: "#b4befe"
 
     readonly property string _baseDir:
         Qt.resolvedUrl(".").toString().replace(/^file:\/\//, "").replace(/\/$/, "")
@@ -113,10 +113,10 @@ Scope {
 
     // Restore all power-menu accents to their built-in defaults.
     function resetPowerMenuColors() {
-        powerMenuLifeDark     = "#859866"
-        powerMenuLifeLight    = "#6c8453"
-        powerMenuCassiniDark  = "#d57fb069"
-        powerMenuCassiniLight = "#759b61"
+        powerMenuLifeDark     = "#b4befe"
+        powerMenuLifeLight    = "#7287fd"
+        powerMenuCassiniDark  = "#d5b4befe"
+        powerMenuCassiniLight = "#b4befe"
         save()
         writePowerMenuColors()
     }

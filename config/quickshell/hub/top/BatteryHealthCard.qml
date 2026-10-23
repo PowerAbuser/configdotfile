@@ -9,10 +9,10 @@ Lib.TopCard {
     property bool active: false
 
     readonly property bool themed: root.theme !== null
-    readonly property color textPrimary:   themed ? root.theme.textPrimary   : "#d3c6aa"
-    readonly property color textSecondary: themed ? root.theme.textSecondary : "#9da9a0"
-    readonly property color accent:        themed ? root.theme.accent        : "#a7c080"
-    readonly property color accentAlt:     themed ? root.theme.accentSlider  : "#7AA1A6"
+    readonly property color textPrimary:   themed ? root.theme.textPrimary   : "#cdd6f4"
+    readonly property color textSecondary: themed ? root.theme.textSecondary : "#a6adc8"
+    readonly property color accent:        themed ? root.theme.accent        : "#b4befe"
+    readonly property color accentAlt:     themed ? root.theme.accentSlider  : "#89b4fa"
 
     property real contentHeight: contentLayout.implicitHeight + (root.pad * 2)
 
@@ -154,7 +154,7 @@ Lib.TopCard {
                 Layout.fillWidth: true
                 height: 7
                 radius: 4
-                color: themed ? root.theme.bgItem : "#2d353b"
+                color: themed ? root.theme.bgItem : "#313244"
 
                 Rectangle {
                     id: barFill
