@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 # Set environment variables
 export cacheDir="$HOME/.config/hypr/.cache"

@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import QtQuick.Effects
 import Quickshell
 import Quickshell.Io
+import "../lib" as Lib
 
 Item {
     id: root
@@ -65,7 +66,7 @@ Item {
         wallpaperModel.clear()
         Quickshell.execDetached(["bash", "-c",
             "pkill -fx '" + root.papelBin + "' 2>/dev/null; sleep 0.1; " +
-            "'" + root.papelBin + "' &"])
+            "PAPEL_DIR='" + Lib.Configuration.wallpaperDir + "' '" + root.papelBin + "' &"])
         connectTimer.restart()
     }
 
@@ -184,6 +185,8 @@ Item {
                                 root.appliedFileName  = model.file_name
                                 backend.write("apply:" + model.full_path + "\n")
                                 backend.flush()
+                                // keep hyprlock / startup / the rofi picker in sync
+                                Quickshell.execDetached([Quickshell.env("HOME") + "/.config/hypr/scripts/set-current-wallpaper.sh", model.full_path])
                                 root.triggerToast("wallpaper applied")
                                 paletteCanvas.extractFrom(model.thumb_path)
                             }

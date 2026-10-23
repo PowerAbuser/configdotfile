@@ -1,16 +1,11 @@
 #!/bin/bash
+# SUPER+W: random wallpaper from ~/.config/hypr/Wallpapers
 
 scrDir="$HOME/.config/hypr/scripts"
-cacheDir="$HOME/.config/hypr/.cache"
-themeFile="$cacheDir/.theme"
-wallCache="$cacheDir/.wallpaper"
+wallDir="$HOME/.config/hypr/Wallpapers"
 
-theme=$(cat "$themeFile")
-wallDir="$HOME/.config/hypr/Wallpapers/${theme}"
-
-[[ ! -f "$wallCache" ]] && touch "$wallCache"
-
-PICS=($(find ${wallDir} -type f \( -name "*.jpg" -o -name "*.jpeg" -o -name "*.png" -o -name "*.gif" \)))
+PICS=($(find "${wallDir}" -maxdepth 1 -type f \( -name "*.jpg" -o -name "*.jpeg" -o -name "*.png" -o -name "*.gif" \)))
+[ ${#PICS[@]} -eq 0 ] && { notify-send "No wallpapers in ${wallDir}"; exit 1; }
 wallpaper=${PICS[ $RANDOM % ${#PICS[@]} ]}
 
 # Transition config
@@ -22,14 +17,7 @@ SWWW_PARAMS="--transition-fps $FPS --transition-type $TYPE --transition-duration
 
 notify-send -i "${wallpaper}" "Changing wallpaper" -t 1500
 awww-daemon &
-awww img ${wallpaper} $SWWW_PARAMS
-
-ln -sf "$wallpaper" "$cacheDir/current_wallpaper.png"
-
-baseName="$(basename $wallpaper)"
-wallName=${baseName%.*}
-echo "$wallName" > "$wallCache"
+awww img "${wallpaper}" $SWWW_PARAMS
 
 sleep 0.5
-"$scrDir/wallcache.sh"
-# "$scrDir/themes.sh"
+"$scrDir/set-current-wallpaper.sh" "$wallpaper"
