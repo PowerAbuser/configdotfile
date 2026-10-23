@@ -1,3 +1,4 @@
 config/hypr/.cache
 config/nvim/lazy-lock.json
 config/quickshell/bin
+config/quickshell/.cache
