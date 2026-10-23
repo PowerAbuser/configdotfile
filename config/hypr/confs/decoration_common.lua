@@ -5,9 +5,8 @@
 -- five $variables, so the shared body lives here once and each theme just
 -- supplies its palette.
 --
--- confs/decoration.lua is a symlink to one of confs/themes/*.lua, and
--- scripts/theme_select.sh re-points that symlink -- same mechanism as before,
--- just .lua instead of .conf.
+-- confs/decoration.lua supplies the palette: Catppuccin Mocha or Latte,
+-- following the quickshell dark/light mode (confs/theme_mode.lua).
 
 local cfg = require("confs.configs")
 

@@ -12,7 +12,7 @@ Scope {
     // Settings from disk a beat after startup;
     property bool ready: false
 
-    property string barStyle:              "top" 
+    property string barStyle:              "top"
     property bool   barForceWorkspaceMode: false
     property bool   barShowBattery:        true
     property bool   barShowTray:           true

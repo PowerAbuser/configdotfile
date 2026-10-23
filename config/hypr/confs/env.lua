@@ -4,20 +4,11 @@
 -- Formerly confs/env.conf.
 -- See https://wiki.hypr.land/Configuring/Advanced-and-Cool/Environment-variables/
 
--- Cursor
--- This was spelled "HYRCURSOR_THEME" (missing the P in HYPR) for a long time,
--- so it never took effect; corrected below.
---
--- HEADS UP: "catppuccin-mocha-light-cursors" is not installed on this machine
--- -- there is no catppuccin cursor theme under ~/.icons, ~/.local/share/icons
--- or /usr/share/icons. Now that the variable name is correct, Hyprland will
--- look the theme up, fail to find it, and fall back to the default cursor.
--- Either install it (e.g. the catppuccin-cursors package / release tarball
--- into ~/.icons), or switch to the hyprcursor theme that *is* installed:
---
---     hl.env("HYPRCURSOR_THEME", "Bibata-Modern-Ice")
--- hl.env("HYPRCURSOR_THEME", "catppuccin-mocha-light-cursors")
-hl.env("HYPRCURSOR_THEME", "Bibata-Modern-Ice")
+-- Cursor: Catppuccin, matching the quickshell dark/light mode
+-- (confs/theme_mode.lua). utils/theme-mode.sh switches it live.
+local cursor_mode = require("confs.theme_mode")()
+hl.env("HYPRCURSOR_THEME", cursor_mode == "light" and "catppuccin-latte-light-cursors"
+                                               or  "catppuccin-mocha-dark-cursors")
 hl.env("HYPRCURSOR_SIZE", "24")
 
 -- Toolkit backends
