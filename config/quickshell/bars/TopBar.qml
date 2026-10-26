@@ -129,29 +129,6 @@ PanelWindow {
     }
 
     // POLLERS
-    // 6.1 UPDATE POLLER
-    Lib.CommandPoll {
-        id: updates
-        // Stop polling while the update terminal is open
-        interval: updateProc.running ? 999999999 : 1800000
-
-        command: win.sh(`
-            # apt list doesn't take the dpkg lock, so no lock check is needed
-            n=$(apt list --upgradable 2>/dev/null | grep -c upgradable)
-            echo "$n" | tee /tmp/qs_updates_count
-        `)
-
-        parse: function(o) { return String(o ?? "").trim() }
-    }
-
-    // Boot Retry for Updates
-    Timer {
-        interval: 15000 // 15s wait for internet
-        running: true; repeat: false
-        onTriggered: {
-            if (!updateProc.running) updates.poll()
-        }
-    }
     // 6.1 CPU % + RAM used (two /proc/stat samples, 0.5s apart)
     Lib.CommandPoll {
         id: perfPoll
@@ -588,37 +565,6 @@ PanelWindow {
             }
 
 //----------------------------------------------------------------------------------------RIGHT----------
-
-            // 10. UPDATES
-            TopBarItem {
-                property color updatesBg: win.isDarkMode ? '#ceb4befe' : '#be7287fd'
-                property color updatesFg: win.isDarkMode ? "#313244" : "#1e1e2e"
-
-                // Keep visible while update process is running
-                visible: updateProc.running || (updates.value !== "0" && updates.value !== "")
-                iconSource: "../lib/pacman.svg"
-                text: updateProc.running ? "…" : updates.value
-                bgColor: updatesBg; textColor: updatesFg; iconColor: updatesFg
-                borderWidth: 0; borderColor: "transparent"; hoverColor: pal.hoverSpotlight
-
-                Process {
-                    id: updateProc
-                    running: false
-                    // The process stays 'running' as long as the window is open.
-                    command: ["kitty", "-e", "bash", "-lc", "sudo apt update && sudo apt upgrade"]
-
-                    // When running changes to false (window closed),
-                    onRunningChanged: {
-                        if (!running) {
-                            updates.poll()
-                        }
-                    }
-                }
-
-                onClicked: {
-                    updateProc.running = true
-                }
-            }
 
             // 11. TRAY
             Rectangle {
