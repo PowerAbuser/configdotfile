@@ -88,7 +88,7 @@ PanelWindow {
         property bool isDarkMode: theme.isDarkMode
 
         // Shared clock state
-        property string clockTime: Qt.formatDateTime(new Date(), "h:mm AP")
+        property string clockTime: Qt.formatDateTime(new Date(), "HH:mm")
         property string clockDate: Qt.formatDateTime(new Date(), "ddd, MMM d")
 
     Timer {
@@ -97,7 +97,7 @@ PanelWindow {
         repeat: true
         onTriggered: {
             var now = new Date()
-            taskbar.clockTime = Qt.formatDateTime(now, "h:mm AP")
+            taskbar.clockTime = Qt.formatDateTime(now, "HH:mm")
             taskbar.clockDate = Qt.formatDateTime(now, "ddd, MMM d")
         }
     }
@@ -251,7 +251,7 @@ PanelWindow {
     Timer {
         interval: 15000
         running: true; repeat: false
-        onTriggered: { if (!updateProc.running) updates.update() }
+        onTriggered: { if (!updateProc.running) updates.poll() }
     }
     
     // Battery
@@ -1063,7 +1063,7 @@ PanelWindow {
                             id: updateProc
                             running: false
                             command: ["kitty", "-e", "bash", "-lc", "sudo apt update && sudo apt upgrade"]
-                            onRunningChanged: { if (!running) updates.update() }
+                            onRunningChanged: { if (!running) updates.poll() }
                         }
 
                         onClicked: updateProc.running = true

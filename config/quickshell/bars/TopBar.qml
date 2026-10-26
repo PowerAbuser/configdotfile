@@ -149,7 +149,7 @@ PanelWindow {
         interval: 15000 // 15s wait for internet
         running: true; repeat: false
         onTriggered: {
-            if (!updateProc.running) updates.update()
+            if (!updateProc.running) updates.poll()
         }
     }
     // 6.1 CPU % + RAM used (two /proc/stat samples, 0.5s apart)
@@ -610,7 +610,7 @@ PanelWindow {
                     // When running changes to false (window closed),
                     onRunningChanged: {
                         if (!running) {
-                            updates.update()
+                            updates.poll()
                         }
                     }
                 }
@@ -811,10 +811,10 @@ PanelWindow {
                     anchors.centerIn: parent; spacing: 8
                     Text { id: dateText; text: Qt.formatDateTime(new Date(), "ddd, MMM d"); font.family: theme.textFont; font.pixelSize: 12; font.weight: 600; color: pal.accent }
                     Text { text: "•"; font.pixelSize: 10; color: pal.textSecondary }
-                    Text { id: timeText; text: Qt.formatDateTime(new Date(), "h:mm AP"); font.family: theme.textFont; font.pixelSize: 13; font.weight: 800; color: pal.textPrimary }
+                    Text { id: timeText; text: Qt.formatDateTime(new Date(), "HH:mm"); font.family: theme.textFont; font.pixelSize: 13; font.weight: 800; color: pal.textPrimary }
                     Timer {
                         interval: 1000; running: true; repeat: true
-                        onTriggered: { var now = new Date(); dateText.text = Qt.formatDateTime(now, "ddd, MMM d"); timeText.text = Qt.formatDateTime(now, "h:mm AP") }
+                        onTriggered: { var now = new Date(); dateText.text = Qt.formatDateTime(now, "ddd, MMM d"); timeText.text = Qt.formatDateTime(now, "HH:mm") }
                     }
                 }
 

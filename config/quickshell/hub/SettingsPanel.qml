@@ -220,25 +220,12 @@ Item {
 
             //  3. LAYOUT & TASKBAR
             SCard {
+                id: layoutCard
                 label: "Layout & Taskbar"
                 Layout.fillWidth: true; Layout.fillHeight: true
+                // everything below the Layout row only exists in the taskbar layout
+                readonly property bool taskMode: Lib.Configuration.barStyle !== "top"
 
-                SToggle { label: "Always dock mode"; checked: Lib.Configuration.taskbarForceDockMode
-                    onToggled: (v)=>{Lib.Configuration.taskbarForceDockMode=v; Lib.Configuration.save()} }
-                SToggle { label: "Always workspace mode"; checked: Lib.Configuration.taskbarForceWorkspaceMode
-                    onToggled: (v)=>{Lib.Configuration.taskbarForceWorkspaceMode=v; Lib.Configuration.save()} }
-                SDivider {}
-                RowLayout {
-                    Layout.fillWidth: true
-                    SLabel { text: "Excl. zone" }
-                    Item { Layout.fillWidth: true }
-                    Text { text: Lib.Configuration.taskbarExclusiveZone+" px"
-                        font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 15
-                        color: root.theme ? root.theme.textSecondary : "#888" }
-                }
-                SSlider { from: 30; to: 80; value: Lib.Configuration.taskbarExclusiveZone
-                    onMoved: (v)=>{Lib.Configuration.taskbarExclusiveZone=v; Lib.Configuration.save()} }
-                SDivider {}
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 8
@@ -251,13 +238,43 @@ Item {
                         onTriggered: { Lib.Configuration.barStyle = "top"; Lib.Configuration.save() }
                     }
                 }
-                SDivider {}
-                SToggle { label: "Custom taskbar BG"; checked: Lib.Configuration.taskbarCustomBg
-                    onToggled: (v)=>{ Lib.Configuration.taskbarCustomBg=v; Lib.Configuration.save() }
+                Text {
+                    visible: !layoutCard.taskMode
+                    text: "The options below only apply to the Taskbar layout."
+                    font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 12
+                    color: root.theme ? root.theme.textSecondary : "#888"; opacity: 0.7
+                    Layout.fillWidth: true; wrapMode: Text.WordWrap
                 }
-                CPicker { label: "Taskbar BG"
-                    currentHex: String(Lib.Configuration.taskbarCustomBgColor)
-                    onPicked: (hex)=>{ Lib.Configuration.taskbarCustomBgColor=hex; Lib.Configuration.save() }
+                SDivider {}
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    spacing: 8
+                    enabled: layoutCard.taskMode
+                    opacity: enabled ? 1.0 : 0.4
+
+                    SToggle { label: "Always dock mode"; checked: Lib.Configuration.taskbarForceDockMode
+                        onToggled: (v)=>{Lib.Configuration.taskbarForceDockMode=v; Lib.Configuration.save()} }
+                    SToggle { label: "Always workspace mode"; checked: Lib.Configuration.taskbarForceWorkspaceMode
+                        onToggled: (v)=>{Lib.Configuration.taskbarForceWorkspaceMode=v; Lib.Configuration.save()} }
+                    SDivider {}
+                    RowLayout {
+                        Layout.fillWidth: true
+                        SLabel { text: "Excl. zone" }
+                        Item { Layout.fillWidth: true }
+                        Text { text: Lib.Configuration.taskbarExclusiveZone+" px"
+                            font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 15
+                            color: root.theme ? root.theme.textSecondary : "#888" }
+                    }
+                    SSlider { from: 30; to: 80; value: Lib.Configuration.taskbarExclusiveZone
+                        onMoved: (v)=>{Lib.Configuration.taskbarExclusiveZone=v; Lib.Configuration.save()} }
+                    SDivider {}
+                    SToggle { label: "Custom taskbar BG"; checked: Lib.Configuration.taskbarCustomBg
+                        onToggled: (v)=>{ Lib.Configuration.taskbarCustomBg=v; Lib.Configuration.save() }
+                    }
+                    CPicker { label: "Taskbar BG"
+                        currentHex: String(Lib.Configuration.taskbarCustomBgColor)
+                        onPicked: (hex)=>{ Lib.Configuration.taskbarCustomBgColor=hex; Lib.Configuration.save() }
+                    }
                 }
             }
 
