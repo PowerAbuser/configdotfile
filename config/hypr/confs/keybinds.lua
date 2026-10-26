@@ -24,7 +24,6 @@ local pypr          = "/usr/bin/pypr-client"
 -- Scripts referenced below
 local wallpaper        = scripts .. "/Wallpaper.sh"
 local wallpaper_select = scripts .. "/WallpaperSelect.sh"
-local power_menu       = scripts .. "/powermenu.sh"
 local rofi_emoji       = scripts .. "/rofi-emoji.sh"
 local help             = scripts .. "/keybinds.sh"
 
@@ -77,7 +76,6 @@ bind(mod .. " + ALT + W",        exec(scripts .. "/cliphist.sh w")) -- clipboard
 bind(mod .. " + SHIFT + D",      exec(rofi_emoji))
 bind(mod .. " + SHIFT + P",      hl.dsp.window.pseudo())
 bind(mod .. " + P",              hl.dsp.window.pseudo())
-bind(mod .. " + X",              exec(power_menu))
 bind(mod .. " + B",              exec(scripts .. "/browser.sh op")) -- open brave or chromium
 -- bind(mod .. " + B", exec("systemd-run --user --slice=browser-memory.slice " .. scripts .. "/browser.sh op"))
 

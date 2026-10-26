@@ -23,8 +23,11 @@ end)
 bind(mod .. " + SPACE", hl.dsp.global("quickshell:hubToggle"))
 bind(mod .. " + R",     hl.dsp.global("quickshell:drawerToggle"))
 
--- Power menu: its own quickshell instance, skipped if already open
-bind("ALT + F4", exec("hyprctl layers | grep -q power-menu || quickshell -p ~/.config/quickshell/utils/PowerMenu.qml"))
+-- Power menu: its own quickshell instance, skipped if already open.
+-- SUPER+X used to open the rofi powermenu.sh; both keys open this one now.
+local power_menu = exec("hyprctl layers | grep -q power-menu || quickshell -p ~/.config/quickshell/utils/PowerMenu.qml")
+bind("ALT + F4",        power_menu)
+bind(mod .. " + X",     power_menu)
 
 -- Layer rules from surface-dots
 hl.layer_rule({ name = "qs-anim-rofi",       match = { namespace = "rofi" },       animation = "slide" })
