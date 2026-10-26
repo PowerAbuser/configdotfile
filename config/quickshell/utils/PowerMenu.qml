@@ -16,11 +16,10 @@ PanelWindow {
     color: "transparent"
 
     focusable: true
-    Component.onCompleted: win.requestActivate()
 
     WlrLayershell.exclusiveZone: -1
     WlrLayershell.layer: WlrLayer.Overlay
-    WlrLayershell.keyboardFocus: WlrLayerKeyboardFocus.Exclusive
+    WlrLayershell.keyboardFocus: WlrKeyboardFocus.Exclusive
 
     property bool isDarkMode: true
     property string style: "life"

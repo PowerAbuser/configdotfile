@@ -35,7 +35,6 @@ FocusScope {
 
     property var buttonsModel: [
         { label: "Lock",     icon: "", cmd: "lock" },
-        { label: "Suspend",  icon: "", cmd: "suspend" },
         { label: "Logout",   icon: "", cmd: "logout" },
         { label: "Reboot",   icon: "", cmd: "reboot" },
         { label: "Shutdown", icon: "", cmd: "shutdown" }

@@ -146,7 +146,7 @@ Item {
                             Lib.Configuration.weatherLon=lonField.text.trim()
                             Lib.Configuration.save()
                             weatherConf.setText('API_KEY="'+apiKeyField.text.trim()+'"\nLAT="'+latField.text.trim()+'"\nLON="'+lonField.text.trim()+'"\n')
-                            Quickshell.execDetached(["rm","-f",Quickshell.env("HOME")+"/.cache/quickshell/weather.json"])
+                            Quickshell.execDetached(["rm","-f",Quickshell.env("HOME")+"/.config/quickshell/.cache/weather.json"])
                         }
                     }
                 }
@@ -283,32 +283,46 @@ Item {
                 label: "Screen Borders"
                 Layout.fillWidth: true; Layout.fillHeight: true
 
-                SToggle { label: "Enabled"; checked: Lib.Configuration.bordersEnabled
-                    onToggled: (v)=>{
-                        Lib.Configuration.bordersEnabled=v; Lib.Configuration.save()
-                        if (v) root.toastRequested("adjust gaps_out in your hypr config")
-                    }
+                Text {
+                    visible: !layoutCard.taskMode
+                    text: "Screen borders are only drawn in the Taskbar layout."
+                    font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 12
+                    color: root.theme ? root.theme.textSecondary : "#888"; opacity: 0.7
+                    Layout.fillWidth: true; wrapMode: Text.WordWrap
                 }
-                SToggle { label: "Always visible"; checked: Lib.Configuration.bordersForceVisible
-                    onToggled: (v)=>{ Lib.Configuration.bordersForceVisible=v; Lib.Configuration.save()
-                        if (v) root.toastRequested("adjust gaps_out in your hypr config") } }
-                SDivider {}
-                RowLayout {
+                ColumnLayout {
                     Layout.fillWidth: true
-                    SLabel { text: "Thickness" }
-                    Item { Layout.fillWidth: true }
-                    Text { text: Lib.Configuration.borderThickness+" px"
-                        font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 15
-                        color: root.theme ? root.theme.textSecondary : "#888" }
-                }
-                SSlider { from: 1; to: 20; value: Lib.Configuration.borderThickness
-                    onMoved: (v)=>{ Lib.Configuration.borderThickness=v; Lib.Configuration.save(); root.toastRequested("adjust gaps_out in your hypr config") } }
-                SDivider {}
-                SToggle { label: "Custom border color"; checked: Lib.Configuration.borderUseCustomColor
-                    onToggled: (v)=>{Lib.Configuration.borderUseCustomColor=v; Lib.Configuration.save()} }
-                CPicker { label: "Border color"
-                    currentHex: String(Lib.Configuration.borderFrameColor)
-                    onPicked: (hex)=>{Lib.Configuration.borderFrameColor=hex; Lib.Configuration.save()}
+                    spacing: 8
+                    enabled: layoutCard.taskMode
+                    opacity: enabled ? 1.0 : 0.4
+
+                    SToggle { label: "Enabled"; checked: Lib.Configuration.bordersEnabled
+                        onToggled: (v)=>{
+                            Lib.Configuration.bordersEnabled=v; Lib.Configuration.save()
+                            if (v) root.toastRequested("adjust gaps_out in your hypr config")
+                        }
+                    }
+                    SToggle { label: "Always visible"; checked: Lib.Configuration.bordersForceVisible
+                        onToggled: (v)=>{ Lib.Configuration.bordersForceVisible=v; Lib.Configuration.save()
+                            if (v) root.toastRequested("adjust gaps_out in your hypr config") } }
+                    SDivider {}
+                    RowLayout {
+                        Layout.fillWidth: true
+                        SLabel { text: "Thickness" }
+                        Item { Layout.fillWidth: true }
+                        Text { text: Lib.Configuration.borderThickness+" px"
+                            font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 15
+                            color: root.theme ? root.theme.textSecondary : "#888" }
+                    }
+                    SSlider { from: 1; to: 20; value: Lib.Configuration.borderThickness
+                        onMoved: (v)=>{ Lib.Configuration.borderThickness=v; Lib.Configuration.save(); root.toastRequested("adjust gaps_out in your hypr config") } }
+                    SDivider {}
+                    SToggle { label: "Custom border color"; checked: Lib.Configuration.borderUseCustomColor
+                        onToggled: (v)=>{Lib.Configuration.borderUseCustomColor=v; Lib.Configuration.save()} }
+                    CPicker { label: "Border color"
+                        currentHex: String(Lib.Configuration.borderFrameColor)
+                        onPicked: (hex)=>{Lib.Configuration.borderFrameColor=hex; Lib.Configuration.save()}
+                    }
                 }
             }
 
@@ -364,6 +378,9 @@ Item {
                     }
                     ColumnLayout {
                         spacing: 4
+                        // only the Taskbar layout's hub has the Events card
+                        enabled: layoutCard.taskMode
+                        opacity: enabled ? 1.0 : 0.4
                         Text { text: "Events"; font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 14
                             color: root.theme ? root.theme.textSecondary : "#888"; Layout.alignment: Qt.AlignHCenter }
                         SStepper { min: 1; max: 10; value: Lib.Configuration.maxEvents
