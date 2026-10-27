@@ -14,7 +14,9 @@ PanelWindow {
 
         // Hides window borders when the hub is open 
         function setBordersHidden(hidden) {
-            Quickshell.execDetached(["hyprctl", "keyword", "general:border_size", hidden ? "0" : "1"])
+            // `keyword` is a no-op under the Lua config; eval, restoring Settings > Windows
+            var size = hidden ? 0 : Lib.WindowLook.get("border_size")
+            Quickshell.execDetached(["hyprctl", "eval", "hl.config({ general = { border_size = " + size + " } })"])
         }
 
         // Only one content panel is up at a time

@@ -12,3 +12,5 @@ config/dunst/dunstrc_matugen
 config/dunst/dunstrc
 # notes drawer contents (personal data)
 config/quickshell/notes.conf
+# generated from quickshell/windowlook.json by Settings > Windows
+config/hypr/confs/windowlook.lua

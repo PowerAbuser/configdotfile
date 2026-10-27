@@ -5,8 +5,9 @@ dir="$HOME/.config/rofi"
 theme='style-dark'
 [[ "$(cat "$HOME/.cache/quickshell/theme_mode" 2>/dev/null)" == "light" ]] && theme='style-light'
 
-# 1. Remove Hyprland Borders
-hyprctl keyword general:border_size 0 > /dev/null
+# 1. Remove Hyprland Borders (eval: `keyword` is a no-op under the Lua config)
+border=$(jq -r '.border_size // 1' "$HOME/.config/quickshell/windowlook.json" 2>/dev/null || echo 1)
+hyprctl eval 'hl.config({ general = { border_size = 0 } })' > /dev/null
 
 # 2. Run Rofi
 selected=$(rofi \
@@ -19,7 +20,7 @@ selected=$(rofi \
 exit_code=$?
 
 # 3. Restore Hyprland Borders
-hyprctl keyword general:border_size 1 > /dev/null
+hyprctl eval "hl.config({ general = { border_size = ${border:-1} } })" > /dev/null
 
 
 # Case 1: ESC or closed the menu (Exit Code 1)

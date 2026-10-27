@@ -127,6 +127,144 @@ Item {
                 }
             }
 
+            //  1b. WINDOWS (after dhrruvsharma/shell's customizer, chapter IV)
+            SCard {
+                id: windowsCard
+                label: "Windows"
+                Layout.columnSpan: 2; Layout.fillWidth: true
+
+                GridLayout {
+                    Layout.fillWidth: true
+                    columns: 2; columnSpacing: 16; rowSpacing: 2
+                    LookSlider { key: "gaps_in";  text: "Inner gaps";  unit: " px"; to: 20 }
+                    LookSlider { key: "gaps_out"; text: "Outer gaps";  unit: " px"; to: 40 }
+                    LookSlider { key: "border_size"; text: "Border"; unit: " px"; to: 6 }
+                    LookSlider { key: "rounding"; text: "Corners";     unit: " px"; to: 24 }
+                    LookSlider { key: "active_opacity";   text: "Focused opacity";   unit: "%"; from: 50; to: 100 }
+                    LookSlider { key: "inactive_opacity"; text: "Unfocused opacity"; unit: "%"; from: 50; to: 100 }
+                    LookSlider { key: "blur_size";   text: "Blur size";   to: 20; enabled: Lib.WindowLook.get("blur"); opacity: enabled ? 1 : 0.4 }
+                    LookSlider { key: "blur_passes"; text: "Blur passes"; from: 1; to: 6; enabled: Lib.WindowLook.get("blur"); opacity: enabled ? 1 : 0.4 }
+                    LookSlider { key: "shadow_range"; text: "Shadow"; unit: " px"; to: 40; enabled: Lib.WindowLook.get("shadow"); opacity: enabled ? 1 : 0.4 }
+                }
+                SDivider {}
+                GridLayout {
+                    Layout.fillWidth: true
+                    columns: 2; columnSpacing: 16; rowSpacing: 0
+                    SToggle { label: "Blur";        checked: Lib.WindowLook.get("blur");         onToggled: (v) => Lib.WindowLook.set("blur", v) }
+                    SToggle { label: "Shadows";     checked: Lib.WindowLook.get("shadow");       onToggled: (v) => Lib.WindowLook.set("shadow", v) }
+                    SToggle { label: "Dim unfocused"; checked: Lib.WindowLook.get("dim_inactive"); onToggled: (v) => Lib.WindowLook.set("dim_inactive", v) }
+                    SToggle { label: "Animations";  checked: Lib.WindowLook.get("animations");   onToggled: (v) => Lib.WindowLook.set("animations", v) }
+                }
+                RowLayout {
+                    Layout.fillWidth: true
+                    Item { Layout.fillWidth: true }
+                    SBtn { label: "Reset windows"; onTriggered: { Lib.WindowLook.resetAll(); root.toastRequested("Window settings reset") } }
+                }
+            }
+
+            //  1c. COLOUR (matugen scheme; after dhrruvsharma/shell's customizer, chapter V)
+            SCard {
+                id: colourCard
+                label: "Colour"
+                Layout.columnSpan: 2; Layout.fillWidth: true
+
+                // palette.json: { scheme, contrast }, read by utils/matugen-apply.sh
+                property var palette: ({ scheme: "scheme-tonal-spot", contrast: 0 })
+                property var swatches: ({})
+                readonly property string utils: Qt.resolvedUrl("../utils/").toString().replace("file://", "")
+
+                function setPalette(key, value) {
+                    var p = Object.assign({}, colourCard.palette)
+                    p[key] = value
+                    colourCard.palette = p
+                    paletteFile.setText(JSON.stringify(p) + "\n")
+                    applyTimer.restart()
+                }
+                // Coalesces a contrast drag into one matugen run
+                Timer {
+                    id: applyTimer; interval: 350
+                    onTriggered: Quickshell.execDetached([colourCard.utils + "matugen-apply.sh"])
+                }
+
+                FileView {
+                    id: paletteFile
+                    path: Qt.resolvedUrl("../palette.json").toString().replace("file://", "")
+                    preload: true; printErrors: false
+                    onLoaded: { try { colourCard.palette = Object.assign({ scheme: "scheme-tonal-spot", contrast: 0 }, JSON.parse(text())) } catch (e) {} }
+                }
+                // Swatches follow the wallpaper and mode: refresh when the scheme file changes
+                Process {
+                    id: swatchProc
+                    command: [colourCard.utils + "scheme-swatches.sh"]
+                    stdout: StdioCollector { onStreamFinished: { try { colourCard.swatches = JSON.parse(this.text) } catch (e) {} } }
+                }
+                Connections {
+                    target: Lib.Colors
+                    function onPrimaryChanged() { swatchProc.running = true }
+                }
+                Component.onCompleted: swatchProc.running = true
+
+                SLabel { text: "Scheme from the wallpaper"; opacity: 0.8 }
+                Flow {
+                    Layout.fillWidth: true
+                    spacing: 6
+                    Repeater {
+                        model: [
+                            { id: "scheme-tonal-spot", name: "Tonal spot" }, { id: "scheme-content", name: "Content" },
+                            { id: "scheme-expressive", name: "Expressive" }, { id: "scheme-fidelity", name: "Fidelity" },
+                            { id: "scheme-fruit-salad", name: "Fruit salad" }, { id: "scheme-monochrome", name: "Monochrome" },
+                            { id: "scheme-neutral", name: "Neutral" }, { id: "scheme-rainbow", name: "Rainbow" },
+                            { id: "scheme-vibrant", name: "Vibrant" }
+                        ]
+                        Rectangle {
+                            id: chip
+                            required property var modelData
+                            readonly property bool current: colourCard.palette.scheme === modelData.id
+                            readonly property var sw: colourCard.swatches[modelData.id] || []
+                            width: (grid.width - 20 - 12) / 3; height: 48; radius: 10
+                            color: chipHov.hovered ? (root.theme ? root.theme.bgItemHover : "#45475a") : (root.theme ? root.theme.bgItem : "#313244")
+                            border.width: chip.current ? 2 : 1
+                            border.color: chip.current ? (root.theme ? root.theme.accent : "#b4befe") : (root.theme ? root.theme.outline : "#333")
+                            Behavior on color { ColorAnimation { duration: 120 } }
+                            HoverHandler { id: chipHov; cursorShape: Qt.PointingHandCursor }
+                            TapHandler { onTapped: colourCard.setPalette("scheme", chip.modelData.id) }
+                            Column {
+                                anchors.centerIn: parent; spacing: 5
+                                Row {
+                                    anchors.horizontalCenter: parent.horizontalCenter; spacing: 3
+                                    Repeater {
+                                        model: chip.sw
+                                        Rectangle { required property var modelData; width: 14; height: 14; radius: 7; color: modelData
+                                            border.width: 1; border.color: Qt.rgba(1,1,1,0.12) }
+                                    }
+                                }
+                                Text {
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    text: chip.modelData.name
+                                    font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 11
+                                    font.weight: chip.current ? 700 : 500
+                                    color: root.theme ? root.theme.textPrimary : "#cdd6f4"
+                                }
+                            }
+                        }
+                    }
+                }
+                RowLayout {
+                    Layout.fillWidth: true
+                    SLabel { text: "Contrast" }
+                    Text {
+                        text: (colourCard.palette.contrast > 0 ? "+" : "") + Number(colourCard.palette.contrast).toFixed(1)
+                        font.family: "DM Mono"; font.pixelSize: 12
+                        color: root.theme ? root.theme.textSecondary : "#888"
+                    }
+                }
+                SSlider {
+                    from: -10; to: 10
+                    value: Math.round(Number(colourCard.palette.contrast) * 10)
+                    onMoved: (v) => colourCard.setPalette("contrast", v / 10)
+                }
+            }
+
             //  2. WEATHER API 
             SCard {
                 label: "Weather API"
@@ -395,6 +533,32 @@ Item {
     }
 
     //  COMPONENT LIBRARY 
+
+    // A Settings > Windows slider bound to one WindowLook key
+    component LookSlider: ColumnLayout {
+        id: ls
+        property string key: ""
+        property string text: ""
+        property string unit: ""
+        property int from: 0
+        property int to: 20
+        Layout.fillWidth: true
+        spacing: 0
+        RowLayout {
+            Layout.fillWidth: true
+            SLabel { text: ls.text }
+            Text {
+                text: Lib.WindowLook.get(ls.key) + ls.unit
+                font.family: "DM Mono"; font.pixelSize: 12
+                color: root.theme ? root.theme.textSecondary : "#888"
+            }
+        }
+        SSlider {
+            from: ls.from; to: ls.to
+            value: Lib.WindowLook.get(ls.key)
+            onMoved: (v) => Lib.WindowLook.set(ls.key, v)
+        }
+    }
 
     component SCard: Rectangle {
         id: sc

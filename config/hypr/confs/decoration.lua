@@ -44,4 +44,10 @@ if nl then
     nl:close()
 end
 
-return require("confs.decoration_common").apply(theme)
+local applied = require("confs.decoration_common").apply(theme)
+
+-- Settings > Windows in the quickshell hub (lib/WindowLook.qml) goes on top
+local okw, look = pcall(dofile, home .. "/.config/hypr/confs/windowlook.lua")
+if okw and type(look) == "table" then hl.config(look) end
+
+return applied
