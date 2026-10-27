@@ -23,6 +23,9 @@ end)
 bind(mod .. " + SPACE", hl.dsp.global("quickshell:hubToggle"))
 bind(mod .. " + R",     hl.dsp.global("quickshell:drawerToggle"))
 
+-- Notes drawer (also peeks when the pointer rests on the bottom-centre edge)
+bind(mod .. " + ALT + N", hl.dsp.global("quickshell:notesToggle"))
+
 -- Power menu: its own quickshell instance, skipped if already open.
 -- SUPER+X used to open the rofi powermenu.sh; both keys open this one now.
 local power_menu = exec("hyprctl layers | grep -q power-menu || quickshell -p ~/.config/quickshell/utils/PowerMenu.qml")

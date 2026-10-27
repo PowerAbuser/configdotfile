@@ -9,6 +9,7 @@ import "bars" as Bars
 import "dock" as Dock
 import "desktop" as Desktop
 import "hub" as SystemHub
+import "notes" as Notes
 
 ShellRoot {
     Variants {
@@ -109,6 +110,10 @@ ShellRoot {
             }
             Lib.ThemeOSD {
                 theme: screenTheme
+                screen: v.modelData
+            }
+
+            Notes.NotesWindow {
                 screen: v.modelData
             }
 

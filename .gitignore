@@ -10,3 +10,5 @@ config/rofi/colors/Matugen.rasi
 config/rofi/colors/matugen-palette.rasi
 config/dunst/dunstrc_matugen
 config/dunst/dunstrc
+# notes drawer contents (personal data)
+config/quickshell/notes.conf

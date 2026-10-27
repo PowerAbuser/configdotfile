@@ -50,6 +50,7 @@ Singleton {
     readonly property color onTertiary:              _pick("on_tertiary",               "#11111b", "#eff1f5")
     readonly property color error:                   _pick("error",                     "#f38ba8", "#d20f39")
     readonly property color onError:                 _pick("on_error",                  "#11111b", "#eff1f5")
+    readonly property color errorContainer:          _pick("error_container",           "#45475a", "#ccd0da")
 
     // Semantic colours, blended toward the wallpaper (matugen custom_colors)
     readonly property color red:     _pick("red",     "#f38ba8", "#d20f39")
