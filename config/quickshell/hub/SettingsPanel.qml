@@ -356,6 +356,127 @@ Item {
                 }
             }
 
+            //  1e. WALLPAPER: how it's drawn (utils/wallpaper-show.sh reads wallpaper.json)
+            SCard {
+                id: wallCard
+                label: "Wallpaper"
+                Layout.columnSpan: 2; Layout.fillWidth: true
+
+                readonly property var defaults: ({ mode: "cover", gravity: "center", fill: "auto", filter: "Lanczos3",
+                                                   transition: "grow", duration: 1, tileScale: 100 })
+                property var cfg: defaults
+                function val(k) { return cfg[k] !== undefined ? cfg[k] : defaults[k] }
+                function setVal(k, v) {
+                    var c = Object.assign({}, wallCard.cfg); c[k] = v; wallCard.cfg = c
+                    wallFile.setText(JSON.stringify(c, null, 2) + "\n")
+                    reshow.restart()
+                }
+                // Redraws the current wallpaper once the clicks settle
+                Timer {
+                    id: reshow; interval: 450
+                    onTriggered: Quickshell.execDetached([Qt.resolvedUrl("../utils/wallpaper-show.sh").toString().replace("file://", "")])
+                }
+                FileView {
+                    id: wallFile
+                    path: Qt.resolvedUrl("../wallpaper.json").toString().replace("file://", "")
+                    preload: true; printErrors: false
+                    onLoaded: { try { wallCard.cfg = Object.assign({}, wallCard.defaults, JSON.parse(text())) } catch (e) {} }
+                }
+
+                component Choice: Flow {
+                    id: ch
+                    property string key: ""
+                    property var options: []   // [{ id, name }]
+                    Layout.fillWidth: true
+                    spacing: 6
+                    Repeater {
+                        model: ch.options
+                        SBtn {
+                            required property var modelData
+                            label: modelData.name
+                            accent: String(wallCard.val(ch.key)) === String(modelData.id)
+                            onTriggered: wallCard.setVal(ch.key, modelData.id)
+                        }
+                    }
+                }
+
+                SLabel { text: "Display" }
+                Choice { key: "mode"; options: [
+                    { id: "cover", name: "Cover" }, { id: "contain", name: "Contain" }, { id: "stretch", name: "Stretch" },
+                    { id: "center", name: "Centre" }, { id: "tile", name: "Tile" } ] }
+                Text {
+                    Layout.fillWidth: true; wrapMode: Text.WordWrap
+                    text: ({ cover: "Fills the screen; the edges that don't fit are cropped.",
+                             contain: "The whole picture, as large as fits; the rest is filled.",
+                             stretch: "Fills the screen, stretched out of proportion if need be.",
+                             center: "At its own size, in the middle; the rest is filled.",
+                             tile: "Repeated across the screen, like a pattern." })[wallCard.val("mode")] || ""
+                    font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 11
+                    color: root.theme ? root.theme.textSecondary : "#888"
+                }
+
+                ColumnLayout {
+                    Layout.fillWidth: true; spacing: 6
+                    visible: wallCard.val("mode") === "cover"
+                    SLabel { text: "Crop from" }
+                    Choice { key: "gravity"; options: [
+                        { id: "center", name: "Centre" }, { id: "top", name: "Top" }, { id: "bottom", name: "Bottom" },
+                        { id: "left", name: "Left" }, { id: "right", name: "Right" } ] }
+                }
+
+                ColumnLayout {
+                    Layout.fillWidth: true; spacing: 2
+                    visible: wallCard.val("mode") === "tile"
+                    RowLayout {
+                        Layout.fillWidth: true
+                        SLabel { text: "Tile size" }
+                        Text { text: wallCard.val("tileScale") + "%"; font.family: "DM Mono"; font.pixelSize: 12
+                               color: root.theme ? root.theme.textSecondary : "#888" }
+                    }
+                    SSlider { from: 25; to: 200; value: wallCard.val("tileScale"); onMoved: (v) => wallCard.setVal("tileScale", v) }
+                }
+
+                ColumnLayout {
+                    Layout.fillWidth: true; spacing: 6
+                    visible: wallCard.val("mode") === "contain" || wallCard.val("mode") === "center"
+                    SToggle {
+                        label: "Fill with the wallpaper's own colour"
+                        checked: wallCard.val("fill") === "auto"
+                        onToggled: (v) => wallCard.setVal("fill", v ? "auto" : "#000000")
+                    }
+                    CPicker {
+                        Layout.fillWidth: true
+                        visible: wallCard.val("fill") !== "auto"
+                        label: "Fill colour"
+                        currentHex: wallCard.val("fill") !== "auto" ? wallCard.val("fill") : "#000000"
+                        onPicked: (hex) => wallCard.setVal("fill", hex)
+                    }
+                }
+
+                SDivider {}
+                SLabel { text: "Scaling" }
+                Choice { key: "filter"; options: [
+                    { id: "Lanczos3", name: "Sharp" }, { id: "Mitchell", name: "Soft" }, { id: "Nearest", name: "Pixel art" } ] }
+
+                SLabel { text: "Transition" }
+                Choice { key: "transition"; options: [
+                    { id: "grow", name: "Grow" }, { id: "wipe", name: "Wipe" }, { id: "fade", name: "Fade" },
+                    { id: "outer", name: "Outer" }, { id: "wave", name: "Wave" }, { id: "random", name: "Random" },
+                    { id: "none", name: "None" } ] }
+                ColumnLayout {
+                    Layout.fillWidth: true; spacing: 2
+                    visible: wallCard.val("transition") !== "none"
+                    RowLayout {
+                        Layout.fillWidth: true
+                        SLabel { text: "Duration" }
+                        Text { text: Number(wallCard.val("duration")).toFixed(1) + " s"; font.family: "DM Mono"; font.pixelSize: 12
+                               color: root.theme ? root.theme.textSecondary : "#888" }
+                    }
+                    SSlider { from: 2; to: 30; value: Math.round(Number(wallCard.val("duration")) * 10)
+                              onMoved: (v) => wallCard.setVal("duration", v / 10) }
+                }
+            }
+
             //  2. WEATHER API 
             SCard {
                 label: "Weather API"

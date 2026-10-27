@@ -16,8 +16,8 @@ BEZIER=".43,1.19,1,.4"
 SWWW_PARAMS="--transition-fps $FPS --transition-type $TYPE --transition-duration $DURATION --transition-bezier $BEZIER"
 
 notify-send -i "${wallpaper}" "Changing wallpaper" -t 1500
-awww-daemon &
-awww img "${wallpaper}" $SWWW_PARAMS
+# Drawn the way Settings > Wallpaper says (mode, fill, transition)
+"$HOME/.config/quickshell/utils/wallpaper-show.sh" "${wallpaper}"
 
 sleep 0.5
 "$scrDir/set-current-wallpaper.sh" "$wallpaper"

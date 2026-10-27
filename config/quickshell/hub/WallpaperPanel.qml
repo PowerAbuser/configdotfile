@@ -183,10 +183,10 @@ Item {
                                 root.appliedFullPath  = model.full_path
                                 root.appliedThumbPath = model.thumb_path
                                 root.appliedFileName  = model.file_name
-                                backend.write("apply:" + model.full_path + "\n")
-                                backend.flush()
-                                // keep hyprlock / startup / the rofi picker in sync
-                                Quickshell.execDetached([Quickshell.env("HOME") + "/.config/hypr/scripts/set-current-wallpaper.sh", model.full_path])
+                                // utils/set-wallpaper.sh draws it the way Settings >
+                                // Wallpaper says (papel's own apply ignores that), then
+                                // keeps hyprlock / startup / the pickers in sync
+                                Quickshell.execDetached([Quickshell.env("HOME") + "/.config/quickshell/utils/set-wallpaper.sh", model.full_path])
                                 root.triggerToast("wallpaper applied")
                                 paletteCanvas.extractFrom(model.thumb_path)
                             }

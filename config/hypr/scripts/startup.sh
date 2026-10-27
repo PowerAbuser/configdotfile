@@ -13,7 +13,9 @@ AWWW_PARAMS="--transition-fps $FPS --transition-type $TYPE --transition-duration
 
 if [ -f "$wallpaper" ]; then
   awww-daemon &
-  awww img ${wallpaper} $AWWW_PARAMS
+  sleep 0.3
+  # Drawn the way Settings > Wallpaper says (mode, fill, transition)
+  "$HOME/.config/quickshell/utils/wallpaper-show.sh" "$(readlink -f "$wallpaper")"
 else
   "$scrDir/Wallpaper.sh"
 fi

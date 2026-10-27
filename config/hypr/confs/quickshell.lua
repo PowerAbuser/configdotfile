@@ -19,9 +19,9 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("dunst")
 end)
 
--- Hub (d/l inside it switches Mocha/Latte) and app drawer
+-- Hub (d/l inside it switches dark/light)
 bind(mod .. " + SPACE", hl.dsp.global("quickshell:hubToggle"))
-bind(mod .. " + R",     hl.dsp.global("quickshell:drawerToggle"))
+-- SUPER+R (the rofi launcher / app drawer) removed at your request; SUPER+D is the app menu
 
 -- Notes drawer (also peeks when the pointer rests on the bottom-centre edge)
 bind(mod .. " + ALT + N", hl.dsp.global("quickshell:notesToggle"))

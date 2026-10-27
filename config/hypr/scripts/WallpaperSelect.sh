@@ -54,7 +54,7 @@ fi
 
 # Random choice case
 if [ "$choice" = "$RANDOM_PIC_NAME" ]; then
-  awww img "${wallDIR}/${RANDOM_PIC}" $SWWW_PARAMS
+  "$HOME/.config/quickshell/utils/wallpaper-show.sh" "${wallDIR}/${RANDOM_PIC}"
   "$scriDir/set-current-wallpaper.sh" "${wallDIR}/${RANDOM_PIC}"
   exit 0
 fi
@@ -71,7 +71,7 @@ done
 
 if [[ $pic_index -ne -1 ]]; then
   notify-send -i "${wallDIR}/${PICS[$pic_index]}" "Changing wallpaper" -t 1500
-  awww img "${wallDIR}/${PICS[$pic_index]}" $SWWW_PARAMS
+  "$HOME/.config/quickshell/utils/wallpaper-show.sh" "${wallDIR}/${PICS[$pic_index]}"
   sleep 0.5
   "$scriDir/set-current-wallpaper.sh" "${wallDIR}/${PICS[$pic_index]}"
 
