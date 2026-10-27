@@ -41,6 +41,7 @@ Scope {
 
         PowerMenu {
             id: menu
+            screen: root.screen
             focus: true
         }
     }

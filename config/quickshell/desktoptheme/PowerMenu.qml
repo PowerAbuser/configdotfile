@@ -79,6 +79,8 @@ Item {
     readonly property bool hasWorld: worldImage.ready && worldImage.source.toString() !== ""
     // The wallpaper itself, for scenes that paint or engrave it.
     readonly property url wallpaper: "file://" + Quickshell.env("HOME") + "/.config/hypr/.cache/current_wallpaper.png"
+    // The screen it opens on (PowerMenuWindow's), the one it grabs.
+    property var screen: null
     // A picture to use instead of a capture (tests).
     property url shot: ""
 
@@ -391,8 +393,11 @@ Item {
         id: captureLoader
         active: false
 
+        // Only the screen it opens on, and never another screen's shot in
+        // its place: without one in time it fades in over the live desktop.
         ScreenCapture {
-            timeoutMs: 260
+            screens: root.screen ? [root.screen] : Quickshell.screens
+            timeoutMs: 800
             onFinished: root._show()
         }
     }
@@ -403,10 +408,8 @@ Item {
         const cap = captureLoader.item as ScreenCapture;
         if (!cap)
             return "";
-        const scr = root.Window.window ? root.Window.window.screen : null;
-        const byName = scr ? cap.shots[scr.name] : undefined;
-        const any = Object.values(cap.shots)[0];
-        return (byName ?? any)?.url ?? "";
+        const name = root.screen ? root.screen.name : (root.Window.window?.screen?.name ?? "");
+        return cap.shots[name]?.url ?? "";
     }
 
     CaptureImage {

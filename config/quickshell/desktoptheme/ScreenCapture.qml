@@ -15,6 +15,8 @@ Scope {
     id: cap
 
     property int timeoutMs: 400
+    // Which screens to grab (all of them unless told).
+    property var screens: Quickshell.screens
     readonly property bool done: _done
     // screen name -> ItemGrabResult. Holding the result keeps its url valid.
     property var shots: ({})
@@ -40,7 +42,7 @@ Scope {
         const next = Object.assign({}, shots);
         next[name] = result;
         shots = next;
-        if (Object.keys(next).length >= Quickshell.screens.length)
+        if (Object.keys(next).length >= cap.screens.length)
             finish();
     }
 
@@ -51,7 +53,7 @@ Scope {
     }
 
     Variants {
-        model: Quickshell.screens
+        model: cap.screens
 
         PanelWindow {
             id: grabber
