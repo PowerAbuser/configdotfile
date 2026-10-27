@@ -264,8 +264,9 @@ Item {
         unriteAnim.restart();
     }
 
-    readonly property string lockCommand: "pidof hyprlock || exec hyprlock"
-    readonly property string sleepCommand: "(pidof hyprlock || hyprlock &); sleep 1; "
+    // utils/lock.sh: hyprlock, then the unlock counts towards LockStats
+    readonly property string lockCommand: "exec \"$HOME/.config/quickshell/utils/lock.sh\""
+    readonly property string sleepCommand: "(\"$HOME/.config/quickshell/utils/lock.sh\" &); sleep 1; "
         + "hyprctl dispatch 'hl.dsp.dpms({ action = \"off\" })'"
 
     function _ritesDone() {

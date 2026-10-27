@@ -17,7 +17,7 @@ Lib.TopCard {
     Timer { id: disarm; interval: 3000; onTriggered: root.armed = "" }
 
     readonly property var actions: [
-        { id: "lock",     glyph: "󰌾", label: "Lock",     confirm: false, cmd: ["hyprlock"] },
+        { id: "lock",     glyph: "󰌾", label: "Lock",     confirm: false, cmd: [Quickshell.env("HOME") + "/.config/quickshell/utils/lock.sh"] },
         { id: "logout",   glyph: "󰍃", label: "Log out",  confirm: true,  cmd: ["hyprctl", "dispatch", "hl.dsp.exit()"] },
         { id: "reboot",   glyph: "󰜉", label: "Restart",  confirm: true,  cmd: ["systemctl", "reboot"] },
         { id: "shutdown", glyph: "󰐥", label: "Shut down", confirm: true, cmd: ["systemctl", "poweroff"] }
