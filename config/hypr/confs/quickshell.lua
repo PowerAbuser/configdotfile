@@ -26,16 +26,17 @@ bind(mod .. " + SPACE", hl.dsp.global("quickshell:hubToggle"))
 -- Notes drawer (also peeks when the pointer rests on the bottom-centre edge)
 bind(mod .. " + ALT + N", hl.dsp.global("quickshell:notesToggle"))
 
--- Power menu: its own quickshell instance, skipped if already open.
--- SUPER+X used to open the rofi powermenu.sh; both keys open this one now.
-local power_menu = exec("hyprctl layers | grep -q power-menu || quickshell -p ~/.config/quickshell/utils/PowerMenu.qml")
+-- Power menu: the desktop theme's scene (desktoptheme/PowerMenu.qml, from
+-- dhrruvsharma/shell), on the focused screen; pressed again, it closes.
+local power_menu = hl.dsp.global("quickshell:powerMenu")
 bind("ALT + F4",        power_menu)
 bind(mod .. " + X",     power_menu)
 
 -- Layer rules from surface-dots
 hl.layer_rule({ name = "qs-anim-rofi",       match = { namespace = "rofi" },       animation = "slide" })
-hl.layer_rule({ name = "qs-anim-power-menu", match = { namespace = "power-menu" }, animation = "popin" })
-hl.layer_rule({ name = "qs-dim-power-menu",  match = { namespace = "power-menu" }, dim_around = true })
+-- The power menu draws its own intro, from a grab of the desktop
+hl.layer_rule({ name = "qs-noanim-power-menu", match = { namespace = "power-menu" }, no_anim = true })
+hl.layer_rule({ name = "qs-noanim-lock-capture", match = { namespace = "quickshell:lock-capture" }, no_anim = true })
 
 -- Full-screen shell layers that animate their own panels: Hyprland's
 -- layersIn slide would move the whole surface too (the hub slid up as well

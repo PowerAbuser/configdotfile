@@ -133,6 +133,10 @@ ShellRoot {
                 screen: v.modelData
             }
 
+            DesktopThemes.PowerMenuWindow {
+                screen: v.modelData
+            }
+
             Dock.Drawer {
                 id: appDrawer
                 isDarkMode: screenTheme.isDarkMode
