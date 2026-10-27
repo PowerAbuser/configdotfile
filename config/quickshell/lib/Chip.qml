@@ -5,7 +5,7 @@ import "../theme.js" as Theme
 Rectangle {
   id: root
   radius: 999
-  color: Theme.bgItem
+  color: Colors.surfaceContainerHighest
   border.width: 1
   border.color: Qt.rgba(1,1,1,0.06)
 
@@ -25,7 +25,7 @@ Rectangle {
       font.family: Theme.iconFont
       font.pixelSize: 10
       font.weight: 900 
-      color: Theme.accent
+      color: Colors.primary
     }
 
     Text {
@@ -33,7 +33,7 @@ Rectangle {
       font.family: Theme.textFont
       font.pixelSize: 9
       font.weight: 800
-      color: Theme.fgMain
+      color: Colors.onSurface
     }
   }
 }

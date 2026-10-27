@@ -114,6 +114,8 @@ PanelWindow {
     
     QtObject {
         id: pal
+        // Settings > bar accent, or the wallpaper's accent when unset
+        property color barAccent: Lib.Configuration.taskbarAccent !== "" ? Lib.Configuration.taskbarAccent : theme.accent
         // Surfaces + text from ThemeEngine (auto-switch with dark/light).
         // Accent colours use their own taskbarAccent config key so the taskbar
         // can have a different colour from the hub.
@@ -122,13 +124,13 @@ PanelWindow {
         property color textPrimary:   String(theme.textPrimary)
         property color textSecondary: String(theme.textSecondary)
         property color textAlternate: taskbar.isDarkMode ? "#313244" : '#313244'
-        property color accent:        String(Lib.Configuration.taskbarAccent)
-        property color activePill:    String(Lib.Configuration.taskbarAccent)
+        property color accent:        String(pal.barAccent)
+        property color activePill:    String(pal.barAccent)
         property color hoverSpotlight:String(theme.hoverSpotlight)
         property color border:        String(theme.outline)
-        property color hoverPillG0:   Qt.rgba(Lib.Configuration.taskbarAccent.r, Lib.Configuration.taskbarAccent.g, Lib.Configuration.taskbarAccent.b, 0.35)
-        property color hoverPillG1:   Qt.rgba(Lib.Configuration.taskbarAccent.r, Lib.Configuration.taskbarAccent.g, Lib.Configuration.taskbarAccent.b, 0.55)
-        property color hoverPillG2:   Qt.rgba(Lib.Configuration.taskbarAccent.r, Lib.Configuration.taskbarAccent.g, Lib.Configuration.taskbarAccent.b, 0.35)
+        property color hoverPillG0:   Qt.rgba(pal.barAccent.r, pal.barAccent.g, pal.barAccent.b, 0.35)
+        property color hoverPillG1:   Qt.rgba(pal.barAccent.r, pal.barAccent.g, pal.barAccent.b, 0.55)
+        property color hoverPillG2:   Qt.rgba(pal.barAccent.r, pal.barAccent.g, pal.barAccent.b, 0.35)
     }
 
     // -----------------------------------------------

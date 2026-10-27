@@ -108,15 +108,15 @@ PanelWindow {
     }
 
     // -------- Colors / Fonts --------
-    readonly property color cBg:      isDarkMode ? "#6b45475a" : "#eff1f5"
-    readonly property color cBgAlt:   isDarkMode ? '#6b45475a' : '#cbccd0da'
-    readonly property color cCard:    isDarkMode ? "#313244" : "#eff1f5"
-    readonly property color cFg:      isDarkMode ? "#cdd6f4" : "#1e1e2e"
-    readonly property color cMuted:   isDarkMode ? "#9399b2" : '#6c6f85'
-    readonly property color cBorder:  isDarkMode ? '#d4b4befe' : '#d47287fd'
-    readonly property color cGreen:   isDarkMode ? "#b4befe" : "#40a02b"
-    readonly property color cRed:     isDarkMode ? "#f38ba8" : '#d20f39'
-    readonly property color cBlue:    isDarkMode ? '#b4befe' : '#1e66f5'
+    readonly property color cBg:      isDarkMode ? Colors.alpha(Colors.surfaceContainerHighest, 0.42) : Colors.surface
+    readonly property color cBgAlt:   isDarkMode ? Colors.alpha(Colors.surfaceContainerHighest, 0.42) : Colors.alpha(Colors.surfaceContainerHighest, 0.8)
+    readonly property color cCard:    isDarkMode ? Colors.surfaceContainerHigh : Colors.surface
+    readonly property color cFg:      Colors.onSurface
+    readonly property color cMuted:   Colors.onSurfaceVariant
+    readonly property color cBorder:  Colors.alpha(Colors.primary, 0.83)
+    readonly property color cGreen:   isDarkMode ? Colors.primary : Colors.green
+    readonly property color cRed:     Colors.red
+    readonly property color cBlue:    isDarkMode ? Colors.primary : Colors.blue
     readonly property int   cRadius: 10
 
     readonly property string fontText: "Inter"
@@ -1098,8 +1098,8 @@ PanelWindow {
                                 Layout.fillWidth: true
                                 height: 40
                                 text: isBusy ? "Connecting…" : "Connect"
-                                btnColor: isDarkMode ? '#d4b4befe' : '#9e40a02b'
-                                textColor: '#1e1e2e'
+                                btnColor: isDarkMode ? Colors.alpha(Colors.primary, 0.83) : Colors.alpha(Colors.green, 0.62)
+                                textColor: Colors.onPrimary
                                 icon: "󱄙"
                                 kind: "primary"
                                 disabled: isBusy

@@ -12,14 +12,14 @@ Rectangle {
     readonly property bool hasTheme: theme !== null
     readonly property bool isDarkMode: (!hasTheme || (theme.isDarkMode === undefined)) ? true : theme.isDarkMode
 
-    readonly property color cBg:      isDarkMode ? "#313244" : (hasTheme ? theme.bgItem     : Qt.rgba(0,0,0,0.05))
-    readonly property color cBgHover: (!hasTheme || isDarkMode) ? "#45475a" : Qt.rgba(0,0,0,0.08)
+    readonly property color cBg:      hasTheme ? theme.bgItem        : Lib.Colors.surfaceContainerHighest
+    readonly property color cBgHover: hasTheme ? theme.bgItemHover   : Lib.Colors.surfaceBright
     readonly property color cSheen:   (!hasTheme || isDarkMode) ? Qt.rgba(1, 1, 1, 0.06) : theme.subtleFillHover
     readonly property color cRipple:  (!hasTheme || isDarkMode) ? Qt.rgba(1,1,1,0.12)    : theme.hoverSpotlight
     readonly property color cIconBg:  (!hasTheme || isDarkMode) ? Qt.rgba(1,1,1,0.05)    : theme.subtleFill
-    readonly property color cAccent:  isDarkMode ? "#b4befe" : (hasTheme ? theme.accent        : "#4c4f69")
-    readonly property color cFgMuted: isDarkMode ? "#a6adc8" : (hasTheme ? theme.textSecondary : "#5c5f77")
-    readonly property color cFgMain:  isDarkMode ? "#cdd6f4" : (hasTheme ? theme.textPrimary   : "#4c4f69")
+    readonly property color cAccent:  hasTheme ? theme.accent        : Lib.Colors.primary
+    readonly property color cFgMuted: hasTheme ? theme.textSecondary : Lib.Colors.onSurfaceVariant
+    readonly property color cFgMain:  hasTheme ? theme.textPrimary   : Lib.Colors.onSurface
 
     signal clicked()
 

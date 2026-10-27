@@ -71,7 +71,8 @@ Scope {
     property bool   taskbarForceWorkspaceMode: false
     property bool   taskbarCustomBg:           false
     property color  taskbarCustomBgColor:      "#11111b"
-    property color  taskbarAccent:             "#b4befe"
+    // "" follows the wallpaper (theme.accent)
+    property string taskbarAccent:             ""
 
     // Profile
     property string profileImageOverride: ""

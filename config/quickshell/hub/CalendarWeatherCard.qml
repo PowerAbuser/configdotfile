@@ -9,7 +9,7 @@ Lib.Card {
   signal closeRequested()
   property bool active: true
   property date now: new Date()
-  color: root.theme ? root.theme.bgCard : Theme.bgCard
+  color: root.theme ? root.theme.bgCard : Lib.Colors.surfaceContainer
   
   // Minute timer only runs when visible
   Timer {
@@ -58,7 +58,7 @@ Lib.Card {
           font.pixelSize: 11
           font.weight: 700
           font.letterSpacing: 1.5
-          color: (root.theme ? root.theme.accent : Theme.accent)
+          color: (root.theme ? root.theme.accent : Lib.Colors.primary)
           opacity: 0.85
         }
         
@@ -67,7 +67,7 @@ Lib.Card {
           font.family: Theme.textFont
           font.pixelSize: 68
           font.weight: 800
-          color: (root.theme ? root.theme.textPrimary : Theme.fgMain)
+          color: (root.theme ? root.theme.textPrimary : Lib.Colors.onSurface)
           lineHeight: 0.8
           lineHeightMode: Text.ProportionalHeight
         }
@@ -79,7 +79,7 @@ Lib.Card {
           font.pixelSize: 10
           font.weight: 600
           font.letterSpacing: 1.0
-          color: (root.theme ? root.theme.textSecondary : Theme.fgMuted)
+          color: (root.theme ? root.theme.textSecondary : Lib.Colors.onSurfaceVariant)
           opacity: 0.65
           elide: Text.ElideRight
           Layout.fillWidth: true
@@ -97,7 +97,7 @@ Lib.Card {
           text: weather.value ? weather.value.icon : "☁"
           font.family: "Symbols Nerd Font"
           font.pixelSize: 32
-          color: (root.theme && root.theme.isDarkMode) ? Theme.weatherd : Theme.weatherl
+          color: (root.theme && root.theme.isDarkMode) ? Lib.Colors.onSurfaceVariant : Lib.Colors.onSurfaceVariant
           Layout.alignment: Qt.AlignRight
         }
         
@@ -106,7 +106,7 @@ Lib.Card {
           font.family: Theme.textFont
           font.pixelSize: 22
           font.weight: 700
-          color: (root.theme ? root.theme.textPrimary : Theme.fgMain)
+          color: (root.theme ? root.theme.textPrimary : Lib.Colors.onSurface)
           Layout.alignment: Qt.AlignRight
         }
         
@@ -115,7 +115,7 @@ Lib.Card {
           font.family: Theme.textFont
           font.pixelSize: 10
           font.weight: 500
-          color: (root.theme ? root.theme.textSecondary : Theme.fgMuted)
+          color: (root.theme ? root.theme.textSecondary : Lib.Colors.onSurfaceVariant)
           Layout.alignment: Qt.AlignRight
           Layout.fillWidth: true
           horizontalAlignment: Text.AlignRight

@@ -142,9 +142,7 @@ Lib.TopCard {
 
   function getPerfColor() {
     if (root.autoMode) {
-      return (root.theme && root.theme.isDarkMode !== undefined && !root.theme.isDarkMode)
-        ? '#11111b' // Hardcoded colors for now
-        : (root.theme ? root.theme.accent : "#b4befe")
+      return root.theme ? root.theme.accent : Lib.Colors.primary
     }
     return (root.cpuGov === "performance")
         ? (root.theme ? root.theme.accentRed : "#f38ba8")
@@ -236,9 +234,7 @@ Lib.TopCard {
         from: 0; to: 100
         value: 50
         Layout.fillWidth: true
-        accentColor: (root.theme && root.theme.isDarkMode !== undefined && !root.theme.isDarkMode)
-            ? root.theme.accentSlider
-            : "#b4befe"
+        accentColor: root.theme ? root.theme.accentSlider : Lib.Colors.primary
         onUserChanged: det("brightnessctl set " + Math.round(value) + "%")
       }
 
@@ -254,9 +250,7 @@ Lib.TopCard {
         from: 0; to: 100
         value: 0
         Layout.fillWidth: true
-        accentColor: (root.theme && root.theme.isDarkMode !== undefined && !root.theme.isDarkMode)
-            ? root.theme.accentSlider
-            : "#b4befe"
+        accentColor: root.theme ? root.theme.accentSlider : Lib.Colors.primary
         onUserChanged: det("pactl set-sink-volume @DEFAULT_SINK@ " + Math.round(value) + "%")
       }
     }

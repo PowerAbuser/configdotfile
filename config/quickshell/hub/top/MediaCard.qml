@@ -28,7 +28,7 @@ Rectangle {
     Behavior on opacity { NumberAnimation { duration: 170 } }
 
     radius: 24
-    color: Theme.bgCard
+    color: Lib.Colors.surfaceContainer
     clip: true
 
     // Mask only while visible
@@ -495,7 +495,7 @@ Rectangle {
             cached: true
         }
 
-        Rectangle { anchors.fill: parent; color: (root.effectiveArtUrl !== "") ? Qt.rgba(0,0,0,0.65) : Theme.bgCard }
+        Rectangle { anchors.fill: parent; color: (root.effectiveArtUrl !== "") ? Qt.rgba(0,0,0,0.65) : Lib.Colors.surfaceContainer }
         Rectangle { anchors.fill: parent; color: root.bgTint }
     }
 

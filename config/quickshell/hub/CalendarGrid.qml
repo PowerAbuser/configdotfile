@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import "../theme.js" as Theme
+import "../lib" as Lib
 
 Item {
     id: root
@@ -13,8 +14,8 @@ Item {
     implicitWidth: grid.implicitWidth
     implicitHeight: grid.implicitHeight
 
-    readonly property color _fgOnAccent: (themed && theme.textOnAccent !== undefined) ? theme.textOnAccent : Theme.fgOnAccent
-    readonly property color _accent: (themed && theme.accent !== undefined) ? theme.accent : Theme.accent
+    readonly property color _fgOnAccent: (themed && theme.textOnAccent !== undefined) ? theme.textOnAccent : Lib.Colors.onPrimary
+    readonly property color _accent: (themed && theme.accent !== undefined) ? theme.accent : Lib.Colors.primary
 
     readonly property color _headColor: isDark
         ? Qt.rgba(0.651, 0.678, 0.784, 0.8)

@@ -10,7 +10,7 @@ Rectangle {
                                   || (theme.isDarkMode === undefined ? true : theme.isDarkMode)
 
     // Background
-    color: themed && theme.bgCard !== undefined ? theme.bgCard : Theme.bgCard
+    color: themed && theme.bgCard !== undefined ? theme.bgCard : Colors.surfaceContainer
     radius: Theme.radiusOuter
 
     // Hover 

@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
+import "../lib" as Lib
 
 Item {
     id: skin
@@ -13,15 +14,15 @@ Item {
 
     QtObject {
         id: theme
-        property color card: skin.isDarkMode ? "#181825" : "#e6e9ef"
-        property color tile: skin.isDarkMode ? "#11111b" : "#dce0e8"
-        property color tileHover: skin.isDarkMode ? "#313244" : "#ccd0da"
-        property color text: skin.isDarkMode ? "#cdd6f4" : "#6c6f85"
+        property color card: Lib.Colors.surfaceContainerLow
+        property color tile: Lib.Colors.surfaceContainerLowest
+        property color tileHover: Lib.Colors.surfaceContainerHighest
+        property color text: Lib.Colors.onSurface
         // configurable via settings (falls back to the built-in default)
         property color accent: skin.ctrl.livingAccent !== "" ? skin.ctrl.livingAccent
-                                                            : (skin.isDarkMode ? '#b4befe' : "#7287fd")
-        property color danger: skin.isDarkMode ? "#f38ba8" : "#d20f39"
-        property color activeText: skin.isDarkMode ? "#1e1e2e" : "#eff1f5"
+                                                            : Lib.Colors.primary
+        property color danger: Lib.Colors.error
+        property color activeText: Lib.Colors.onPrimary
         property url activeImg: skin.isDarkMode ? skin.imgDark : skin.imgLight
     }
 
@@ -228,7 +229,7 @@ Item {
         radius: bgMask.radius
         color: "transparent"
         border.width: 1
-        border.color: skin.isDarkMode ? '#d1b4befe' : '#7287fd'
+        border.color: Lib.Colors.alpha(Lib.Colors.primary, skin.isDarkMode ? 0.82 : 1)
         antialiasing: true
         enabled: false
     }

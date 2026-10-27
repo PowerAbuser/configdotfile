@@ -14,7 +14,7 @@ Item {
     property bool pressed: slider.pressed
     property int orientation: Qt.Horizontal 
     
-    property color accentColor: (root.theme ? (root.theme.accentSlider !== undefined ? root.theme.accentSlider : root.theme.accent) : Theme.accent)
+    property color accentColor: (root.theme ? (root.theme.accentSlider !== undefined ? root.theme.accentSlider : root.theme.accent) : Colors.primary)
     signal userChanged(real v)
 
 
@@ -50,7 +50,7 @@ Item {
             height: root.orientation === Qt.Horizontal ? 32 : slider.availableHeight
             
             radius: 16 
-            color: (root.theme ? root.theme.bgItem : Theme.bgItem) 
+            color: (root.theme ? root.theme.bgItem : Colors.surfaceContainerHighest) 
 
             // The Fill
             Rectangle {
@@ -98,7 +98,7 @@ Item {
                     source: iconImg
                     cached: true
                     // Fill always encloses icon, so always use on-accent color
-                    color: root.theme ? root.theme.textOnAccent : Theme.fgOnAccent
+                    color: root.theme ? root.theme.textOnAccent : Colors.onPrimary
                     transformOrigin: Item.Center
                     scale: slider.hovered || slider.pressed ? 1.3 : 1.0
                     Behavior on scale { NumberAnimation { duration: 250; easing.type: Easing.OutBack } }

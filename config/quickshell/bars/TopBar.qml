@@ -53,17 +53,19 @@ PanelWindow {
     // Mirrors the taskbar palette
     QtObject {
         id: pal
+        // Settings > bar accent, or the wallpaper's accent when unset
+        property color barAccent: Lib.Configuration.taskbarAccent !== "" ? Lib.Configuration.taskbarAccent : theme.accent
         property color bg:             Qt.rgba(theme.bgCard.r, theme.bgCard.g, theme.bgCard.b, 0.78)
         property color textPrimary:    String(theme.textPrimary)
         property color textSecondary:  String(theme.textSecondary)
-        property color accent:         String(Lib.Configuration.taskbarAccent)
-        property color activePill:     String(Lib.Configuration.taskbarAccent)
+        property color accent:         String(pal.barAccent)
+        property color activePill:     String(pal.barAccent)
         property color hoverSpotlight: String(theme.hoverSpotlight)
         property color border:         String(theme.outline)
 
-        property color hoverPillG0: Qt.rgba(Lib.Configuration.taskbarAccent.r, Lib.Configuration.taskbarAccent.g, Lib.Configuration.taskbarAccent.b, 0.35)
-        property color hoverPillG1: Qt.rgba(Lib.Configuration.taskbarAccent.r, Lib.Configuration.taskbarAccent.g, Lib.Configuration.taskbarAccent.b, 0.55)
-        property color hoverPillG2: Qt.rgba(Lib.Configuration.taskbarAccent.r, Lib.Configuration.taskbarAccent.g, Lib.Configuration.taskbarAccent.b, 0.35)
+        property color hoverPillG0: Qt.rgba(pal.barAccent.r, pal.barAccent.g, pal.barAccent.b, 0.35)
+        property color hoverPillG1: Qt.rgba(pal.barAccent.r, pal.barAccent.g, pal.barAccent.b, 0.55)
+        property color hoverPillG2: Qt.rgba(pal.barAccent.r, pal.barAccent.g, pal.barAccent.b, 0.35)
     }
 
     // 3. HYPRLAND CACHE
@@ -306,8 +308,7 @@ PanelWindow {
                     anchors.centerIn: parent
                     width: 22; height: 22
                     property color color: {
-                        if (hoverLaunch.hovered) return win.isDarkMode ? "#89b4fa" : "#1e66f5"
-                        return win.isDarkMode ? "#89b4fa" : "#1e66f5"
+                        return theme.accentBlue
                     }
 
                     Image { 
@@ -458,7 +459,7 @@ PanelWindow {
                                 font.family: theme.iconFont; font.pixelSize: 14; lineHeight: 0.8
                                 verticalAlignment: Text.AlignVCenter
                                 Behavior on color { ColorAnimation { duration: 140 } }
-                                color: isActive ? "#313244" : (wsHover.hovered ? (win.isDarkMode ? "#b4befe" : pal.accent) : (win.isDarkMode ? "#cdd6f4" : "#6c6f85"))
+                                color: isActive ? theme.textOnAccent : (wsHover.hovered ? pal.accent : (win.isDarkMode ? pal.textPrimary : pal.textSecondary))
                             }
 
                             Row {
@@ -481,12 +482,12 @@ PanelWindow {
 
                                         QtObject {
                                             id: flashColor
-                                            property color val: win.isDarkMode ? "#cdd6f4" : "#1e1e2e"
+                                            property color val: pal.textPrimary
                                             SequentialAnimation on val {
                                                 running: modelData.urgent
                                                 loops: Animation.Infinite
-                                                ColorAnimation { to: "#f38ba8"; duration: 200 }
-                                                ColorAnimation { to: "#f9e2af"; duration: 200 }
+                                                ColorAnimation { to: Lib.Colors.red; duration: 200 }
+                                                ColorAnimation { to: Lib.Colors.yellow; duration: 200 }
                                             }
                                         }
                                         Text {
@@ -501,10 +502,9 @@ PanelWindow {
                                             Behavior on color { enabled: !modelData.urgent; ColorAnimation { duration: 140 } }
                                             scale: (wsDelegate.isActive && wsHover.hovered) ? 1.25 : 1.0
                                             Behavior on scale { NumberAnimation { duration: 200; easing.type: Easing.OutBack; easing.overshoot: 1.5 } }
-                                            color: wsDelegate.isActive ? "#313244" :
+                                            color: wsDelegate.isActive ? theme.textOnAccent :
                                                    (modelData.urgent ? flashColor.val :
-                                                   (wsHover.hovered ? (win.isDarkMode ? "#b4befe" : pal.accent) :
-                                                   (win.isDarkMode ? "#cdd6f4" : "#1e1e2e")))
+                                                   (wsHover.hovered ? pal.accent : pal.textPrimary))
                                         }
 
                                     }
@@ -633,8 +633,8 @@ PanelWindow {
                 Layout.preferredWidth: Math.ceil(perfIconM.advanceWidth + 8 + perfTextM.advanceWidth + 24)
                 property int cpu: perfPoll.value ? perfPoll.value.cpu : 0
                 property string mem: perfPoll.value ? perfPoll.value.mem : "?"
-                property color loadColor: cpu >= 90 ? (win.isDarkMode ? "#f38ba8" : "#d20f39")
-                                        : cpu >= 70 ? (win.isDarkMode ? "#fab387" : "#fe640b")
+                property color loadColor: cpu >= 90 ? Lib.Colors.red
+                                        : cpu >= 70 ? Lib.Colors.orange
                                         : pal.textPrimary
                 icon: ""; text: cpu + "%  ·  " + mem + " GB"
                 bgColor: pal.bg; iconColor: loadColor; textColor: pal.textPrimary
@@ -653,11 +653,10 @@ PanelWindow {
                 property bool isCharging: plugged || status === "Charging" || status === "Full"
 
                 property string battColor: {
-                    const dark = win.isDarkMode;
                     if (isCharging) return pal.accent;
-                    const crit = dark ? '#f38ba8' : '#d20f39';
-                    const low  = dark ? "#fab387" : '#fe640b';
-                    const mid  = dark ? "#f9e2af" : "#df8e1d";
+                    const crit = String(Lib.Colors.red);
+                    const low  = String(Lib.Colors.orange);
+                    const mid  = String(Lib.Colors.yellow);
                     if (cap <= 10) return crit;
                     if (cap <= 20) return low;
                     if (cap <= 30) return mid;

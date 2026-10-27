@@ -115,10 +115,9 @@ Lib.Card {
   function getPerfLabel() { return root.autoMode ?
   "Auto" : (root.cpuGov === "performance" ? "Max" : "Powersave") }
   function getPerfColor() {
-    if (root.autoMode) return (root.theme && !root.theme.isDarkMode) ?
-    '#11111b' : (Theme.accent || "#b4befe")
+    if (root.autoMode) return root.theme ? root.theme.accent : Lib.Colors.primary
     return (root.cpuGov === "performance") ?
-    Theme.accentRed : (root.theme ? root.theme.textPrimary : Theme.fgMain)
+    Lib.Colors.error : (root.theme ? root.theme.textPrimary : Lib.Colors.onSurface)
   }
   // --------------------------------------------------------------------------------------------------------------
   // DND
@@ -222,8 +221,7 @@ Lib.Card {
                 if (value < 75) return "bness_40to75.svg"; return "bnessmax.svg" }
                 from: 1;
                 to: 100; value: 50
-                accentColor: (root.theme && !root.theme.isDarkMode) ?
-                root.theme.accentSlider : "#b4befe"
+                accentColor: root.theme ? root.theme.accentSlider : Lib.Colors.primary
                 onUserChanged: Lib.Shell.det("brightnessctl set " + Math.round(value) + "%")
             }
         }
@@ -243,8 +241,7 @@ Lib.Card {
                 if (volPoll.value.isHeadphones) return "vol_headphones.svg"; return (value > 50) ? "vol_50p.svg" : "vol_50m.svg" }
                 from: 0;
                 to: 100; value: 0
-                accentColor: (root.theme && !root.theme.isDarkMode) ?
-                root.theme.accentSlider : "#b4befe"
+                accentColor: root.theme ? root.theme.accentSlider : Lib.Colors.primary
                 onUserChanged: Lib.Shell.det("pactl set-sink-volume @DEFAULT_SINK@ " + Math.round(value) + "%")
             } 
         }

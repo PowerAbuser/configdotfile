@@ -113,14 +113,14 @@ Item {
                     }
                     CPicker {
                         Layout.fillWidth: true; label: "Bar accent"
-                        currentHex: String(Lib.Configuration.taskbarAccent)
+                        currentHex: Lib.Configuration.taskbarAccent !== "" ? Lib.Configuration.taskbarAccent : (root.theme ? root.hex6(root.theme.accent) : "#b4befe")
                         onPicked: (hex) => { Lib.Configuration.taskbarAccent=hex; Lib.Configuration.save() }
                     }
                 }
                 RowLayout {
                     Layout.fillWidth: true; spacing: 8
                     SBtn { label: "Reset colors"
-                        onTriggered: { Lib.Configuration.useCustomAccent=false; Lib.Configuration.useCustomBg=false; Lib.Configuration.taskbarAccent="#b4befe"; Lib.Configuration.save() }
+                        onTriggered: { Lib.Configuration.useCustomAccent=false; Lib.Configuration.useCustomBg=false; Lib.Configuration.taskbarAccent=""; Lib.Configuration.save() }
                     }
                     Item { Layout.fillWidth: true }
                     SBtn { label: " Wallpaper"; accent: true; onTriggered: root.wallpaperRequested() }
