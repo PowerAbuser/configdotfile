@@ -98,7 +98,7 @@ Item {
                     source: iconImg
                     cached: true
                     // Fill always encloses icon, so always use on-accent color
-                    color: root.theme ? root.theme.textOnAccent : Colors.onPrimary
+                    color: root.theme ? root.theme.textOnAccent : Colors.fgPrimary
                     transformOrigin: Item.Center
                     scale: slider.hovered || slider.pressed ? 1.3 : 1.0
                     Behavior on scale { NumberAnimation { duration: 250; easing.type: Easing.OutBack } }

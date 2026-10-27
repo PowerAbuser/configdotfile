@@ -78,12 +78,12 @@ Item {
                     source: iconImg
                     color: {
     var baseColor = root.active 
-        ? (root.theme ? root.theme.textOnAccent : Colors.onPrimary) 
+        ? (root.theme ? root.theme.textOnAccent : Colors.fgPrimary) 
         : (root.hasCustomColor 
             ? root.customIconColor 
-            : (root.theme ? root.theme.textPrimary : Colors.onSurface))
+            : (root.theme ? root.theme.textPrimary : Colors.fgSurface))
 
-    return Qt.rgba(baseColor.r, baseColor.g, baseColor.b, 0.8)
+    return Qt.rgba(baseColor.r, baseColor.g, baseColor.b, 0.9)
 }
 
                     
@@ -103,11 +103,11 @@ Item {
             Text {
                 text: root.label
                 font.family: Theme.textFont
-                font.pixelSize: 8 
-                font.weight: 500
-                opacity: root.active ? 0.9 : 0.7 
+                font.pixelSize: 9
+                font.weight: 600
+                opacity: root.active ? 1.0 : 0.85
                 
-                color: root.active ? (root.theme ? root.theme.textOnAccent : Colors.onPrimary) : (root.theme ? root.theme.textPrimary : Colors.onSurface)
+                color: root.active ? (root.theme ? root.theme.textOnAccent : Colors.fgPrimary) : (root.theme ? root.theme.textPrimary : Colors.fgSurface)
                 
                 Layout.alignment: Qt.AlignHCenter
                 Layout.maximumWidth: root.width - 8

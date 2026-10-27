@@ -17,12 +17,12 @@ Item {
         property color card: Lib.Colors.surfaceContainerLow
         property color tile: Lib.Colors.surfaceContainerLowest
         property color tileHover: Lib.Colors.surfaceContainerHighest
-        property color text: Lib.Colors.onSurface
+        property color text: Lib.Colors.fgSurface
         // configurable via settings (falls back to the built-in default)
         property color accent: skin.ctrl.livingAccent !== "" ? skin.ctrl.livingAccent
                                                             : Lib.Colors.primary
         property color danger: Lib.Colors.error
-        property color activeText: Lib.Colors.onPrimary
+        property color activeText: Lib.Colors.fgPrimary
         property url activeImg: skin.isDarkMode ? skin.imgDark : skin.imgLight
     }
 

@@ -14,7 +14,7 @@ Item {
     implicitWidth: grid.implicitWidth
     implicitHeight: grid.implicitHeight
 
-    readonly property color _fgOnAccent: (themed && theme.textOnAccent !== undefined) ? theme.textOnAccent : Lib.Colors.onPrimary
+    readonly property color _fgOnAccent: (themed && theme.textOnAccent !== undefined) ? theme.textOnAccent : Lib.Colors.fgPrimary
     readonly property color _accent: (themed && theme.accent !== undefined) ? theme.accent : Lib.Colors.primary
 
     readonly property color _headColor: isDark

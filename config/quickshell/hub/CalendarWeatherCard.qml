@@ -67,7 +67,7 @@ Lib.Card {
           font.family: Theme.textFont
           font.pixelSize: 68
           font.weight: 800
-          color: (root.theme ? root.theme.textPrimary : Lib.Colors.onSurface)
+          color: (root.theme ? root.theme.textPrimary : Lib.Colors.fgSurface)
           lineHeight: 0.8
           lineHeightMode: Text.ProportionalHeight
         }
@@ -79,7 +79,7 @@ Lib.Card {
           font.pixelSize: 10
           font.weight: 600
           font.letterSpacing: 1.0
-          color: (root.theme ? root.theme.textSecondary : Lib.Colors.onSurfaceVariant)
+          color: (root.theme ? root.theme.textSecondary : Lib.Colors.fgSurfaceVariant)
           opacity: 0.65
           elide: Text.ElideRight
           Layout.fillWidth: true
@@ -97,7 +97,7 @@ Lib.Card {
           text: weather.value ? weather.value.icon : "☁"
           font.family: "Symbols Nerd Font"
           font.pixelSize: 32
-          color: (root.theme && root.theme.isDarkMode) ? Lib.Colors.onSurfaceVariant : Lib.Colors.onSurfaceVariant
+          color: (root.theme && root.theme.isDarkMode) ? Lib.Colors.fgSurfaceVariant : Lib.Colors.fgSurfaceVariant
           Layout.alignment: Qt.AlignRight
         }
         
@@ -106,7 +106,7 @@ Lib.Card {
           font.family: Theme.textFont
           font.pixelSize: 22
           font.weight: 700
-          color: (root.theme ? root.theme.textPrimary : Lib.Colors.onSurface)
+          color: (root.theme ? root.theme.textPrimary : Lib.Colors.fgSurface)
           Layout.alignment: Qt.AlignRight
         }
         
@@ -115,7 +115,7 @@ Lib.Card {
           font.family: Theme.textFont
           font.pixelSize: 10
           font.weight: 500
-          color: (root.theme ? root.theme.textSecondary : Lib.Colors.onSurfaceVariant)
+          color: (root.theme ? root.theme.textSecondary : Lib.Colors.fgSurfaceVariant)
           Layout.alignment: Qt.AlignRight
           Layout.fillWidth: true
           horizontalAlignment: Text.AlignRight

@@ -111,8 +111,8 @@ PanelWindow {
     readonly property color cBg:      isDarkMode ? Colors.alpha(Colors.surfaceContainerHighest, 0.42) : Colors.surface
     readonly property color cBgAlt:   isDarkMode ? Colors.alpha(Colors.surfaceContainerHighest, 0.42) : Colors.alpha(Colors.surfaceContainerHighest, 0.8)
     readonly property color cCard:    isDarkMode ? Colors.surfaceContainerHigh : Colors.surface
-    readonly property color cFg:      Colors.onSurface
-    readonly property color cMuted:   Colors.onSurfaceVariant
+    readonly property color cFg:      Colors.fgSurface
+    readonly property color cMuted:   Colors.fgSurfaceVariant
     readonly property color cBorder:  Colors.alpha(Colors.primary, 0.83)
     readonly property color cGreen:   isDarkMode ? Colors.primary : Colors.green
     readonly property color cRed:     Colors.red
@@ -1099,7 +1099,7 @@ PanelWindow {
                                 height: 40
                                 text: isBusy ? "Connecting…" : "Connect"
                                 btnColor: isDarkMode ? Colors.alpha(Colors.primary, 0.83) : Colors.alpha(Colors.green, 0.62)
-                                textColor: Colors.onPrimary
+                                textColor: Colors.fgPrimary
                                 icon: "󱄙"
                                 kind: "primary"
                                 disabled: isBusy

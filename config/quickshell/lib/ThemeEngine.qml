@@ -31,9 +31,9 @@ QtObject {
     readonly property color bgWidget: bgCard
 
     // Text
-    readonly property color textPrimary:   Colors.onSurface
-    readonly property color textSecondary: Colors.onSurfaceVariant
-    readonly property color textOnAccent:  Colors.onPrimary
+    readonly property color textPrimary:   Colors.fgSurface
+    readonly property color textSecondary: Colors.fgSurfaceVariant
+    readonly property color textOnAccent:  Colors.fgPrimary
 
     // Accents
     readonly property color customAccent:
@@ -64,7 +64,7 @@ QtObject {
     readonly property int sliderH:     24
 
     // Used by the top-style calendar card
-    readonly property color weatherColor: Colors.onSurfaceVariant
+    readonly property color weatherColor: Colors.fgSurfaceVariant
 
     readonly property string textFont: "Manrope"
     readonly property string iconFont: "JetBrainsMono Nerd Font"

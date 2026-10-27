@@ -1,7 +1,7 @@
 {
-  "theme": "",
-  "lastTheme": "hud",
-  "screenEffect": "subtle",
-  "matchLock": true,
-  "appliedTheme": ""
+    "appliedTheme": "",
+    "lastTheme": "terminal",
+    "matchLock": true,
+    "screenEffect": "subtle",
+    "theme": ""
 }

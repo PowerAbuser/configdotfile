@@ -64,7 +64,7 @@ Dialog {
 
         StyledText {
             text: "Enter command to execute when clicking notes in this category.\nUse $text or $note as placeholder for the main note content."
-            color: Lib.Colors.onSurfaceVariant
+            color: Lib.Colors.fgSurfaceVariant
             font.pixelSize: 12
             wrapMode: Text.WordWrap
             Layout.fillWidth: true
@@ -125,7 +125,7 @@ Dialog {
                             width: 20
                             height: 20
                             radius: 10
-                            color: Lib.Colors.onPrimary
+                            color: Lib.Colors.fgPrimary
                             border.color: keepOpenSwitch.checked
                                 ? Lib.Colors.primary
                                 : Lib.Colors.outlineVariant
@@ -165,7 +165,7 @@ Dialog {
 
                 StyledText {
                     text: "Preview:"
-                    color: Lib.Colors.onSurfaceVariant
+                    color: Lib.Colors.fgSurfaceVariant
                     font.pixelSize: 11
                     font.bold: true
                 }
@@ -257,7 +257,7 @@ Dialog {
 
                 contentItem: StyledText {
                     text: parent.text
-                    color: Lib.Colors.onPrimaryContainer
+                    color: Lib.Colors.fgPrimaryContainer
                     font.pixelSize: 14
                     font.weight: Font.Bold
                     horizontalAlignment: Text.AlignHCenter

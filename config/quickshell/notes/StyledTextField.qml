@@ -13,8 +13,8 @@ TextField {
     property color borderColor: Lib.Colors.outlineVariant
     property color focusBorderColor: root.borderColor
 
-    color: Lib.Colors.onSurface
-    placeholderTextColor: Lib.Colors.onSurfaceVariant
+    color: Lib.Colors.fgSurface
+    placeholderTextColor: Lib.Colors.fgSurfaceVariant
     font.family: "Manrope"
 
     background: Rectangle {

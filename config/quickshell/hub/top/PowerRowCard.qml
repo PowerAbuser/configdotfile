@@ -59,13 +59,13 @@ Lib.TopCard {
                     Text {
                         anchors.horizontalCenter: parent.horizontalCenter
                         text: btn.modelData.glyph
-                        color: btn.isArmed ? Lib.Colors.onError : (root.theme ? root.theme.textPrimary : Lib.Colors.onSurface)
+                        color: btn.isArmed ? Lib.Colors.fgError : (root.theme ? root.theme.textPrimary : Lib.Colors.fgSurface)
                         font.family: Theme.iconFont; font.pixelSize: 16
                     }
                     Text {
                         anchors.horizontalCenter: parent.horizontalCenter
                         text: btn.isArmed ? "Again?" : btn.modelData.label
-                        color: btn.isArmed ? Lib.Colors.onError : (root.theme ? root.theme.textSecondary : Lib.Colors.onSurfaceVariant)
+                        color: btn.isArmed ? Lib.Colors.fgError : (root.theme ? root.theme.textSecondary : Lib.Colors.fgSurfaceVariant)
                         font.family: Theme.textFont; font.pixelSize: 9; font.weight: 600
                     }
                 }

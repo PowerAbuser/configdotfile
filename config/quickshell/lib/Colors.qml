@@ -10,6 +10,10 @@ import Quickshell.Io
 //
 // Most code should go through ThemeEngine (theme.bgCard, theme.accent, ...),
 // which maps these roles onto the shell's own names.
+//
+// Material's on_* roles are named fg* here (fgSurface is on_surface): QML
+// reads a name like `onSurface` as a signal handler, so a property called
+// that never gets its value and reads as black.
 Singleton {
     id: root
 
@@ -33,23 +37,23 @@ Singleton {
     readonly property color surfaceContainer:        _pick("surface_container",         "#1e1e2e", "#e6e9ef")
     readonly property color surfaceContainerHigh:    _pick("surface_container_high",    "#313244", "#dce0e8")
     readonly property color surfaceContainerHighest: _pick("surface_container_highest", "#45475a", "#ccd0da")
-    readonly property color onSurface:               _pick("on_surface",                "#cdd6f4", "#4c4f69")
-    readonly property color onSurfaceVariant:        _pick("on_surface_variant",        "#a6adc8", "#6c6f85")
+    readonly property color fgSurface:               _pick("on_surface",                "#cdd6f4", "#4c4f69")
+    readonly property color fgSurfaceVariant:        _pick("on_surface_variant",        "#a6adc8", "#6c6f85")
     readonly property color outline:                 _pick("outline",                   "#7f849c", "#8c8fa1")
     readonly property color outlineVariant:          _pick("outline_variant",           "#45475a", "#ccd0da")
 
     readonly property color primary:                 _pick("primary",                   "#b4befe", "#7287fd")
-    readonly property color onPrimary:               _pick("on_primary",                "#11111b", "#eff1f5")
+    readonly property color fgPrimary:               _pick("on_primary",                "#11111b", "#eff1f5")
     readonly property color primaryContainer:        _pick("primary_container",         "#45475a", "#ccd0da")
-    readonly property color onPrimaryContainer:      _pick("on_primary_container",      "#b4befe", "#7287fd")
+    readonly property color fgPrimaryContainer:      _pick("on_primary_container",      "#b4befe", "#7287fd")
     readonly property color secondary:               _pick("secondary",                 "#89b4fa", "#1e66f5")
-    readonly property color onSecondary:             _pick("on_secondary",              "#11111b", "#eff1f5")
+    readonly property color fgSecondary:             _pick("on_secondary",              "#11111b", "#eff1f5")
     readonly property color secondaryContainer:      _pick("secondary_container",       "#313244", "#dce0e8")
-    readonly property color onSecondaryContainer:    _pick("on_secondary_container",    "#cdd6f4", "#4c4f69")
+    readonly property color fgSecondaryContainer:    _pick("on_secondary_container",    "#cdd6f4", "#4c4f69")
     readonly property color tertiary:                _pick("tertiary",                  "#fab387", "#fe640b")
-    readonly property color onTertiary:              _pick("on_tertiary",               "#11111b", "#eff1f5")
+    readonly property color fgTertiary:              _pick("on_tertiary",               "#11111b", "#eff1f5")
     readonly property color error:                   _pick("error",                     "#f38ba8", "#d20f39")
-    readonly property color onError:                 _pick("on_error",                  "#11111b", "#eff1f5")
+    readonly property color fgError:                 _pick("on_error",                  "#11111b", "#eff1f5")
     readonly property color errorContainer:          _pick("error_container",           "#45475a", "#ccd0da")
 
     // Semantic colours, blended toward the wallpaper (matugen custom_colors)

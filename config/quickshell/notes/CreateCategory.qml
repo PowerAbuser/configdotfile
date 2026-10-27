@@ -126,7 +126,7 @@ Dialog {
 
                 contentItem: StyledText {
                     text: parent.text
-                    color: Lib.Colors.onPrimaryContainer
+                    color: Lib.Colors.fgPrimaryContainer
                     font.pixelSize: 14
                     font.weight: Font.Bold
                     horizontalAlignment: Text.AlignHCenter

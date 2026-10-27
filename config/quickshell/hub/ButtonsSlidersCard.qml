@@ -117,7 +117,7 @@ Lib.Card {
   function getPerfColor() {
     if (root.autoMode) return root.theme ? root.theme.accent : Lib.Colors.primary
     return (root.cpuGov === "performance") ?
-    Lib.Colors.error : (root.theme ? root.theme.textPrimary : Lib.Colors.onSurface)
+    Lib.Colors.error : (root.theme ? root.theme.textPrimary : Lib.Colors.fgSurface)
   }
   // --------------------------------------------------------------------------------------------------------------
   // DND

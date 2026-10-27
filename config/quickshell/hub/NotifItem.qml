@@ -18,8 +18,8 @@ Rectangle {
     readonly property color cRipple:  (!hasTheme || isDarkMode) ? Qt.rgba(1,1,1,0.12)    : theme.hoverSpotlight
     readonly property color cIconBg:  (!hasTheme || isDarkMode) ? Qt.rgba(1,1,1,0.05)    : theme.subtleFill
     readonly property color cAccent:  hasTheme ? theme.accent        : Lib.Colors.primary
-    readonly property color cFgMuted: hasTheme ? theme.textSecondary : Lib.Colors.onSurfaceVariant
-    readonly property color cFgMain:  hasTheme ? theme.textPrimary   : Lib.Colors.onSurface
+    readonly property color cFgMuted: hasTheme ? theme.textSecondary : Lib.Colors.fgSurfaceVariant
+    readonly property color cFgMain:  hasTheme ? theme.textPrimary   : Lib.Colors.fgSurface
 
     signal clicked()
 

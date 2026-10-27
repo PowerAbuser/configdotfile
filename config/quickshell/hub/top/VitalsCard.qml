@@ -38,13 +38,13 @@ Lib.TopCard {
             Layout.fillWidth: true
             Text {
                 text: "Machine"
-                color: root.theme ? root.theme.textPrimary : Lib.Colors.onSurface
+                color: root.theme ? root.theme.textPrimary : Lib.Colors.fgSurface
                 font.family: Theme.textFont; font.pixelSize: 13; font.weight: 700
             }
             Item { Layout.fillWidth: true }
             Text {
                 text: root.stats.uptime ? "up " + root.stats.uptime : ""
-                color: root.theme ? root.theme.textSecondary : Lib.Colors.onSurfaceVariant
+                color: root.theme ? root.theme.textSecondary : Lib.Colors.fgSurfaceVariant
                 font.family: "DM Mono"; font.pixelSize: 11
             }
         }
@@ -74,13 +74,13 @@ Lib.TopCard {
                         Layout.fillWidth: true
                         Text {
                             text: cell.modelData.label
-                            color: root.theme ? root.theme.textSecondary : Lib.Colors.onSurfaceVariant
+                            color: root.theme ? root.theme.textSecondary : Lib.Colors.fgSurfaceVariant
                             font.family: Theme.textFont; font.pixelSize: 11; font.weight: 600
                         }
                         Item { Layout.fillWidth: true }
                         Text {
                             text: Math.round(cell.stat) + cell.modelData.unit
-                            color: root.theme ? root.theme.textPrimary : Lib.Colors.onSurface
+                            color: root.theme ? root.theme.textPrimary : Lib.Colors.fgSurface
                             font.family: "DM Mono"; font.pixelSize: 11
                         }
                     }

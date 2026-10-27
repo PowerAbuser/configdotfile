@@ -36,3 +36,10 @@ bind(mod .. " + X",     power_menu)
 hl.layer_rule({ name = "qs-anim-rofi",       match = { namespace = "rofi" },       animation = "slide" })
 hl.layer_rule({ name = "qs-anim-power-menu", match = { namespace = "power-menu" }, animation = "popin" })
 hl.layer_rule({ name = "qs-dim-power-menu",  match = { namespace = "power-menu" }, dim_around = true })
+
+-- Full-screen shell layers that animate their own panels: Hyprland's
+-- layersIn slide would move the whole surface too (the hub slid up as well
+-- as in from the side)
+for _, ns in ipairs({ "snes-hub", "notes-drawer", "notes-trigger", "desktop-theme" }) do
+    hl.layer_rule({ name = "qs-noanim-" .. ns, match = { namespace = ns }, no_anim = true })
+end

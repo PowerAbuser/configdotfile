@@ -160,7 +160,7 @@ Item {
                                 Notes.currentCategory).length
                             font.pixelSize: 14
                             font.weight: Font.DemiBold
-                            color: Lib.Colors.onPrimaryContainer
+                            color: Lib.Colors.fgPrimaryContainer
                         }
                     }
 
@@ -177,7 +177,7 @@ Item {
                             font.weight: Font.Bold
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
-                            color: Lib.Colors.onPrimary
+                            color: Lib.Colors.fgPrimaryContainer
                         }
 
                         background: Rectangle {
@@ -295,8 +295,8 @@ Item {
                                             text: modelData.charAt(0).toUpperCase() + modelData.slice(1)
                                             Layout.alignment: Qt.AlignVCenter
                                             color: categoryItem.isCurrent
-                                                ? Lib.Colors.onPrimary
-                                                : Lib.Colors.onSurface
+                                                ? Lib.Colors.fgPrimary
+                                                : Lib.Colors.fgSurface
                                             font.pixelSize: 13
                                             font.weight: Font.Medium
                                             elide: Text.ElideRight
@@ -319,7 +319,7 @@ Item {
                                                 text: "⌘"
                                                 font.pixelSize: 10
                                                 font.bold: true
-                                                color: Lib.Colors.onPrimary
+                                                color: Lib.Colors.fgPrimary
                                             }
 
                                             ToolTip {
@@ -346,7 +346,7 @@ Item {
                                                 anchors.centerIn: parent
                                                 text: "🔓"
                                                 font.pixelSize: 10
-                                                color: Lib.Colors.onSecondary
+                                                color: Lib.Colors.fgSecondary
                                             }
 
                                             ToolTip {
@@ -379,8 +379,8 @@ Item {
                                                     horizontalAlignment: Text.AlignHCenter
                                                     verticalAlignment: Text.AlignVCenter
                                                     color: categoryItem.isCurrent
-                                                        ? Lib.Colors.onPrimary
-                                                        : Lib.Colors.onSurface
+                                                        ? Lib.Colors.fgPrimary
+                                                        : Lib.Colors.fgSurface
                                                 }
 
                                                 background: Rectangle {
@@ -422,8 +422,8 @@ Item {
                                                     horizontalAlignment: Text.AlignHCenter
                                                     verticalAlignment: Text.AlignVCenter
                                                     color: categoryItem.isCurrent
-                                                        ? Lib.Colors.onPrimary
-                                                        : Lib.Colors.onSurface
+                                                        ? Lib.Colors.fgPrimary
+                                                        : Lib.Colors.fgSurface
                                                 }
 
                                                 background: Rectangle {
@@ -518,7 +518,7 @@ Item {
                                 }
                                 StyledText {
                                     text: "Jot something down using the field below"
-                                    color: Lib.Colors.onSurfaceVariant
+                                    color: Lib.Colors.fgSurfaceVariant
                                     font.pixelSize: 12
                                     opacity: 0.7
                                     Layout.alignment: Qt.AlignHCenter
@@ -614,7 +614,7 @@ Item {
                                                 text: originalNote.text
                                                 placeholderText: "Main text (required)..."
                                                 font.pixelSize: 14
-                                                color: Lib.Colors.onSurface
+                                                color: Lib.Colors.fgSurface
                                                 background: Card {
                                                     radius: 8
                                                 }
@@ -629,7 +629,7 @@ Item {
                                                 text: originalNote.subtext || ""
                                                 placeholderText: "Subtext (optional)..."
                                                 font.pixelSize: 13
-                                                color: Lib.Colors.onSurfaceVariant
+                                                color: Lib.Colors.fgSurfaceVariant
                                                 background: Card {
                                                     radius: 8
                                                 }
@@ -655,7 +655,7 @@ Item {
                                                         font.pixelSize: 12
                                                         horizontalAlignment: Text.AlignHCenter
                                                         verticalAlignment: Text.AlignVCenter
-                                                        color: Lib.Colors.onSurfaceVariant
+                                                        color: Lib.Colors.fgSurfaceVariant
                                                     }
 
                                                     background: Card {
@@ -679,7 +679,7 @@ Item {
                                                         font.weight: Font.Medium
                                                         horizontalAlignment: Text.AlignHCenter
                                                         verticalAlignment: Text.AlignVCenter
-                                                        color: Lib.Colors.onPrimary
+                                                        color: Lib.Colors.fgPrimary
                                                     }
 
                                                     background: Rectangle {
@@ -727,7 +727,7 @@ Item {
                                             text: modelData.subtext
                                             Layout.fillWidth: true
                                             wrapMode: Text.Wrap
-                                            color: Lib.Colors.onSurfaceVariant
+                                            color: Lib.Colors.fgSurfaceVariant
                                             font.pixelSize: 12
                                             lineHeight: 1.4
                                             font.weight: Font.Normal
@@ -819,7 +819,7 @@ Item {
                                                 verticalAlignment: Text.AlignVCenter
                                                 color: copyBtn.copied
                                                     ? Lib.Colors.primary
-                                                    : Lib.Colors.onSurface
+                                                    : Lib.Colors.fgSurface
                                             }
 
                                             background: Rectangle {
@@ -938,7 +938,9 @@ Item {
             // Input area with main text and subtext fields
             Rectangle {
                 Layout.fillWidth: true
-                Layout.preferredHeight: 100
+                // Sized to its fields and buttons (upstream's fixed 100 px left
+                // the Add / Clear row hanging off the bottom of the drawer)
+                Layout.preferredHeight: inputColumn.implicitHeight + 24
                 radius: 20
                 color: Lib.Colors.surfaceContainerHigh
                 border.color: (mainInput.activeFocus || subtextInput.activeFocus)
@@ -955,6 +957,7 @@ Item {
                 }
 
                 ColumnLayout {
+                    id: inputColumn
                     anchors.fill: parent
                     anchors.margins: 12
                     spacing: 8
@@ -970,8 +973,8 @@ Item {
                             Layout.preferredHeight: 36
                             placeholderText: "Main text (required)..."
                             font.pixelSize: 14
-                            placeholderTextColor: Lib.Colors.onSurfaceVariant
-                            color: Lib.Colors.onSurface
+                            placeholderTextColor: Lib.Colors.fgSurfaceVariant
+                            color: Lib.Colors.fgSurface
                             background: Rectangle {
                                 color: "transparent"
                                 border.width: 0
@@ -985,7 +988,7 @@ Item {
                             text: mainInput.text.length + "/200"
                             color: mainInput.text.length > 200
                                 ? Lib.Colors.error
-                                : Lib.Colors.onSurfaceVariant
+                                : Lib.Colors.fgSurfaceVariant
                             font.pixelSize: 11
                             visible: mainInput.text.length > 0
                         }
@@ -1002,8 +1005,8 @@ Item {
                             Layout.preferredHeight: 36
                             placeholderText: "Subtext (optional details)..."
                             font.pixelSize: 13
-                            placeholderTextColor: Lib.Colors.onSurfaceVariant
-                            color: Lib.Colors.onSurfaceVariant
+                            placeholderTextColor: Lib.Colors.fgSurfaceVariant
+                            color: Lib.Colors.fgSurfaceVariant
                             background: Rectangle {
                                 color: "transparent"
                                 border.width: 0
@@ -1018,7 +1021,7 @@ Item {
                             text: subtextInput.text.length + "/500"
                             color: subtextInput.text.length > 500
                                 ? Lib.Colors.error
-                                : Lib.Colors.onSurfaceVariant
+                                : Lib.Colors.fgSurfaceVariant
                             font.pixelSize: 11
                             visible: subtextInput.text.length > 0
                         }
@@ -1042,7 +1045,7 @@ Item {
                                 font.pixelSize: 12
                                 horizontalAlignment: Text.AlignHCenter
                                 verticalAlignment: Text.AlignVCenter
-                                color: Lib.Colors.onSurfaceVariant
+                                color: Lib.Colors.fgSurfaceVariant
                             }
 
                             background: Card {
@@ -1070,7 +1073,7 @@ Item {
                                 font.weight: Font.Medium
                                 horizontalAlignment: Text.AlignHCenter
                                 verticalAlignment: Text.AlignVCenter
-                                color: Lib.Colors.onPrimary
+                                color: Lib.Colors.fgPrimaryContainer
                             }
 
                             background: Rectangle {

@@ -33,7 +33,7 @@ Rectangle {
       font.family: Theme.textFont
       font.pixelSize: 9
       font.weight: 800
-      color: Colors.onSurface
+      color: Colors.fgSurface
     }
   }
 }
