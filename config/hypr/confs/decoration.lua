@@ -34,4 +34,14 @@ if ok and type(wall) == "table" then
     theme.inactive = wall.inactive or theme.inactive
 end
 
+-- Night light (quickshell/utils/night-light.sh) survives reloads
+local home = os.getenv("HOME")
+local nl = io.open(home .. "/.cache/quickshell/night_light", "r")
+if nl then
+    if (nl:read("l") or ""):gsub("%s+", "") == "on" then
+        hl.config({ decoration = { screen_shader = home .. "/.config/hypr/shaders/night_light.frag" } })
+    end
+    nl:close()
+end
+
 return require("confs.decoration_common").apply(theme)

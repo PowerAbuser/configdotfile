@@ -16,6 +16,7 @@ ColumnLayout {
     signal batteryDismissed()
     signal wifiRequested()
     signal bluetoothRequested()
+    signal themesRequested()
 
     property alias notifs: notifsCard
 
@@ -30,6 +31,7 @@ ColumnLayout {
         onBatteryToggleRequested: root.batteryToggleRequested()
         onWifiRequested: root.wifiRequested()
         onBluetoothRequested: root.bluetoothRequested()
+        onThemesRequested: root.themesRequested()
     }
 
     Top.BatteryHealthCard {
@@ -53,6 +55,12 @@ ColumnLayout {
         onCloseRequested: root.closeRequested()
     }
 
+    Top.VitalsCard {
+        Layout.fillWidth: true
+        active: root.hubVisible
+        theme: root.theme
+    }
+
     Top.NotificationsCard {
         id: notifsCard
         Layout.fillWidth: true
@@ -60,5 +68,15 @@ ColumnLayout {
         compactMode: media.visible || battery.visible
         dndActive: buttons.dnd
         theme: root.theme
+    }
+
+    // The hub runs the full height of the screen: the power row sits at the
+    // bottom, whatever the cards above take
+    Item { Layout.fillHeight: true }
+
+    Top.PowerRowCard {
+        Layout.fillWidth: true
+        theme: root.theme
+        onCloseRequested: root.closeRequested()
     }
 }

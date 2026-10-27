@@ -43,11 +43,9 @@ PanelWindow {
             if (visible) {
                 root.forceActiveFocus()
 
-                // Instantly move panel off-screen before first render
-                panelTranslate.y = win.topAnchored ? -panel.height : panel.height
+                // Instantly move panel off-screen (past the right edge) before first render
+                panelTranslate.x = win.slideDistance
                 panel.opacity  = 0
-                panelScale.xScale = 0.97
-                panelScale.yScale = 0.97
                 layout.opacity = 0
 
                 enterAnim.start()
@@ -126,6 +124,9 @@ PanelWindow {
     readonly property bool topAnchored: Lib.Configuration.barStyle === "top"
     property int topGap: 8
     property int rightGap: 10
+    property int bottomGap: 10
+    // The panel runs the full height of the screen and slides in from the right
+    readonly property real slideDistance: win.panelW + win.rightGap + win.shadowSpread
     // How far the panel's drop shadow spreads past its edges
     readonly property int shadowSpread: 30
     readonly property string contentMode: win.wallpaperMode ? "wallpaper"
@@ -240,16 +241,7 @@ PanelWindow {
             y: panel.y - win.shadowSpread
 
             // mirror the panel's enter/exit transforms so the shadow moves with it
-            transform: [
-                Scale {
-                    xScale: panelScale.xScale
-                    yScale: panelScale.yScale
-                    origin.x: panelShadow.width / 2
-                    origin.y: win.topAnchored ? win.shadowSpread
-                                              : win.shadowSpread + panel.height
-                },
-                Translate { y: panelTranslate.y }
-            ]
+            transform: Translate { x: panelTranslate.x }
 
             Item {
                 x: win.shadowSpread
@@ -280,8 +272,8 @@ PanelWindow {
             id: panel
             width: win.panelW
             Behavior on width { NumberAnimation { duration: 240; easing.type: Easing.OutCubic } }
-            readonly property int maxH: Math.round(panel.parent.height - 20)
-            height: Math.min(Math.ceil(layout.implicitHeight + 24), maxH)
+            readonly property int maxH: Math.round(panel.parent.height - win.topGap - win.bottomGap)
+            height: maxH
             radius: win.topAnchored ? 24 : 12
             color: theme.bgMain
             border.width: win.topAnchored ? 1 : 0
@@ -289,43 +281,21 @@ PanelWindow {
             layer.enabled: enterAnim.running || exitAnim.running
 
             // ANIMATION TRANSFORMS
-            transform: [
-                Scale {
-                    id: panelScale
-                    xScale: 1; yScale: 1
-                    // Scale origin: bottom-centre -- panel grows up on enter, sinks on exit
-                    origin.x: panel.width / 2
-                    origin.y: win.topAnchored ? 0 : panel.height
-                },
-                Translate { id: panelTranslate }
-            ]
+            transform: Translate { id: panelTranslate }
 
-            // -- Enter: slide up + scale to full + panel fade, then content fades in--
+            // -- Enter: slide in from the right edge + fade, then content fades in --
             ParallelAnimation {
                 id: enterAnim
 
-                // Panel slides up from below
                 NumberAnimation {
-                    target: panelTranslate; property: "y"
-                    from: win.topAnchored ? -panel.height : panel.height; to: 0
-                    duration: 320; easing.type: Easing.OutCubic
+                    target: panelTranslate; property: "x"
+                    from: win.slideDistance; to: 0
+                    duration: 360; easing.type: Easing.OutCubic
                 }
-                // Panel fades in
                 NumberAnimation {
                     target: panel; property: "opacity"
                     from: 0; to: 1
-                    duration: 280; easing.type: Easing.OutCubic
-                }
-                // Panel scales up from 0.97 --> 1.0
-                NumberAnimation {
-                    target: panelScale; property: "xScale"
-                    from: 0.97; to: 1.0
-                    duration: 320; easing.type: Easing.OutCubic
-                }
-                NumberAnimation {
-                    target: panelScale; property: "yScale"
-                    from: 0.97; to: 1.0
-                    duration: 320; easing.type: Easing.OutCubic
+                    duration: 220; easing.type: Easing.OutCubic
                 }
                 // Content fades in after a short delay so it shows inside the panel
                 SequentialAnimation {
@@ -338,46 +308,34 @@ PanelWindow {
                 }
             }
 
-            // -- Exit: content disappears first, then panel sinks and fades --
+            // -- Exit: content fades first, then the panel slides back out to the right --
             ParallelAnimation {
                 id: exitAnim
                 onFinished: win.visible = false
 
-                // Content fades out quickly -- leaves a momentary empty shell
                 NumberAnimation {
                     target: layout; property: "opacity"
                     from: 1; to: 0
                     duration: 140; easing.type: Easing.OutCubic
                 }
-                // Panel nudges down slightly
                 NumberAnimation {
-                    target: panelTranslate; property: "y"
-                    from: 0; to: win.topAnchored ? -20 : 20
-                    duration: 260; easing.type: Easing.OutCubic
+                    target: panelTranslate; property: "x"
+                    from: 0; to: win.slideDistance
+                    duration: 300; easing.type: Easing.InCubic
                 }
-                // Panel fades out
-                NumberAnimation {
-                    target: panel; property: "opacity"
-                    from: 1; to: 0
-                    duration: 250; easing.type: Easing.OutCubic
-                }
-                // Panel shrinks slightly as it disappears
-                NumberAnimation {
-                    target: panelScale; property: "xScale"
-                    from: 1.0; to: 0.97
-                    duration: 260; easing.type: Easing.OutCubic
-                }
-                NumberAnimation {
-                    target: panelScale; property: "yScale"
-                    from: 1.0; to: 0.97
-                    duration: 260; easing.type: Easing.OutCubic
+                SequentialAnimation {
+                    PauseAnimation { duration: 180 }
+                    NumberAnimation {
+                        target: panel; property: "opacity"
+                        from: 1; to: 0
+                        duration: 120
+                    }
                 }
             }
 
             anchors.right: parent.right
             anchors.rightMargin: win.rightGap
-            y: win.topAnchored ? win.topGap
-                                : Math.max(0, parent.height - panel.height - 10)
+            y: win.topGap
 
             // block clicks inside panel from closing
             MouseArea {
@@ -425,6 +383,7 @@ PanelWindow {
                 Item {
                     id: contentArea
                     Layout.fillWidth: true
+                    Layout.fillHeight: true
                     readonly property real maxContentH: Math.max(160, panel.maxH - header.height - layout.spacing - 24)
                     // Height of whichever panel is showing
                     readonly property var activeLoader: ({
@@ -445,6 +404,7 @@ PanelWindow {
                     Loader {
                         id: cardsColumn
                         width: parent.width
+                        height: parent.height
                         active: Lib.Configuration.ready
                         sourceComponent: win.topAnchored ? topCards : taskCards
                         opacity: win.contentMode === "cards" ? 1 : 0
@@ -472,10 +432,23 @@ PanelWindow {
                         }
                     }
 
+                    // Scrolls when the cards outgrow the screen (a media card on a
+                    // 1080p display); otherwise TopCards' spacer keeps the power row
+                    // at the bottom
                     Component {
                         id: topCards
-                        TopCards {
+                        Flickable {
+                            id: cardsFlick
+                            property alias notifs: topCardsItem.notifs
                             width: cardsColumn.width
+                            height: cardsColumn.height
+                            contentHeight: topCardsItem.height
+                            boundsBehavior: Flickable.StopAtBounds
+                            clip: true
+                        TopCards {
+                            id: topCardsItem
+                            width: cardsFlick.width
+                            height: Math.max(cardsFlick.height, implicitHeight)
                             theme: win.hubTheme
                             hubVisible: win.visible
                             batteryActive: win.batteryCardActive
@@ -484,6 +457,8 @@ PanelWindow {
                             onBatteryDismissed: win.batteryCardActive = false
                             onWifiRequested: win.showWifi()
                             onBluetoothRequested: win.showBluetooth()
+                            onThemesRequested: { win.clearPanels(); win.settingsPanelOpen = true }
+                        }
                         }
                     }
 

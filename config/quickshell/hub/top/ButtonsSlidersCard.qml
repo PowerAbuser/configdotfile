@@ -10,6 +10,7 @@ Lib.TopCard {
   signal batteryToggleRequested()
   signal wifiRequested()
   signal bluetoothRequested()
+  signal themesRequested()
   property bool active: true
 
   property bool autoMode: false  // no auto-cpufreq here: show the live governor
@@ -167,7 +168,39 @@ Lib.TopCard {
     det("dunstctl set-paused " + (next ? "true" : "false"))
   }
 
-  // --- UI ---
+  // --- NIGHT LIGHT / AIRPLANE (after dhrruvsharma/shell's control center) ---
+  readonly property string nightLightScript:
+    Qt.resolvedUrl("../../utils/night-light.sh").toString().replace("file://", "")
+  property bool nightLight: false
+  Lib.CommandPoll {
+    id: nlPoll
+    running: root.active && root.visible
+    interval: 3000
+    command: sh("cat ~/.cache/quickshell/night_light 2>/dev/null || echo off")
+    parse: function(o) { return String(o).trim() === "on" }
+    onUpdated: root.nightLight = value
+  }
+  function toggleNightLight() {
+    root.nightLight = !root.nightLight
+    det("'" + root.nightLightScript + "' " + (root.nightLight ? "on" : "off"))
+  }
+
+  // Airplane: every radio soft-blocked (/dev/rfkill has a user ACL)
+  property bool airplane: false
+  Lib.CommandPoll {
+    id: airPoll
+    running: root.active && root.visible
+    interval: 3000
+    command: sh("rfkill -n -o SOFT | grep -qv '^blocked$' && echo false || echo true")
+    parse: function(o) { return String(o).trim() === "true" }
+    onUpdated: root.airplane = value
+  }
+  function toggleAirplane() {
+    root.airplane = !root.airplane
+    det("rfkill " + (root.airplane ? "block" : "unblock") + " all")
+  }
+
+// --- UI ---
   ColumnLayout {
     spacing: 12
     width: parent.width
@@ -215,6 +248,45 @@ Lib.TopCard {
         label: root.dnd ? "Silent" : "Notify"
         active: root.dnd
         onClicked: toggleDnd()
+      }
+    }
+
+    RowLayout {
+      spacing: 12
+      Layout.fillWidth: true
+
+      Lib.ExpressiveButton {
+        theme: root.theme
+        cornerRadius: 17
+        icon: root.nightLight ? "nl_on.svg" : "nl_off.svg"
+        label: "Night"
+        active: root.nightLight
+        onClicked: root.toggleNightLight()
+      }
+
+      Lib.ExpressiveButton {
+        theme: root.theme
+        cornerRadius: 17
+        icon: "airplane.svg"
+        label: root.airplane ? "Airplane" : "Radios"
+        active: root.airplane
+        onClicked: root.toggleAirplane()
+      }
+
+      Lib.ExpressiveButton {
+        theme: root.theme
+        cornerRadius: 17
+        icon: (root.theme && !root.theme.isDarkMode) ? "lightmode.svg" : "darkmode.svg"
+        label: (root.theme && !root.theme.isDarkMode) ? "Light" : "Dark"
+        onClicked: if (root.theme) root.theme.toggle()
+      }
+
+      Lib.ExpressiveButton {
+        theme: root.theme
+        cornerRadius: 17
+        icon: "palette.svg"
+        label: "Themes"
+        onClicked: root.themesRequested()
       }
     }
 
