@@ -535,117 +535,9 @@ Item {
                 }
             }
 
-            //  3. LAYOUT & TASKBAR
+            //  5. PROFILE
             SCard {
-                id: layoutCard
-                label: "Layout & Taskbar"
-                Layout.fillWidth: true; Layout.fillHeight: true
-                // everything below the Layout row only exists in the taskbar layout
-                readonly property bool taskMode: Lib.Configuration.barStyle !== "top"
-
-                RowLayout {
-                    Layout.fillWidth: true
-                    spacing: 8
-                    SLabel { text: "Layout" }
-                    Item { Layout.fillWidth: true }
-                    SBtn { label: "Taskbar"; accent: Lib.Configuration.barStyle !== "top"
-                        onTriggered: { Lib.Configuration.barStyle = "task"; Lib.Configuration.save() }
-                    }
-                    SBtn { label: "Top bar"; accent: Lib.Configuration.barStyle === "top"
-                        onTriggered: { Lib.Configuration.barStyle = "top"; Lib.Configuration.save() }
-                    }
-                }
-                Text {
-                    visible: !layoutCard.taskMode
-                    text: "The options below only apply to the Taskbar layout."
-                    font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 12
-                    color: root.theme ? root.theme.textSecondary : "#888"; opacity: 0.7
-                    Layout.fillWidth: true; wrapMode: Text.WordWrap
-                }
-                SDivider {}
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    spacing: 8
-                    enabled: layoutCard.taskMode
-                    opacity: enabled ? 1.0 : 0.4
-
-                    SToggle { label: "Always dock mode"; checked: Lib.Configuration.taskbarForceDockMode
-                        onToggled: (v)=>{Lib.Configuration.taskbarForceDockMode=v; Lib.Configuration.save()} }
-                    SToggle { label: "Always workspace mode"; checked: Lib.Configuration.taskbarForceWorkspaceMode
-                        onToggled: (v)=>{Lib.Configuration.taskbarForceWorkspaceMode=v; Lib.Configuration.save()} }
-                    SDivider {}
-                    RowLayout {
-                        Layout.fillWidth: true
-                        SLabel { text: "Excl. zone" }
-                        Item { Layout.fillWidth: true }
-                        Text { text: Lib.Configuration.taskbarExclusiveZone+" px"
-                            font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 15
-                            color: root.theme ? root.theme.textSecondary : "#888" }
-                    }
-                    SSlider { from: 30; to: 80; value: Lib.Configuration.taskbarExclusiveZone
-                        onMoved: (v)=>{Lib.Configuration.taskbarExclusiveZone=v; Lib.Configuration.save()} }
-                    SDivider {}
-                    SToggle { label: "Custom taskbar BG"; checked: Lib.Configuration.taskbarCustomBg
-                        onToggled: (v)=>{ Lib.Configuration.taskbarCustomBg=v; Lib.Configuration.save() }
-                    }
-                    CPicker { label: "Taskbar BG"
-                        currentHex: String(Lib.Configuration.taskbarCustomBgColor)
-                        onPicked: (hex)=>{ Lib.Configuration.taskbarCustomBgColor=hex; Lib.Configuration.save() }
-                    }
-                }
-            }
-
-            //  4. SCREEN BORDERS 
-            SCard {
-                label: "Screen Borders"
-                Layout.fillWidth: true; Layout.fillHeight: true
-
-                Text {
-                    visible: !layoutCard.taskMode
-                    text: "Screen borders are only drawn in the Taskbar layout."
-                    font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 12
-                    color: root.theme ? root.theme.textSecondary : "#888"; opacity: 0.7
-                    Layout.fillWidth: true; wrapMode: Text.WordWrap
-                }
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    spacing: 8
-                    enabled: layoutCard.taskMode
-                    opacity: enabled ? 1.0 : 0.4
-
-                    SToggle { label: "Enabled"; checked: Lib.Configuration.bordersEnabled
-                        onToggled: (v)=>{
-                            Lib.Configuration.bordersEnabled=v; Lib.Configuration.save()
-                            if (v) root.toastRequested("adjust gaps_out in your hypr config")
-                        }
-                    }
-                    SToggle { label: "Always visible"; checked: Lib.Configuration.bordersForceVisible
-                        onToggled: (v)=>{ Lib.Configuration.bordersForceVisible=v; Lib.Configuration.save()
-                            if (v) root.toastRequested("adjust gaps_out in your hypr config") } }
-                    SDivider {}
-                    RowLayout {
-                        Layout.fillWidth: true
-                        SLabel { text: "Thickness" }
-                        Item { Layout.fillWidth: true }
-                        Text { text: Lib.Configuration.borderThickness+" px"
-                            font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 15
-                            color: root.theme ? root.theme.textSecondary : "#888" }
-                    }
-                    SSlider { from: 1; to: 20; value: Lib.Configuration.borderThickness
-                        onMoved: (v)=>{ Lib.Configuration.borderThickness=v; Lib.Configuration.save(); root.toastRequested("adjust gaps_out in your hypr config") } }
-                    SDivider {}
-                    SToggle { label: "Custom border color"; checked: Lib.Configuration.borderUseCustomColor
-                        onToggled: (v)=>{Lib.Configuration.borderUseCustomColor=v; Lib.Configuration.save()} }
-                    CPicker { label: "Border color"
-                        currentHex: String(Lib.Configuration.borderFrameColor)
-                        onPicked: (hex)=>{Lib.Configuration.borderFrameColor=hex; Lib.Configuration.save()}
-                    }
-                }
-            }
-
-            //  5. PROFILE & EVENTS
-            SCard {
-                label: "Profile & Events"
+                label: "Profile"
                 Layout.columnSpan: 2; Layout.fillWidth: true
 
                 RowLayout {
@@ -691,17 +583,6 @@ Item {
                                 text: Lib.Configuration.profileImageOverride
                                 onEditingFinished: { Lib.Configuration.profileImageOverride=text; Lib.Configuration.save() }
                             }
-                        }
-                    }
-                    ColumnLayout {
-                        spacing: 4
-                        // only the Taskbar layout's hub has the Events card
-                        enabled: layoutCard.taskMode
-                        opacity: enabled ? 1.0 : 0.4
-                        Text { text: "Events"; font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 14
-                            color: root.theme ? root.theme.textSecondary : "#888"; Layout.alignment: Qt.AlignHCenter }
-                        SStepper { min: 1; max: 10; value: Lib.Configuration.maxEvents
-                            onStepped: (v)=>{ Lib.Configuration.maxEvents=v; Lib.Configuration.save() }
                         }
                     }
                 }
