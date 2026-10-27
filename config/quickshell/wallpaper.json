@@ -1,0 +1,9 @@
+{
+  "mode": "cover",
+  "gravity": "center",
+  "fill": "auto",
+  "filter": "Lanczos3",
+  "transition": "grow",
+  "duration": 1,
+  "tileScale": 100
+}

@@ -1,6 +1,4 @@
 import QtQuick
-import "../desktoptheme"
-
 // A Material Symbols icon, named by its ligature ("lock", "favorite", ...).
 // `filled` switches the font's FILL axis, so one glyph serves as both the
 // outlined and the solid form (e.g. full vs. lost hearts).

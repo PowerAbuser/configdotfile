@@ -354,6 +354,39 @@ Item {
                     font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 11
                     color: root.theme ? root.theme.textSecondary : "#888"
                 }
+
+                SDivider {}
+                SLabel { text: "Desktop widgets (drag them into place)" }
+                GridLayout {
+                    Layout.fillWidth: true
+                    columns: 3; columnSpacing: 12; rowSpacing: 0
+                    Repeater {
+                        model: DT.DesktopWidgets.widgets
+                        SToggle {
+                            required property var modelData
+                            label: modelData.name
+                            checked: DT.DesktopWidgets.enabled(modelData.id)
+                            onToggled: (v) => DT.DesktopWidgets.setEnabled(modelData.id, v)
+                        }
+                    }
+                }
+                Flow {
+                    Layout.fillWidth: true
+                    spacing: 6
+                    SLabel { text: "On"; Layout.fillWidth: false; width: implicitWidth + 4 }
+                    Repeater {
+                        model: Quickshell.screens
+                        SBtn {
+                            required property var modelData
+                            required property int index
+                            label: modelData.name
+                            accent: DT.DesktopWidgets.screenName === modelData.name
+                                || (DT.DesktopWidgets.screenName === "" && index === 0)
+                            onTriggered: DT.DesktopWidgets.setScreen(modelData.name)
+                        }
+                    }
+                    SBtn { label: "Reset positions"; onTriggered: DT.DesktopWidgets.resetPositions() }
+                }
             }
 
             //  1e. WALLPAPER: how it's drawn (utils/wallpaper-show.sh reads wallpaper.json)

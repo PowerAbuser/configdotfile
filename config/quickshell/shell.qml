@@ -14,6 +14,9 @@ import "desktoptheme" as DesktopThemes
 import "wallpicker" as WallPicker
 
 ShellRoot {
+    // Desktop widgets: clock, media, system (desktoptheme/DesktopWidgetsLayer)
+    DesktopThemes.DesktopWidgetsLayer {}
+
     Variants {
         model: Quickshell.screens
         Scope {
