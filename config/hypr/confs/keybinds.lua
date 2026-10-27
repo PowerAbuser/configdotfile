@@ -220,6 +220,7 @@ bind(mod .. " + mouse:273", hl.dsp.window.resize(), MOUSE)
 -- PYPRLAND
 --------------------------------------------------------------------
 bind(mod .. " + A",         exec(pypr .. " toggle term"))            -- toggle the "term" scratchpad
+bind(mod .. " + O",         exec(pypr .. " toggle music"))           -- toggle the Spotify scratchpad
 bind(mod .. " + SHIFT + B", exec(pypr .. " expose"))                 -- expose every window, or jump to the focused one
 -- These used `pypr change_workspace`, provided by pyprland's
 -- workspaces_follow_focus plugin. That plugin was removed on 2026-08-19
