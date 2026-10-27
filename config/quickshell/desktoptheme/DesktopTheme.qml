@@ -723,6 +723,36 @@ Singleton {
             _revert();
         _writeRofi();
         _writeDunst();
+        _writeLock();
+    }
+
+    // The theme for hyprlock: its id, fonts, accents and corners to
+    // ~/.cache/quickshell/lock-theme.json, then utils/hyprlock-theme.sh
+    // writes a lock screen after the theme's own (or, off, points
+    // hyprlock.conf back at the previous one). Unlocking stays hyprlock's.
+    readonly property string lockSpecPath: Quickshell.env("HOME") + "/.cache/quickshell/lock-theme.json"
+    property string _lockWritten: ""
+
+    function _writeLock() {
+        const spec = enabled ? {
+            id: adapter.theme,
+            name: current.name,
+            ui: font || "Inter",
+            display: look.font || font || "Inter",
+            accent: _hexA(accent),
+            accent2: _hexA(accent2),
+            ink: _hexA(Colors.on_surface),
+            dim: _hexA(Colors.on_surface_variant),
+            base: _hexA(Colors.surface_container_lowest),
+            error: _hexA(Colors.error),
+            radius: rad(8)
+        } : { id: "" };
+        const text = JSON.stringify(spec, null, 2) + "\n";
+        if (text === root._lockWritten)
+            return;
+        root._lockWritten = text;
+        lockSpecFile.setText(text);
+        lockGen.restart();
     }
 
     // The theme for dunst (notifications): its type, corners, frame and
@@ -902,6 +932,20 @@ Singleton {
                     console.warn("desktop theme:", root.lastError);
             }
         }
+    }
+
+    FileView {
+        id: lockSpecFile
+        path: root.lockSpecPath
+        printErrors: false
+        preload: true
+        onLoaded: root._lockWritten = text()
+    }
+
+    Timer {
+        id: lockGen
+        interval: 300
+        onTriggered: Quickshell.execDetached([Quickshell.shellPath("utils/hyprlock-theme.sh")])
     }
 
     FileView {
