@@ -4,6 +4,7 @@
 #   .cache/.wallpaper             (its name, for wallcache.sh)
 #   wallcache.sh                  (thumb / blur / quad caches)
 # Shared by the hub's Wallpapers panel, WallpaperSelect.sh and Wallpaper.sh.
+#   matugen-apply.sh           (colour scheme from it)
 # usage: set-current-wallpaper.sh <image>
 
 img="$1"
@@ -17,3 +18,6 @@ name="$(basename "$img")"
 echo "${name%.*}" >"$cacheDir/.wallpaper"
 
 "$HOME/.config/hypr/scripts/wallcache.sh"
+
+# Colour scheme from the new wallpaper (backgrounded: matugen takes ~1 s)
+setsid "$HOME/.config/quickshell/utils/matugen-apply.sh" "$img" >/dev/null 2>&1 &

@@ -1,0 +1,42 @@
+# Wallpaper -> colour scheme. Run by ~/.config/quickshell/utils/matugen-apply.sh,
+# which picks the mode (the hub's dark/light) and the scheme kind / contrast
+# (the hub's Settings > Colour, ~/.config/quickshell/palette.json).
+# Templates ported from github.com/dhrruvsharma/shell (GPL-3.0-or-later).
+
+[config]
+
+# Semantic colours (terminal ANSI, warnings), nudged toward the wallpaper
+[config.custom_colors]
+red     = { color = "#f38ba8", blend = true }
+green   = { color = "#a6e3a1", blend = true }
+yellow  = { color = "#f9e2af", blend = true }
+blue    = { color = "#89b4fa", blend = true }
+magenta = { color = "#cba6f7", blend = true }
+cyan    = { color = "#94e2d5", blend = true }
+orange  = { color = "#fab387", blend = true }
+
+[templates.quickshell]
+input_path  = "~/.config/matugen/templates/quickshell.json"
+output_path = "~/.config/quickshell/colors/Colors.json"
+
+[templates.hyprland]
+input_path  = "~/.config/matugen/templates/hyprland.lua"
+output_path = "~/.config/hypr/confs/matugen_colors.lua"
+post_hook   = "hyprctl reload >/dev/null 2>&1 || true"
+
+[templates.kitty]
+input_path  = "~/.config/matugen/templates/kitty.conf"
+output_path = "~/.config/kitty/colors/matugen.conf"
+post_hook   = "kill -SIGUSR1 $(pidof kitty) 2>/dev/null || true"
+
+[templates.rofi]
+input_path  = "~/.config/matugen/templates/rofi-colors.rasi"
+output_path = "~/.config/rofi/colors/Matugen.rasi"
+
+[templates.rofi_palette]
+input_path  = "~/.config/matugen/templates/rofi-palette.rasi"
+output_path = "~/.config/rofi/colors/matugen-palette.rasi"
+
+[templates.dunst]
+input_path  = "~/.config/matugen/templates/dunstrc"
+output_path = "~/.config/dunst/dunstrc_matugen"

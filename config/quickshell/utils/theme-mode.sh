@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 # =============================================================================
-# GLOBAL THEME SWITCHER (Catppuccin: dark = Mocha, light = Latte)
+# GLOBAL THEME SWITCHER (dark / light)
 # =============================================================================
 # Called by the hub (d / l) through lib/ThemeState.qml. Switches:
 # - the shell itself (via the state file it watches)
@@ -9,7 +9,8 @@ set -e
 #   the same state file)
 # - GTK 3/4, icons, cursor
 # - Qt (Kvantum)
-# - Dunst, Kitty, Rofi
+# - Dunst, Kitty, Rofi, borders: wallpaper colours via matugen-apply.sh,
+#   Catppuccin when matugen is unavailable
 # Wallpapers are left alone unless ~/.config/surface-dots/wallpapers.conf
 # sets WALLPAPER_DARK / WALLPAPER_LIGHT.
 # =============================================================================
@@ -166,8 +167,6 @@ apply_theme() {
     echo "$mode" > "${HOME}/.cache/quickshell/theme_osd"
   fi
 
-  update_dunst "$dunst_conf"
-
   # GTK 3
   ensure_gtk3_ini
   update_ini_key "$GTK3_SETTINGS" "gtk-theme-name" "$theme_gtk"
@@ -207,8 +206,13 @@ apply_theme() {
         --transition-duration 1.2
   fi
 
-  update_kitty "$kitty_conf"
-  update_rofi "$rofi_conf"
+  # Kitty, Rofi, Dunst and the borders take the wallpaper's colours in the new
+  # mode; the Catppuccin files are the fallback when matugen can't run
+  if ! "$HOME/.config/quickshell/utils/matugen-apply.sh"; then
+    update_dunst "$dunst_conf"
+    update_kitty "$kitty_conf"
+    update_rofi "$rofi_conf"
+  fi
 }
 # SCRIPT EXECUTION
 if [ "$1" == "light" ]; then

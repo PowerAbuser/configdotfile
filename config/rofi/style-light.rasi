@@ -48,6 +48,8 @@ configuration {
     active:                      #7287fdff;
     urgent:                      #f38ba8;
 }
+@import "~/.config/rofi/colors/matugen-palette.rasi"
+
 
 /*****----- Main Window -----*****/
 window {
@@ -77,7 +79,7 @@ mainbox {
     
     border:                      1px;
     border-radius:               10px;
-    border-color:                #ccd0da; 
+    border-color:                @active-alt;
 }
 
 listbox {
@@ -103,7 +105,7 @@ textbox-prompt-colon {
     enabled: true;
     expand: false;
     str: "";
-    background-color: #e6e9efa1;
+    background-color: @background-alt;
     text-color: @foreground;
 
     /* the left side of the pill (not a circle) */
@@ -115,7 +117,7 @@ entry {
     enabled: true;
     expand: true;
 
-    background-color: #e6e9efa1;
+    background-color: @background-alt;
     text-color: @foreground;
 
     /* right side of the pill */
@@ -123,7 +125,7 @@ entry {
     padding: 7px 13px;
 
     placeholder: "Search";
-    placeholder-color: #6c6f85aa;
+    placeholder-color: @placeholder;
 }
 
 /*****----- Mode Switcher -----*****/
@@ -146,8 +148,8 @@ button {
 }
 
 button selected {
-    background-image:            linear-gradient(to right, #7287fd, #1e66f5ff);
-    text-color:                  #ffffff; 
+    background-image:            @grad-selected;
+    text-color:                  @on-selected;
     border:                      0px;
 }
 
@@ -191,25 +193,25 @@ element normal.active {
 }
 element normal.urgent {
     background-color:            @urgent;
-    text-color:                  #ffffff;
+    text-color:                  @on-urgent;
 }
 
 /* --- Selected --- */
 element selected.normal {
-    background-image:            linear-gradient(to right,  #7287fdd8, #1e66f5d1);
+    background-image:            @grad-selected;
     border:                      1px;
-    border-color:                #7287fd;
-    text-color:                  #1e1e2e;
+    border-color:                @selected;
+    text-color:                  @foreground;
 }
 element selected.active {
-    background-image:            linear-gradient(to right, #e6e9ef, #dce0e8);
+    background-image:            @grad-alt;
     border:                      1px;
-    border-color:                #7287fd;
-    text-color:                  #1e1e2e;
+    border-color:                @selected;
+    text-color:                  @foreground;
 }
 element selected.urgent {
     background-color:            @urgent;
-    text-color:                  #ffffff;
+    text-color:                  @on-urgent;
 }
 
 element-icon {

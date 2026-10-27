@@ -1,5 +1,6 @@
 --------------------------------------------------------------------
--- THEME: Catppuccin (Mocha when dark, Latte when light)
+-- THEME: border colours from the wallpaper (matugen), Catppuccin
+-- (Mocha when dark, Latte when light) as the fallback and for GTK/icons
 --------------------------------------------------------------------
 -- Formerly a symlink into confs/themes/; Catppuccin is now the only theme.
 -- Dark/light follows the quickshell hub (see confs/theme_mode.lua), and
@@ -22,4 +23,15 @@ local palettes = {
     },
 }
 
-return require("confs.decoration_common").apply(palettes[require("confs.theme_mode")()])
+local theme = palettes[require("confs.theme_mode")()]
+
+-- Borders follow the wallpaper when matugen has run (quickshell/utils/
+-- matugen-apply.sh writes matugen_colors.lua); Catppuccin otherwise. dofile
+-- rather than require, so a reload never serves a cached palette.
+local ok, wall = pcall(dofile, os.getenv("HOME") .. "/.config/hypr/confs/matugen_colors.lua")
+if ok and type(wall) == "table" then
+    theme.active   = wall.active   or theme.active
+    theme.inactive = wall.inactive or theme.inactive
+end
+
+return require("confs.decoration_common").apply(theme)

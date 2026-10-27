@@ -49,6 +49,8 @@ configuration {
     active:                      #45475a;
     urgent:                      #fab387;
 }
+@import "~/.config/rofi/colors/matugen-palette.rasi"
+
 
 /*****----- Main Window -----*****/
 window {
@@ -80,7 +82,7 @@ mainbox {
     /* Outer Border*/
     border:                      1px;
     border-radius:               10px;
-    border-color:                #b4befe70;
+    border-color:                @selected-soft;
 }
 
 listbox {
@@ -145,8 +147,8 @@ button {
 }
 
 button selected {
-    background-image:            linear-gradient(to right, #b4befe, #cdd6f4);
-    text-color:                  #1e1e2e;
+    background-image:            @grad-selected;
+    text-color:                  @on-selected;
     border:                      0px;
 }
 
@@ -197,16 +199,16 @@ element normal.urgent {
 
 /* --- Selected --- */
 element selected.normal {
-    background-image:            linear-gradient(to right, #45475a, #585b70);
+    background-image:            @grad-alt;
     border:                      1px;
-    border-color:                #b4befe;
-    text-color:                  #cdd6f4;
+    border-color:                @selected;
+    text-color:                  @foreground;
 }
 element selected.active {
-    background-image:            linear-gradient(to right, #45475a, #585b70);
+    background-image:            @grad-alt;
     border:                      1px;
-    border-color:                #b4befe;
-    text-color:                  #cdd6f4;
+    border-color:                @selected;
+    text-color:                  @foreground;
 }
 element selected.urgent {
     background-color:            @urgent;
