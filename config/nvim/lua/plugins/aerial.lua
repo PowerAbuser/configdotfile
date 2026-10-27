@@ -2,7 +2,7 @@ return {
   "stevearc/aerial.nvim",
   event = "LazyFile",
   opts = function(_, opts)
-    opts.manage_folds = true
+    opts.manage_folds = false
     opts.link_tree_to_values = true
 
     -- 3. Optimization: Prefer Treesitter if LSP is flattening things
