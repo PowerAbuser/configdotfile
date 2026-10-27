@@ -1,0 +1,14 @@
+customCommands:
+  - key: "<c-a>" # Binds to Ctrl + A
+    context: "files"
+    command: >
+      bash -c '
+        msg=$(git diff --cached | claude -p "Write a concise conventional commit message for this diff. Output ONLY the commit message, nothing else." --model haiku )
+        git commit -m "$msg"
+      '
+    description: "Commit with Claude-generated message"
+  - key: "<c-g>"
+    context: "files"
+    description: "Generate commit message with Claude Code"
+    command: "git diff --cached | claude -p 'Generate a concise git commit message for these staged changes. Output ONLY the raw commit message with no markdown, no code blocks, no backticks. Use conventional commit format.' --model haiku --output-format text > /tmp/commit_msg && vim /tmp/commit_msg && git commit -F /tmp/commit_msg"
+    output: terminal

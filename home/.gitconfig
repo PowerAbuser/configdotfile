@@ -1,0 +1,22 @@
+
+# This is Git's per-user configuration file.
+[user]
+name = Nazir Maman
+email = nazir.maman@alias2k.com
+[core]
+autocrlf = input
+[pull]
+	rebase = true
+[diff]
+	tool = nvimdiff
+[rerere]
+	enabled = true
+	autoUpdate = true
+[merge]
+	conflictStyle = zdiff3
+[fetch]
+	prune = true
+[push]
+	useForceIfIncludes = true
+[rebase]
+  autoStash = true

@@ -3,7 +3,7 @@
   "gravity": "center",
   "fill": "auto",
   "filter": "Lanczos3",
-  "transition": "grow",
-  "duration": 1,
+  "transition": "random",
+  "duration": 0.7,
   "tileScale": 100
 }

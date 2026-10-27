@@ -1,4 +1,10 @@
 {
-  "shadow": false,
-  "dim_inactive": false
+  "shadow": true,
+  "dim_inactive": false,
+  "gaps_out": 2,
+  "shadow_range": 2,
+  "border_size": 1,
+  "gaps_in": 3,
+  "blur_size": 5,
+  "rounding": 0
 }

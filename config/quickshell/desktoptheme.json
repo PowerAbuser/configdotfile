@@ -2,6 +2,6 @@
     "appliedTheme": "hud",
     "lastTheme": "hud",
     "matchLock": true,
-    "screenEffect": "subtle",
+    "screenEffect": "off",
     "theme": "hud"
 }

@@ -1,0 +1,13 @@
+%YAML 1.3
+---
+- Rule:
+  - MouseGesture: Mouse Left
+  - KeyPress:
+    - [Super_L, Alt_L, h]
+    - click
+- Rule:
+  - MouseGesture: Mouse Right
+  - KeyPress:
+    - [Super_L, Alt_L, l]
+    - click
+...
