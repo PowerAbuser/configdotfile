@@ -56,7 +56,10 @@ ShellRoot {
                 id: topBarComponent
                 Bars.TopBar {
                     screen: v.modelData
+                    hubOpen: hubWindow.visible
                     onRequestHubToggle: v.toggleHub()
+                    onRequestWifi: { hubWindow.showWifi(); hubWindow.visible = true }
+                    onRequestBluetooth: { hubWindow.showBluetooth(); hubWindow.visible = true }
                 }
             }
 

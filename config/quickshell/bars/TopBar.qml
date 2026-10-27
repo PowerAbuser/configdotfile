@@ -5,15 +5,20 @@ import Qt5Compat.GraphicalEffects
 import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
-import Quickshell.Services.SystemTray
 import Quickshell.Services.Mpris
 import Quickshell.Hyprland
 
 import "../lib" as Lib
+import "../desktoptheme" as DT
 
 PanelWindow {
     id: win
     signal requestHubToggle()
+    // The network and Bluetooth pills open those panels in the hub
+    signal requestWifi()
+    signal requestBluetooth()
+    // Set by shell.qml: tints the clock while the hub is open
+    property bool hubOpen: false
 
     anchors { top: true; left: true; right: true }
     // The bar is laid out for a dense panel; on 1080p-class screens it is
@@ -270,7 +275,13 @@ PanelWindow {
         return ""
     }
 // ------------------ THE BAR ---------------------------------------------------------------------------------
-    Rectangle {
+    // Every item is a BarPill (from dhrruvsharma/shell), so a desktop theme
+    // reshapes and re-types the whole bar: HUD chamfers, Neon cut corners,
+    // Art Deco steps, Siege battlements... (desktoptheme/BarPill.qml).
+    //   left:   workspaces · CPU + memory · battery
+    //   centre: their media pill (while something plays)
+    //   right:  Bluetooth · network · volume · clock (the hub's button)
+    Item {
         id: barRect
         // full-size geometry, scaled by win.barScale (see top of file)
         x: 12
@@ -279,389 +290,216 @@ PanelWindow {
         height: 32
         transformOrigin: Item.TopLeft
         scale: win.barScale
-        color: "transparent"
 
-        RowLayout {
-            anchors.fill: parent
-            spacing: 10
 // LEFT----------------------------------------------------------------------------------------------------------
+        Row {
+            id: leftRow
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
+            spacing: 8
 
-            // 7. LAUNCHER
-            Item {
-                Layout.preferredWidth: 36
-                Layout.preferredHeight: 36
-                Layout.alignment: Qt.AlignVCenter
-                scale: launchPress.pressed ? 0.94 : 1.0
-                Behavior on scale { NumberAnimation { duration: 220; easing.type: Easing.OutBack; easing.overshoot: 1.08 } }
-                HoverHandler { id: hoverLaunch }
-                
-                Rectangle {
-                    anchors.fill: parent
-                    radius: height / 2
-                    color: Qt.rgba(launchIcon.color.r, launchIcon.color.g, launchIcon.color.b, 1)
-                    opacity: launchPress.pressed ? 0.10 : (hoverLaunch.hovered ? 0.08 : 0.0)
-                    Behavior on opacity { NumberAnimation { duration: 120; easing.type: Easing.OutCubic } }
-                }
+                // 8. WORKSPACES (yours), on a theme-shaped pill
+                DT.BarPill {
+                    id: wsContainer
+                    text: ""
+                    interactive: false
+                    implicitWidth: wsRow.width + 22
+                    clip: true
+                    property int hoveredId: 0
+                    property var hoveredItem: win.wsItem(hoveredId)
+                    property int pressedId: 0
+                    property var pressedItem: win.wsItem(pressedId)
 
-                Item {
-                    id: launchIcon
-                    anchors.centerIn: parent
-                    width: 22; height: 22
-                    property color color: {
-                        return theme.accentBlue
-                    }
-
-                    Image { 
-                        id: lImg
-                        source: "../lib/ubuntu.svg"
-                        visible: false
-                        anchors.fill: parent
-                        fillMode: Image.PreserveAspectFit
-                        // Rasterize at 2x (44px) relative to container (22px)
-                        sourceSize: Qt.size(44, 44)
-                        smooth: false
-                    }
-                    ColorOverlay {
-                        anchors.fill: parent
-                        source: lImg
-                        color: parent.color
-                        cached: true
-                        antialiasing: true
-                    }
-                    rotation: hoverLaunch.hovered ? -14 : 0
-                    scale: hoverLaunch.hovered ? 1.20 : 1.0
-                    y: hoverLaunch.hovered ? -2 : 0
-                    Behavior on rotation { NumberAnimation { duration: 240; easing.type: Easing.OutBack; easing.overshoot: 1.08 } }
-                    Behavior on scale { NumberAnimation { duration: 220; easing.type: Easing.OutBack; easing.overshoot: 1.08 } }
-                    Behavior on y { NumberAnimation { duration: 240; easing.type: Easing.OutCubic } }
-                    Behavior on color { ColorAnimation { duration: 160 } }
-                }
-                MouseArea {
-                    id: launchPress
-                    anchors.fill: parent
-                    hoverEnabled: true; acceptedButtons: Qt.LeftButton | Qt.RightButton
-                    onClicked: (mouse) => {
-                        if (mouse.button === Qt.LeftButton) win.det("pkill -x rofi || " + (win.isDarkMode ? "~/.config/rofi/launcher.sh" : "~/.config/rofi/launcher_2.sh"))
-                        else if (mouse.button === Qt.RightButton) theme.toggle()
-                    }
-                }
-            }
-
-            // 8. WORKSPACES
-            Rectangle {
-                id: wsContainer
-                Layout.preferredHeight: 34
-                Layout.preferredWidth: wsRow.width + 22
-                Layout.alignment: Qt.AlignVCenter
-                radius: 17
-                color: pal.bg
-                clip: true
-                property int hoveredId: 0
-                property var hoveredItem: win.wsItem(hoveredId)
-                property int pressedId: 0
-                property var pressedItem: win.wsItem(pressedId)
-
-                // ACTIVE PILL
-                Rectangle {
-                    id: activePill
-                    property int currentId: win.activeWsId
-                    property var targetItem: win.wsItem(currentId)
-                    x: targetItem ? (wsRow.x + targetItem.x) : 0
-                    width: targetItem ? targetItem.width : 0
-                    height: 22
-                    anchors.verticalCenter: parent.verticalCenter
-                    radius: 13
-                    color: pal.activePill
-                    Behavior on x { NumberAnimation { duration: 260; easing.type: Easing.OutCubic } }
-                    Behavior on width { NumberAnimation { duration: 240; easing.type: Easing.OutCubic } }
-                }
-
-                // HOVER PILL
-                Item {
-                    id: hoverPillLayer
-                    anchors.fill: parent
-                    visible: wsContainer.hoveredId > 0 && wsContainer.hoveredId !== win.activeWsId
-                    opacity: visible ? 1 : 0
-                    Behavior on opacity { NumberAnimation { duration: 140; easing.type: Easing.OutCubic } }
+                    // ACTIVE PILL
                     Rectangle {
-                        property var t: wsContainer.hoveredItem
-                        x: t ? (wsRow.x + t.x) : 0; width: t ? t.width : 0; height: 25
-                        anchors.verticalCenter: parent.verticalCenter; radius: 13
-                        gradient: Gradient {
-                            GradientStop { position: 0.0; color: pal.hoverPillG0 }
-                            GradientStop { position: 0.45; color: pal.hoverPillG1 }
-                            GradientStop { position: 1.0; color: pal.hoverPillG2 }
-                        }
-                        Behavior on x { NumberAnimation { duration: 260; easing.type: Easing.OutBack; easing.overshoot: 1.10 } }
-                        Behavior on width { NumberAnimation { duration: 240; easing.type: Easing.OutBack; easing.overshoot: 1.08 } }
-                    }
-                }
-
-                Item {
-                    id: pressPillLayer
-                    anchors.fill: parent
-                    visible: wsContainer.pressedId > 0
-                    opacity: visible ? 1 : 0
-                    Behavior on opacity { NumberAnimation { duration: 90; easing.type: Easing.OutCubic } }
-
-                    Rectangle {
-                        property var t: wsContainer.pressedItem
-                        x: t ? (wsRow.x + t.x) : 0
-                        width: t ? t.width : 0
-                        height: 25
+                        id: activePill
+                        property int currentId: win.activeWsId
+                        property var targetItem: win.wsItem(currentId)
+                        x: targetItem ? (wsRow.x + targetItem.x) : 0
+                        width: targetItem ? targetItem.width : 0
+                        height: 20
                         anchors.verticalCenter: parent.verticalCenter
-                        radius: 13
-                        color: Qt.rgba(pal.textPrimary.r, pal.textPrimary.g, pal.textPrimary.b, 1)
-                        opacity: 0.10
-                        Behavior on x { NumberAnimation { duration: 120; easing.type: Easing.OutCubic } }
-                        Behavior on width { NumberAnimation { duration: 120; easing.type: Easing.OutCubic } }
+                        // the theme's shape and accent when one is on
+                        radius: DT.DesktopTheme.radius(DT.DesktopTheme.look, 10, height)
+                        color: DT.DesktopTheme.enabled ? DT.DesktopTheme.accent : pal.activePill
+                        Behavior on x { NumberAnimation { duration: 260; easing.type: Easing.OutCubic } }
+                        Behavior on width { NumberAnimation { duration: 240; easing.type: Easing.OutCubic } }
                     }
-                }
 
-                Row {
-                    id: wsRow
-                    anchors.centerIn: parent
-                    spacing: 2
-                    Repeater {
-                        id: wsRepeater
-                        model: win.wsIds
-                        Item {
-                            id: wsDelegate
-                            property int wsId: modelData
-                            property bool isActive: win.activeWsId === wsId
+                    // HOVER PILL
+                    Item {
+                        id: hoverPillLayer
+                        anchors.fill: parent
+                        visible: wsContainer.hoveredId > 0 && wsContainer.hoveredId !== win.activeWsId
+                        opacity: visible ? 1 : 0
+                        Behavior on opacity { NumberAnimation { duration: 140; easing.type: Easing.OutCubic } }
+                        Rectangle {
+                            property var t: wsContainer.hoveredItem
+                            x: t ? (wsRow.x + t.x) : 0; width: t ? t.width : 0; height: 22
+                            anchors.verticalCenter: parent.verticalCenter; radius: DT.DesktopTheme.radius(DT.DesktopTheme.look, 11, height)
+                            gradient: Gradient {
+                                GradientStop { position: 0.0; color: pal.hoverPillG0 }
+                                GradientStop { position: 0.45; color: pal.hoverPillG1 }
+                                GradientStop { position: 1.0; color: pal.hoverPillG2 }
+                            }
+                            Behavior on x { NumberAnimation { duration: 260; easing.type: Easing.OutBack; easing.overshoot: 1.10 } }
+                            Behavior on width { NumberAnimation { duration: 240; easing.type: Easing.OutBack; easing.overshoot: 1.08 } }
+                        }
+                    }
 
-                            // --- READ FROM CACHE ---
-                            property var wsWindows: hyCache.wsMap[wsId] ?? []
-                            property int winCount: wsWindows.length
-                            property bool hasWindows: winCount > 0
-                            property bool isUrgent: wsWindows.some(tl => tl.urgent)
+                    Item {
+                        id: pressPillLayer
+                        anchors.fill: parent
+                        visible: wsContainer.pressedId > 0
+                        opacity: visible ? 1 : 0
+                        Behavior on opacity { NumberAnimation { duration: 90; easing.type: Easing.OutCubic } }
 
-                            width: hasWindows ? (winCount * 22 + 12) : 26
-                            height: 34
+                        Rectangle {
+                            property var t: wsContainer.pressedItem
+                            x: t ? (wsRow.x + t.x) : 0
+                            width: t ? t.width : 0
+                            height: 22
+                            anchors.verticalCenter: parent.verticalCenter
+                            radius: DT.DesktopTheme.radius(DT.DesktopTheme.look, 11, height)
+                            color: Qt.rgba(pal.textPrimary.r, pal.textPrimary.g, pal.textPrimary.b, 1)
+                            opacity: 0.10
+                            Behavior on x { NumberAnimation { duration: 120; easing.type: Easing.OutCubic } }
+                            Behavior on width { NumberAnimation { duration: 120; easing.type: Easing.OutCubic } }
+                        }
+                    }
 
-                            HoverHandler {
-                                id: wsHover
-                                onHoveredChanged: {
-                                    if (hovered) wsContainer.hoveredId = wsId
-                                    else if (wsContainer.hoveredId === wsId) wsContainer.hoveredId = 0
+                    Row {
+                        id: wsRow
+                        anchors.centerIn: parent
+                        spacing: 2
+                        Repeater {
+                            id: wsRepeater
+                            model: win.wsIds
+                            Item {
+                                id: wsDelegate
+                                property int wsId: modelData
+                                property bool isActive: win.activeWsId === wsId
+
+                                // --- READ FROM CACHE ---
+                                property var wsWindows: hyCache.wsMap[wsId] ?? []
+                                property int winCount: wsWindows.length
+                                property bool hasWindows: winCount > 0
+                                property bool isUrgent: wsWindows.some(tl => tl.urgent)
+
+                                width: hasWindows ? (winCount * 22 + 12) : 26
+                                height: 28
+
+                                HoverHandler {
+                                    id: wsHover
+                                    onHoveredChanged: {
+                                        if (hovered) wsContainer.hoveredId = wsId
+                                        else if (wsContainer.hoveredId === wsId) wsContainer.hoveredId = 0
+                                    }
                                 }
-                            }
 
-                            y: wsPress.pressed ? 1 : ((!isActive && wsHover.hovered) ? -2 : 0)
-                            scale: (wsPress.pressed ? 0.96 : 1.0) * ((!isActive && wsHover.hovered) ? 1.10 : 1.0)
-                            Behavior on y { NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
-                            Behavior on scale { NumberAnimation { duration: 220; easing.type: Easing.OutBack; easing.overshoot: 1.08 } }
+                                y: wsPress.pressed ? 1 : ((!isActive && wsHover.hovered) ? -2 : 0)
+                                scale: (wsPress.pressed ? 0.96 : 1.0) * ((!isActive && wsHover.hovered) ? 1.10 : 1.0)
+                                Behavior on y { NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
+                                Behavior on scale { NumberAnimation { duration: 220; easing.type: Easing.OutBack; easing.overshoot: 1.08 } }
 
-                            Text {
-                                anchors.centerIn: parent
-                                visible: !wsDelegate.hasWindows
-                                text: "•"
-                                font.family: theme.iconFont; font.pixelSize: 14; lineHeight: 0.8
-                                verticalAlignment: Text.AlignVCenter
-                                Behavior on color { ColorAnimation { duration: 140 } }
-                                color: isActive ? theme.textOnAccent : (wsHover.hovered ? pal.accent : (win.isDarkMode ? pal.textPrimary : pal.textSecondary))
-                            }
+                                Text {
+                                    anchors.centerIn: parent
+                                    visible: !wsDelegate.hasWindows
+                                    text: "•"
+                                    font.family: theme.iconFont; font.pixelSize: 14; lineHeight: 0.8
+                                    verticalAlignment: Text.AlignVCenter
+                                    Behavior on color { ColorAnimation { duration: 140 } }
+                                    color: isActive ? theme.textOnAccent : (wsHover.hovered ? pal.accent : (win.isDarkMode ? pal.textPrimary : pal.textSecondary))
+                                }
 
-                            Row {
-                                anchors.centerIn: parent; spacing: 0
-                                visible: wsDelegate.hasWindows
-                                Repeater {
-                                    model: wsDelegate.wsWindows
-                                    Item {
-                                        width: 22; height: 22
+                                Row {
+                                    anchors.centerIn: parent; spacing: 0
+                                    visible: wsDelegate.hasWindows
+                                    Repeater {
+                                        model: wsDelegate.wsWindows
+                                        Item {
+                                            width: 22; height: 22
 
-                                        // --- ipc ---
-                                        property string safeClass: {
-                                            const o = modelData?.lastIpcObject;
-                                            var c = o?.class ?? "";
-                                            if (!c) c = o?.initialClass ?? "";
-                                            if (!c) c = o?.initialTitle ?? "";
-                                            if (!c) c = modelData?.title ?? "";
-                                            return String(c);
-                                        }
-
-                                        QtObject {
-                                            id: flashColor
-                                            property color val: pal.textPrimary
-                                            SequentialAnimation on val {
-                                                running: modelData.urgent
-                                                loops: Animation.Infinite
-                                                ColorAnimation { to: Lib.Colors.red; duration: 200 }
-                                                ColorAnimation { to: Lib.Colors.yellow; duration: 200 }
+                                            // --- ipc ---
+                                            property string safeClass: {
+                                                const o = modelData?.lastIpcObject;
+                                                var c = o?.class ?? "";
+                                                if (!c) c = o?.initialClass ?? "";
+                                                if (!c) c = o?.initialTitle ?? "";
+                                                if (!c) c = modelData?.title ?? "";
+                                                return String(c);
                                             }
-                                        }
-                                        Text {
-                                            anchors.centerIn: parent
-                                            text: win.getIcon(parent.safeClass)
-                                            font.family: theme.iconFont; font.pixelSize: 18; lineHeight: 0.8
-                                            verticalAlignment: Text.AlignVCenter
-                                            font.hintingPreference: Font.PreferNoHinting
-                                            layer.enabled: true
-                                            layer.smooth: true
-                                            layer.mipmap: true
-                                            Behavior on color { enabled: !modelData.urgent; ColorAnimation { duration: 140 } }
-                                            scale: (wsDelegate.isActive && wsHover.hovered) ? 1.25 : 1.0
-                                            Behavior on scale { NumberAnimation { duration: 200; easing.type: Easing.OutBack; easing.overshoot: 1.5 } }
-                                            color: wsDelegate.isActive ? theme.textOnAccent :
-                                                   (modelData.urgent ? flashColor.val :
-                                                   (wsHover.hovered ? pal.accent : pal.textPrimary))
-                                        }
 
+                                            QtObject {
+                                                id: flashColor
+                                                property color val: pal.textPrimary
+                                                SequentialAnimation on val {
+                                                    running: modelData.urgent
+                                                    loops: Animation.Infinite
+                                                    ColorAnimation { to: Lib.Colors.red; duration: 200 }
+                                                    ColorAnimation { to: Lib.Colors.yellow; duration: 200 }
+                                                }
+                                            }
+                                            Text {
+                                                anchors.centerIn: parent
+                                                text: win.getIcon(parent.safeClass)
+                                                font.family: theme.iconFont; font.pixelSize: 18; lineHeight: 0.8
+                                                verticalAlignment: Text.AlignVCenter
+                                                font.hintingPreference: Font.PreferNoHinting
+                                                layer.enabled: true
+                                                layer.smooth: true
+                                                layer.mipmap: true
+                                                Behavior on color { enabled: !modelData.urgent; ColorAnimation { duration: 140 } }
+                                                scale: (wsDelegate.isActive && wsHover.hovered) ? 1.25 : 1.0
+                                                Behavior on scale { NumberAnimation { duration: 200; easing.type: Easing.OutBack; easing.overshoot: 1.5 } }
+                                                color: wsDelegate.isActive ? theme.textOnAccent :
+                                                       (modelData.urgent ? flashColor.val :
+                                                       (wsHover.hovered ? pal.accent : pal.textPrimary))
+                                            }
+
+                                        }
                                     }
                                 }
-                            }
-                            MouseArea {
-                                id: wsPress
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                onPressed: wsContainer.pressedId = wsId
-                                onReleased: if (wsContainer.pressedId === wsId) wsContainer.pressedId = 0
-                                onCanceled: if (wsContainer.pressedId === wsId) wsContainer.pressedId = 0
-                                onClicked: det("hyprctl dispatch 'hl.dsp.focus({ workspace = " + wsId + " })'")
-                            }
-                        }
-                    }
-                }
-            }
-//------------------------------------------------- CENTER -----------------------------------------------------
-
-            // 9. MEDIA & TITLE 
-            Item {
-                Layout.fillWidth: true
-                Layout.preferredHeight: 36
-                property var player: Mpris.players.values[0] ?? null
-                property bool isPlaying: player && player.playbackState === MprisPlaybackState.Playing
-                property string trackTitle: player ? player.trackTitle : ""
-                property string trackArtist: player ? player.trackArtist : ""
-
-                // centred on the whole bar (barRect), not on the space left
-                // between the left and right groups
-                Text {
-                    anchors.verticalCenter: parent.verticalCenter
-                    x: (barRect.width - width) / 2 - parent.x
-                    visible: !parent.isPlaying
-                    text: Hyprland.activeToplevel?.title ?? "Desktop"
-                    font.family: theme.iconFont; font.weight: 700; font.pixelSize: 13
-                    color: pal.textPrimary
-                    width: Math.min(implicitWidth, 500)
-                    elide: Text.ElideRight
-                }
-
-                RowLayout {
-                    anchors.verticalCenter: parent.verticalCenter
-                    x: (barRect.width - width) / 2 - parent.x
-                    visible: parent.isPlaying
-                    spacing: 10
-                    Text { text: ""; font.family: theme.iconFont; font.pixelSize: 14; color: pal.accent }
-                    Text {
-                        text: parent.parent.trackTitle + " <font color='" + pal.textSecondary + "'>- " + parent.parent.trackArtist + "</font>"
-                        textFormat: Text.StyledText
-                        font.family: theme.iconFont; font.weight: 700; font.pixelSize: 13
-                        color: pal.textPrimary
-                        Layout.maximumWidth: 350
-                        elide: Text.ElideRight
-                    }
-                }
-            }
-
-//----------------------------------------------------------------------------------------RIGHT----------
-
-            // 11. TRAY
-            Rectangle {
-                visible: SystemTray.items.values.length > 0
-                height: 30
-                Layout.preferredWidth: trayRow.implicitWidth + 16
-                Layout.alignment: Qt.AlignVCenter
-                radius: 15
-                color: pal.bg
-                border.width: 1
-                border.color: pal.border
-                Row {
-                    id: trayRow
-                    anchors.centerIn: parent; spacing: 8
-                    Repeater {
-                        model: SystemTray.items
-                        Item {
-                            id: trayDelegate
-                            width: 20; height: 20
-                            scale: trayPress.pressed ? 0.94 : (trayPress.containsMouse ? 1.06 : 1.0)
-                            Behavior on scale { NumberAnimation { duration: 200; easing.type: Easing.OutBack; easing.overshoot: 1.08 } }
-
-                            Rectangle {
-                                anchors.fill: parent
-                                radius: width / 2
-                                color: pal.hoverSpotlight
-                                opacity: trayPress.pressed ? 1.0 : (trayPress.containsMouse ? 0.8 : 0.0)
-                                Behavior on opacity { NumberAnimation { duration: 120; easing.type: Easing.OutCubic } }
-                            }
-
-                            Image { id: trayImg; anchors.centerIn: parent; width: 16; height: 16; source: modelData.icon; sourceSize: Qt.size(32, 32); fillMode: Image.PreserveAspectFit; visible: false }
-                            ColorOverlay {
-                                anchors.fill: trayImg
-                                source: trayImg
-                                color: trayPress.containsMouse ? pal.accent : pal.textSecondary
-                                cached: true
-                                Behavior on color { ColorAnimation { duration: 150 } }
-                            }
-                            MouseArea {
-                                id: trayPress
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                acceptedButtons: Qt.LeftButton | Qt.MiddleButton | Qt.RightButton
-                                onClicked: (mouse) => {
-                                    if (mouse.button === Qt.LeftButton && !modelData.onlyMenu)
-                                        modelData.activate()
-                                    else if (mouse.button === Qt.MiddleButton)
-                                        modelData.secondaryActivate()
-                                    else if (modelData.hasMenu) {
-                                        var p = trayDelegate.mapToItem(null, 0, trayDelegate.height + 4)
-                                        modelData.display(win, p.x, p.y)
-                                    }
+                                MouseArea {
+                                    id: wsPress
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    onPressed: wsContainer.pressedId = wsId
+                                    onReleased: if (wsContainer.pressedId === wsId) wsContainer.pressedId = 0
+                                    onCanceled: if (wsContainer.pressedId === wsId) wsContainer.pressedId = 0
+                                    onClicked: det("hyprctl dispatch 'hl.dsp.focus({ workspace = " + wsId + " })'")
                                 }
                             }
                         }
                     }
                 }
-            }
 
-            // 11.5 PERFORMANCE: CPU + RAM (click: btop)
-            TopBarItem {
+            // 11.5 PERFORMANCE: CPU + RAM (click: btop). Never narrows, so
+            // the bar doesn't shuffle as the numbers change.
+            DT.BarPill {
                 id: perfItem
-                // sized for the widest reading so the pill never resizes
-                TextMetrics { id: perfIconM; font.family: theme.iconFont; font.pixelSize: 14; text: "" }
-                TextMetrics { id: perfTextM; font.family: "Manrope"; font.pixelSize: 13; font.weight: 700; text: "100%  ·  99.9 GB" }
-                Layout.preferredWidth: Math.ceil(perfIconM.advanceWidth + 8 + perfTextM.advanceWidth + 24)
                 property int cpu: perfPoll.value ? perfPoll.value.cpu : 0
                 property string mem: perfPoll.value ? perfPoll.value.mem : "?"
-                property color loadColor: cpu >= 90 ? Lib.Colors.red
-                                        : cpu >= 70 ? Lib.Colors.orange
-                                        : pal.textPrimary
-                icon: ""; text: cpu + "%  ·  " + mem + " GB"
-                bgColor: pal.bg; iconColor: loadColor; textColor: pal.textPrimary
-                borderWidth: 0; borderColor: "transparent"; hoverColor: pal.hoverSpotlight
+                property real widest: 0
+                onNaturalWidthChanged: widest = Math.max(widest, naturalWidth)
+                Connections { target: DT.DesktopTheme; function onThemeChanged() { perfItem.widest = 0 } }
+                implicitWidth: Math.max(naturalWidth, widest)
+                text: DT.Icons.system + " " + cpu + "%  ·  " + mem + " GB"
+                textColor: cpu >= 90 ? Lib.Colors.red : cpu >= 70 ? Lib.Colors.orange : DT.BarSettings.ink
+                interactive: true
+                cursorShape: Qt.PointingHandCursor
                 onClicked: det("kitty --title btop -e btop")
             }
 
             // 12. BATTERY
-            TopBarItem {
+            DT.BarPill {
                 id: batteryItem
-                Layout.preferredWidth: 74
+                visible: Lib.Configuration.barShowBattery
                 property string status: String(batStatus.value).trim()
                 property int rawCap: Number(batCap.value) || 0
                 property int cap: (rawCap === 0 && status !== "Discharging") ? 50 : rawCap
                 property bool plugged: (String(acOnline.value).trim() === "1")
                 property bool isCharging: plugged || status === "Charging" || status === "Full"
-
-                property string battColor: {
-                    if (isCharging) return pal.accent;
-                    const crit = String(Lib.Colors.red);
-                    const low  = String(Lib.Colors.orange);
-                    const mid  = String(Lib.Colors.yellow);
-                    if (cap <= 10) return crit;
-                    if (cap <= 20) return low;
-                    if (cap <= 30) return mid;
-                    return pal.textPrimary;
-                }
                 property string dynamicIcon: {
                     if (isCharging) return "󰂄"
                     if (cap >= 98) return "󰁹"
@@ -671,10 +509,10 @@ PanelWindow {
                     if (cap >= 30) return "󰁼"; if (cap >= 20) return "󰁻"
                     return "󰁺"
                 }
-
-                icon: dynamicIcon; text: cap + "%"
-                bgColor: pal.bg; iconColor: battColor; textColor: battColor
-                borderWidth: 0; borderColor: "transparent"; hoverColor: pal.hoverSpotlight
+                text: dynamicIcon + " " + cap + "%"
+                textColor: isCharging ? (DT.DesktopTheme.enabled ? DT.DesktopTheme.accent : pal.accent)
+                    : cap <= 10 ? Lib.Colors.red : cap <= 20 ? Lib.Colors.orange : cap <= 30 ? Lib.Colors.yellow
+                    : DT.BarSettings.ink
 
                 SequentialAnimation {
                     running: batteryItem.cap <= 10 && !batteryItem.isCharging
@@ -682,95 +520,27 @@ PanelWindow {
                     NumberAnimation { target: batteryItem; property: "opacity"; to: 0.3; duration: 500 }
                     NumberAnimation { target: batteryItem; property: "opacity"; to: 1.0; duration: 500 }
                 }
-
-                Rectangle {
-                    id: powerSurge
-                    anchors.centerIn: parent; width: parent.width; height: parent.height
-                    radius: parent.height / 2; color: "transparent"
-                    border.width: 0; border.color: "transparent"
-                    opacity: 0; scale: 1.0
-                }
-                onPluggedChanged: if (plugged) surgeAnim.restart()
-                ParallelAnimation {
-                    id: surgeAnim
-                    NumberAnimation { target: powerSurge; property: "scale"; from: 1.0; to: 1.45; duration: 520; easing.type: Easing.OutCubic }
-                    NumberAnimation { target: powerSurge; property: "opacity"; from: 1.0; to: 0.0; duration: 520; easing.type: Easing.OutCubic }
-                }
             }
+        }
 
-            // 13. CLOCK/DATE
-            Item {
-                id: clockContainer
-                Layout.preferredHeight: 34
-                Layout.preferredWidth: clockRow.implicitWidth + 30
-                
-                scale: clockArea.pressed ? 0.98 : (clockArea.containsMouse ? 1.02 : 1.0)
-                y: clockArea.pressed ? 1 : 0
-                Behavior on scale { NumberAnimation { duration: 200; easing.type: Easing.OutBack; easing.overshoot: 1.05 } }
-                Behavior on y { NumberAnimation { duration: 140; easing.type: Easing.OutCubic } }
+//------------------------------------------------- CENTER -----------------------------------------------------
+        DT.MediaPill {
+            anchors.centerIn: parent
+        }
 
-                // MASKED BACKGROUND LAYER 
-                Item {
-                    anchors.fill: parent
-                    layer.enabled: true
-                    layer.effect: OpacityMask { maskSource: clockMask }
+//------------------------------------------------- RIGHT -----------------------------------------------------
+        Row {
+            anchors.right: parent.right
+            anchors.verticalCenter: parent.verticalCenter
+            spacing: 8
 
-                    Rectangle {
-                        anchors.fill: parent
-                        color: pal.bg
-                    }
-
-                    // Shimmer 
-                    Rectangle {
-                        id: clockShimmer
-                        width: 44; height: parent.height * 2; rotation: 20
-                        x: -100; y: -parent.height/2
-                        color: "transparent"
-                        gradient: Gradient {
-                            GradientStop { position: 0.0; color: "transparent" }
-                            GradientStop { position: 0.5; color: win.isDarkMode ? Qt.rgba(1,1,1,0.20) : Qt.rgba(0,0,0,0.1) }
-                            GradientStop { position: 1.0; color: "transparent" }
-                        }
-                    }
-                    
-                    Rectangle {
-                        anchors.fill: parent
-                        color: win.isDarkMode ? "#ffffff" : "#000000"
-                        opacity: clockArea.pressed ? 0.18 : (clockArea.containsMouse ? 0.12 : 0.0)
-                        Behavior on opacity { NumberAnimation { duration: 120; easing.type: Easing.OutCubic } }
-                    }
-                }
-
-                // Mask Source (Hidden)
-                Rectangle {
-                    id: clockMask
-                    anchors.fill: parent
-                    radius: 17
-                    visible: false
-                    antialiasing: true
-                }
-
-                // CONTENT (Unmasked)
-                RowLayout {
-                    id: clockRow
-                    anchors.centerIn: parent; spacing: 8
-                    Text { id: dateText; text: Qt.formatDateTime(new Date(), "ddd, MMM d"); font.family: theme.textFont; font.pixelSize: 12; font.weight: 600; color: pal.accent }
-                    Text { text: "•"; font.pixelSize: 10; color: pal.textSecondary }
-                    Text { id: timeText; text: Qt.formatDateTime(new Date(), "HH:mm"); font.family: theme.textFont; font.pixelSize: 13; font.weight: 800; color: pal.textPrimary }
-                    Timer {
-                        interval: 1000; running: true; repeat: true
-                        onTriggered: { var now = new Date(); dateText.text = Qt.formatDateTime(now, "ddd, MMM d"); timeText.text = Qt.formatDateTime(now, "HH:mm") }
-                    }
-                }
-
-                NumberAnimation { id: clockShimmerAnim; target: clockShimmer; property: "x"; from: -60; to: clockContainer.width + 60; duration: 800; easing.type: Easing.InOutQuad }
-                
-                MouseArea {
-                    id: clockArea
-                    anchors.fill: parent; hoverEnabled: true
-                    onPressed: (mouse) => { win.requestHubToggle(); mouse.accepted = true }
-                    onEntered: clockShimmerAnim.restart()
-                }
+            BarBluetooth { onClicked: win.requestBluetooth() }
+            BarNetwork { onClicked: win.requestWifi() }
+            BarVolume {}
+            // 13. CLOCK: also the hub's button
+            BarClock {
+                active: win.hubOpen
+                onClicked: win.requestHubToggle()
             }
         }
     }

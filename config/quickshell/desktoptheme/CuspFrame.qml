@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Shapes
-import "../desktoptheme" as Services
-import "../desktoptheme"
+import "." as Services
 // Cathedral frame for shell pieces under the desktop theme: a fill with its
 // corners scooped out, a jewel-toned hairline round it and, with `gap`, a
 // second line of lead inside it. Drawn directly (no layer), like HudFrame;

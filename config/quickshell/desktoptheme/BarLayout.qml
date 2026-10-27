@@ -11,6 +11,7 @@ Singleton {
     readonly property bool atBottom: !atTop
     readonly property bool atLeft: false
     readonly property bool atRight: false
+    readonly property bool vertical: false
     readonly property int size: atTop ? Lib.Configuration.barHeight : Lib.Configuration.taskbarExclusiveZone
 
     readonly property int reserveTop: atTop ? size : 0

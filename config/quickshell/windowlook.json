@@ -1,4 +1,5 @@
 {
   "gaps_out": 3,
-  "rounding": 0
+  "rounding": 0,
+  "dim_inactive": false
 }

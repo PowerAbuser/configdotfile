@@ -1,6 +1,5 @@
 import QtQuick
-import "../desktoptheme" as Services
-import "../desktoptheme"
+import "." as Services
 // Base text element for the shell. The colour is defaulted, and the family
 // follows the desktop theme (the default font when none is on); size stays
 // whatever Text gives you. Set font.family to opt out.
