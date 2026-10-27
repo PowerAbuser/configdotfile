@@ -55,6 +55,13 @@ hl.window_rule({
     float = true,
 })
 
+-- Drop-down Spotify (pypr "music" scratchpad, SUPER+O) floats
+hl.window_rule({
+    name  = "float-spotify-dropdown",
+    match = { class = "^(spotify)$" },
+    float = true,
+})
+
 -- Drop terminal (disabled in the original)
 -- hl.window_rule({ name = "dropterm-ws",     match = { class = "^(kitty-dropterm)$" }, workspace = "special:S-term silent" })
 -- hl.window_rule({ name = "dropterm-size",   match = { class = "^(kitty-dropterm)$" }, size = "75% 75%" })

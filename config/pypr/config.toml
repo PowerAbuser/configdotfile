@@ -25,12 +25,12 @@ process_tracking = false
 [scratchpads.music]
 animation = "fromTop"
 size = "75% 70%"
-command = "spotify"
-class = "Spotify"
+command = "spotify --enable-features=UseOzonePlatform --ozone-platform=wayland"
+# native Wayland: menus are xdg popups that draw with the window, so pinning
+# (the default) is safe. Under XWayland the pinned window covered its menus.
+class = "spotify"
 lazy = true
 process_tracking = false
-# unpinned: pinned windows draw above Spotify's XWayland popup menus
-pinned = false
 
 [wallpapers]
 
