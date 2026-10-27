@@ -4,6 +4,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import Quickshell
 import "../lib" as Lib
+import "../desktoptheme" as DT
 
 Dialog {
     id: categoryDialog
@@ -17,7 +18,7 @@ Dialog {
     parent: root
 
     background: Card {
-        radius: 28
+        radius: DT.DesktopTheme.rad(28)
         color: Lib.Colors.surfaceContainerLowest
 
         Rectangle {
@@ -31,7 +32,7 @@ Dialog {
 
     header: Rectangle {
         height: 64
-        radius: 28
+        radius: DT.DesktopTheme.rad(28)
         color: Lib.Colors.surfaceContainerLowest
 
         Rectangle {
@@ -40,7 +41,7 @@ Dialog {
             anchors.top: parent.top
             anchors.topMargin: 12
             anchors.horizontalCenter: parent.horizontalCenter
-            radius: 2
+            radius: DT.DesktopTheme.rad(2)
             color: Lib.Colors.outlineVariant
             opacity: 0.3
         }
@@ -64,10 +65,10 @@ Dialog {
             placeholderText: "Enter category name..."
             font.pixelSize: 14
             focus: true
-            radius: 14
+            radius: DT.DesktopTheme.rad(14)
             borderWidth: 2
             backgroundColor: Lib.Colors.surfaceContainerHigh
-            focusBorderColor: Lib.Colors.primary
+            focusBorderColor: Lib.Accent.main
 
             onAccepted: {
                 if (text.trim().length > 0) {
@@ -88,7 +89,7 @@ Dialog {
                 Layout.preferredHeight: 48
 
                 background: Card {
-                    radius: 14
+                    radius: DT.DesktopTheme.rad(14)
                     color: parent.hovered
                         ? Lib.Colors.surfaceContainerHigh
                         : "transparent"
@@ -115,12 +116,12 @@ Dialog {
                 enabled: categoryInput.text.trim().length > 0
 
                 background: Rectangle {
-                    radius: 14
+                    radius: DT.DesktopTheme.rad(14)
                     color: parent.hovered && parent.enabled
                         ? Qt.darker(Lib.Colors.primaryContainer, 1.2)
                         : Lib.Colors.primaryContainer
                     border.width: 2
-                    border.color: Lib.Colors.primary
+                    border.color: Lib.Accent.main
                     opacity: 0.3
                 }
 

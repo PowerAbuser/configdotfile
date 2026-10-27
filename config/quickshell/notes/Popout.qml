@@ -1,5 +1,6 @@
 import QtQuick
 import "../lib" as Lib
+import "../desktoptheme" as DT
 
 // Stand-in for the upstream components/Popout.qml bubble: a surface that
 // rises from the bottom edge, rounded on top and square where it meets the
@@ -12,7 +13,7 @@ Rectangle {
     bottomLeftRadius: 0
     bottomRightRadius: 0
     border.width: 1
-    border.color: Lib.Colors.alpha(Lib.Colors.outlineVariant, 0.6)
+    border.color: Lib.Accent.themed ? Lib.Accent.line : Lib.Colors.alpha(Lib.Colors.outlineVariant, 0.6)
 
     Item {
         id: wrapper

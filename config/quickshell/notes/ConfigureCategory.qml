@@ -4,6 +4,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import Quickshell
 import "../lib" as Lib
+import "../desktoptheme" as DT
 
 Dialog {
     id: commandDialog
@@ -21,7 +22,7 @@ Dialog {
     parent: root
 
     background: Card {
-        radius: 28
+        radius: DT.DesktopTheme.rad(28)
         color: Lib.Colors.surfaceContainerLowest
 
         Rectangle {
@@ -35,7 +36,7 @@ Dialog {
 
     header: Rectangle {
         height: 64
-        radius: 28
+        radius: DT.DesktopTheme.rad(28)
         color: Lib.Colors.surfaceContainerLowest
 
         Rectangle {
@@ -44,7 +45,7 @@ Dialog {
             anchors.top: parent.top
             anchors.topMargin: 12
             anchors.horizontalCenter: parent.horizontalCenter
-            radius: 2
+            radius: DT.DesktopTheme.rad(2)
             color: Lib.Colors.outlineVariant
             opacity: 0.3
         }
@@ -77,18 +78,17 @@ Dialog {
             placeholderText: "e.g., ani-cli $text"
             font.pixelSize: 14
             focus: true
-            radius: 14
+            radius: DT.DesktopTheme.rad(14)
             borderWidth: 2
             backgroundColor: Lib.Colors.surfaceContainerHigh
-            focusBorderColor: Lib.Colors.primary
+            focusBorderColor: Lib.Accent.main
         }
 
         // Keep terminal open option
         Card {
             Layout.fillWidth: true
             Layout.preferredHeight: 50
-            radius: 12
-
+            radius: DT.DesktopTheme.rad(12)
             RowLayout {
                 anchors.fill: parent
                 anchors.margins: 12
@@ -110,12 +110,12 @@ Dialog {
                         implicitHeight: 24
                         x: keepOpenSwitch.leftPadding
                         y: parent.height / 2 - height / 2
-                        radius: 12
+                        radius: DT.DesktopTheme.rad(12)
                         color: keepOpenSwitch.checked
-                            ? Lib.Colors.primary
+                            ? Lib.Accent.main
                             : Lib.Colors.surfaceContainerHighest
                         border.color: keepOpenSwitch.checked
-                            ? Lib.Colors.primary
+                            ? Lib.Accent.main
                             : Lib.Colors.outlineVariant
                         border.width: 1
 
@@ -124,10 +124,10 @@ Dialog {
                             y: (parent.height - height) / 2
                             width: 20
                             height: 20
-                            radius: 10
-                            color: Lib.Colors.fgPrimary
+                            radius: DT.DesktopTheme.rad(10)
+                            color: Lib.Accent.ink
                             border.color: keepOpenSwitch.checked
-                                ? Lib.Colors.primary
+                                ? Lib.Accent.main
                                 : Lib.Colors.outlineVariant
                             border.width: 1
 
@@ -145,7 +145,7 @@ Dialog {
                 visible: !!parent.hovered
                 width: 300
                 background: Card {
-                    radius: 6
+                    radius: DT.DesktopTheme.rad(6)
                     color: Lib.Colors.surfaceContainerHighest
                 }
             }
@@ -155,7 +155,7 @@ Dialog {
         Card {
             Layout.fillWidth: true
             Layout.preferredHeight: 48
-            radius: 10
+            radius: DT.DesktopTheme.rad(10)
             visible: commandInput.text.trim().length > 0
 
             ColumnLayout {
@@ -172,7 +172,7 @@ Dialog {
 
                 StyledText {
                     text: commandInput.text.replace(/\$text/g, "example").replace(/\$note/g, "example")
-                    color: Lib.Colors.primary
+                    color: Lib.Accent.main
                     font.pixelSize: 12
                     font.bold: true
                     elide: Text.ElideRight
@@ -195,7 +195,7 @@ Dialog {
                 Layout.preferredHeight: 44
 
                 background: Card {
-                    radius: 12
+                    radius: DT.DesktopTheme.rad(12)
                     color: parent.hovered
                         ? Lib.Colors.surfaceContainerHigh
                         : "transparent"
@@ -221,7 +221,7 @@ Dialog {
                 Layout.preferredHeight: 44
 
                 background: Card {
-                    radius: 12
+                    radius: DT.DesktopTheme.rad(12)
                     color: parent.hovered
                         ? Lib.Colors.surfaceContainerHigh
                         : "transparent"
@@ -246,12 +246,12 @@ Dialog {
                 Layout.preferredHeight: 44
 
                 background: Rectangle {
-                    radius: 12
+                    radius: DT.DesktopTheme.rad(12)
                     color: parent.hovered
                         ? Qt.darker(Lib.Colors.primaryContainer, 1.2)
                         : Lib.Colors.primaryContainer
                     border.width: 2
-                    border.color: Lib.Colors.primary
+                    border.color: Lib.Accent.main
                     opacity: 0.3
                 }
 

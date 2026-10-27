@@ -4,6 +4,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import Quickshell
 import "../lib" as Lib
+import "../desktoptheme" as DT
 
 Item {
     id: root
@@ -17,7 +18,7 @@ Item {
     visible: opened || implicitHeight > 0
 
     // Theme accent as a real color (so we can derive translucent tints from it).
-    readonly property color accent: Lib.Colors.primary
+    readonly property color accent: Lib.Accent.main
 
     anchors.bottom: parent.bottom
     anchors.horizontalCenter: parent.horizontalCenter
@@ -36,7 +37,7 @@ Item {
         anchors.fill: parent
         clip: true
         alignment: 4
-        radius: 32
+        radius: DT.DesktopTheme.panelRadius(32)
         color: Lib.Colors.surfaceContainerLowest
 
         Rectangle {
@@ -55,7 +56,7 @@ Item {
             anchors.topMargin: -1.5
             anchors.horizontalCenter: parent.horizontalCenter
             radius: 1.5
-            color: Lib.Colors.primary
+            color: Lib.Accent.main
             opacity: 0.6
         }
 
@@ -67,7 +68,7 @@ Item {
             Card {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 56
-                radius: 20
+                radius: DT.DesktopTheme.rad(20)
                 opacity: 0.8
 
                 Rectangle {
@@ -110,7 +111,7 @@ Item {
                         }
 
                         background: Rectangle {
-                            radius: 18
+                            radius: DT.DesktopTheme.rad(18)
                             color: sortBtn.hovered
                                 ? Lib.Colors.surfaceContainerHighest
                                 : "transparent"
@@ -125,7 +126,7 @@ Item {
                             delay: 300
                             visible: parent.hovered
                             background: Card {
-                                radius: 6
+                                radius: DT.DesktopTheme.rad(6)
                                 color: Lib.Colors.surfaceContainerHighest
                             }
                         }
@@ -135,7 +136,7 @@ Item {
                         Layout.preferredHeight: 36
                         Layout.preferredWidth: Math.max(36, countText.contentWidth + 24)
                         Layout.alignment: Qt.AlignVCenter
-                        radius: 18
+                        radius: DT.DesktopTheme.rad(18)
                         color: Lib.Colors.primaryContainer
                         opacity: Notes.getNotesForCategory(
                             Notes.currentCategory).length > 0 ? 1 : 0.4
@@ -181,7 +182,7 @@ Item {
                         }
 
                         background: Rectangle {
-                            radius: 18
+                            radius: DT.DesktopTheme.rad(18)
                             color: addCategoryBtn.hovered
                                 ? Qt.darker(Lib.Colors.primaryContainer, 1.2)
                                 : Lib.Colors.primaryContainer
@@ -206,7 +207,7 @@ Item {
                             delay: 300
                             visible: parent.hovered
                             background: Card {
-                                radius: 6
+                                radius: DT.DesktopTheme.rad(6)
                                 color: Lib.Colors.surfaceContainerHighest
                             }
                         }
@@ -250,9 +251,9 @@ Item {
                                     )
                                     height: 36
 
-                                    radius: 18
+                                    radius: DT.DesktopTheme.rad(18)
                                     color: categoryItem.isCurrent
-                                        ? Lib.Colors.primary
+                                        ? Lib.Accent.main
                                         : mouseArea.containsMouse
                                             ? Lib.Colors.surfaceContainerHighest
                                             : Lib.Colors.surfaceContainer
@@ -262,7 +263,7 @@ Item {
                                         radius: parent.radius
                                         color: "transparent"
                                         border.width: categoryItem.isCurrent ? 2 : 0
-                                        border.color: Lib.Colors.primary
+                                        border.color: Lib.Accent.main
                                         opacity: 0.5
                                     }
 
@@ -295,7 +296,7 @@ Item {
                                             text: modelData.charAt(0).toUpperCase() + modelData.slice(1)
                                             Layout.alignment: Qt.AlignVCenter
                                             color: categoryItem.isCurrent
-                                                ? Lib.Colors.fgPrimary
+                                                ? Lib.Accent.ink
                                                 : Lib.Colors.fgSurface
                                             font.pixelSize: 13
                                             font.weight: Font.Medium
@@ -310,8 +311,8 @@ Item {
                                             Layout.preferredWidth: 16
                                             Layout.preferredHeight: 16
                                             Layout.alignment: Qt.AlignVCenter
-                                            radius: 8
-                                            color: Lib.Colors.primary
+                                            radius: DT.DesktopTheme.rad(8)
+                                            color: Lib.Accent.main
                                             opacity: 0.7
 
                                             StyledText {
@@ -319,7 +320,7 @@ Item {
                                                 text: "⌘"
                                                 font.pixelSize: 10
                                                 font.bold: true
-                                                color: Lib.Colors.fgPrimary
+                                                color: Lib.Accent.ink
                                             }
 
                                             ToolTip {
@@ -327,7 +328,7 @@ Item {
                                                 delay: 500
                                                 visible: parent.hovered ? true : false
                                                 background: Card {
-                                                    radius: 6
+                                                    radius: DT.DesktopTheme.rad(6)
                                                 }
                                             }
                                         }
@@ -338,7 +339,7 @@ Item {
                                             Layout.preferredWidth: 16
                                             Layout.preferredHeight: 16
                                             Layout.alignment: Qt.AlignVCenter
-                                            radius: 8
+                                            radius: DT.DesktopTheme.rad(8)
                                             color: Lib.Colors.secondary
                                             opacity: 0.7
 
@@ -354,7 +355,7 @@ Item {
                                                 delay: 500
                                                 visible: parent.hovered ? true : false
                                                 background: Card {
-                                                    radius: 6
+                                                    radius: DT.DesktopTheme.rad(6)
                                                 }
                                             }
                                         }
@@ -379,12 +380,12 @@ Item {
                                                     horizontalAlignment: Text.AlignHCenter
                                                     verticalAlignment: Text.AlignVCenter
                                                     color: categoryItem.isCurrent
-                                                        ? Lib.Colors.fgPrimary
+                                                        ? Lib.Accent.ink
                                                         : Lib.Colors.fgSurface
                                                 }
 
                                                 background: Rectangle {
-                                                    radius: 10
+                                                    radius: DT.DesktopTheme.rad(10)
                                                     color: parent.hovered
                                                         ? Qt.rgba(255, 255, 255, 0.2)
                                                         : "transparent"
@@ -402,7 +403,7 @@ Item {
                                                     delay: 500
                                                     visible: parent.hovered
                                                     background: Card {
-                                                        radius: 6
+                                                        radius: DT.DesktopTheme.rad(6)
                                                         color: Lib.Colors.surfaceContainerHighest
                                                     }
                                                 }
@@ -422,12 +423,12 @@ Item {
                                                     horizontalAlignment: Text.AlignHCenter
                                                     verticalAlignment: Text.AlignVCenter
                                                     color: categoryItem.isCurrent
-                                                        ? Lib.Colors.fgPrimary
+                                                        ? Lib.Accent.ink
                                                         : Lib.Colors.fgSurface
                                                 }
 
                                                 background: Rectangle {
-                                                    radius: 10
+                                                    radius: DT.DesktopTheme.rad(10)
                                                     color: parent.hovered
                                                         ? Qt.rgba(255, 255, 255, 0.2)
                                                         : "transparent"
@@ -440,7 +441,7 @@ Item {
                                                     delay: 500
                                                     visible: parent.hovered
                                                     background: Card {
-                                                        radius: 6
+                                                        radius: DT.DesktopTheme.rad(6)
                                                         color: Lib.Colors.surfaceContainerHighest
                                                     }
                                                 }
@@ -457,8 +458,7 @@ Item {
             Card {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                radius: 20
-
+                radius: DT.DesktopTheme.rad(20)
                 Rectangle {
                     anchors.fill: parent
                     radius: parent.radius
@@ -478,7 +478,7 @@ Item {
                         width: 8
                         contentItem: Rectangle {
                             implicitWidth: 6
-                            radius: 3
+                            radius: DT.DesktopTheme.rad(3)
                             color: Lib.Colors.outlineVariant
                             opacity: notesVBar.pressed ? 0.9 : (notesVBar.hovered ? 0.7 : 0.35)
                             Behavior on opacity { NumberAnimation { duration: 150 } }
@@ -539,7 +539,7 @@ Item {
                                 property bool isEditing: false
                                 property var originalNote: modelData
 
-                                radius: 16
+                                radius: DT.DesktopTheme.rad(16)
                                 color: Lib.Colors.surfaceContainerHigh
 
                                 Rectangle {
@@ -548,7 +548,7 @@ Item {
                                     color: "transparent"
                                     border.width: 1
                                     border.color: noteMouseArea.containsMouse && !isEditing
-                                        ? Lib.Colors.primary
+                                        ? Lib.Accent.main
                                         : isEditing
                                             ? Lib.Colors.secondary
                                             : Qt.rgba(255, 255, 255, 0.05)
@@ -566,7 +566,7 @@ Item {
                                     anchors.topMargin: 16
                                     anchors.bottomMargin: 16
                                     visible: !noteCard.isEditing
-                                    color: Lib.Colors.primary
+                                    color: Lib.Accent.main
                                     opacity: noteMouseArea.containsMouse ? 0.85 : 0.3
                                     Behavior on opacity { NumberAnimation { duration: 200 } }
                                 }
@@ -608,6 +608,8 @@ Item {
                                             spacing: 12
 
                                             TextField {
+
+                                                font.family: Lib.Fonts.text
                                                 id: mainInputField
                                                 Layout.fillWidth: true
                                                 Layout.preferredHeight: 36
@@ -616,13 +618,15 @@ Item {
                                                 font.pixelSize: 14
                                                 color: Lib.Colors.fgSurface
                                                 background: Card {
-                                                    radius: 8
+                                                    radius: DT.DesktopTheme.rad(8)
                                                 }
 
                                                 onAccepted: card.saveEdit()
                                             }
 
                                             TextField {
+
+                                                font.family: Lib.Fonts.text
                                                 id: subtextInputField
                                                 Layout.fillWidth: true
                                                 Layout.preferredHeight: 36
@@ -631,7 +635,7 @@ Item {
                                                 font.pixelSize: 13
                                                 color: Lib.Colors.fgSurfaceVariant
                                                 background: Card {
-                                                    radius: 8
+                                                    radius: DT.DesktopTheme.rad(8)
                                                 }
 
                                                 onAccepted: card.saveEdit()
@@ -679,14 +683,14 @@ Item {
                                                         font.weight: Font.Medium
                                                         horizontalAlignment: Text.AlignHCenter
                                                         verticalAlignment: Text.AlignVCenter
-                                                        color: Lib.Colors.fgPrimary
+                                                        color: Lib.Accent.ink
                                                     }
 
                                                     background: Rectangle {
-                                                        radius: 16
+                                                        radius: DT.DesktopTheme.rad(16)
                                                         color: parent.hovered && parent.enabled
-                                                            ? Qt.darker(Lib.Colors.primary, 1.2)
-                                                            : Lib.Colors.primary
+                                                            ? Qt.darker(Lib.Accent.main, 1.2)
+                                                            : Lib.Accent.main
                                                         opacity: parent.enabled ? 1 : 0.4
                                                     }
 
@@ -749,7 +753,7 @@ Item {
                                                 return base
                                             }
                                             font.pixelSize: 10
-                                            color: Lib.Colors.primary
+                                            color: Lib.Accent.main
                                             opacity: 0.7
                                             Layout.fillWidth: true
                                             wrapMode: Text.Wrap
@@ -777,7 +781,7 @@ Item {
                                             }
 
                                             background: Rectangle {
-                                                radius: 16
+                                                radius: DT.DesktopTheme.rad(16)
                                                 color: editBtn.hovered
                                                     ? Lib.Colors.surfaceContainerHighest
                                                     : "transparent"
@@ -796,7 +800,7 @@ Item {
                                                 delay: 300
                                                 visible: parent.hovered
                                                 background: Card {
-                                                    radius: 6
+                                                    radius: DT.DesktopTheme.rad(6)
                                                     color: Lib.Colors.surfaceContainerHighest
                                                 }
                                             }
@@ -818,12 +822,12 @@ Item {
                                                 horizontalAlignment: Text.AlignHCenter
                                                 verticalAlignment: Text.AlignVCenter
                                                 color: copyBtn.copied
-                                                    ? Lib.Colors.primary
+                                                    ? Lib.Accent.main
                                                     : Lib.Colors.fgSurface
                                             }
 
                                             background: Rectangle {
-                                                radius: 16
+                                                radius: DT.DesktopTheme.rad(16)
                                                 color: copyBtn.hovered
                                                     ? copyBtn.copied
                                                         ? Lib.Colors.primaryContainer
@@ -832,7 +836,7 @@ Item {
                                                 border.width: 1
                                                 border.color: copyBtn.hovered
                                                     ? copyBtn.copied
-                                                        ? Lib.Colors.primary
+                                                        ? Lib.Accent.main
                                                         : Lib.Colors.outlineVariant
                                                     : "transparent"
                                             }
@@ -859,7 +863,7 @@ Item {
                                                 delay: 300
                                                 visible: parent.hovered
                                                 background: Card {
-                                                    radius: 6
+                                                    radius: DT.DesktopTheme.rad(6)
                                                     color: Lib.Colors.surfaceContainerHighest
                                                 }
                                             }
@@ -880,7 +884,7 @@ Item {
                                             }
 
                                             background: Rectangle {
-                                                radius: 16
+                                                radius: DT.DesktopTheme.rad(16)
                                                 color: deleteBtn.hovered
                                                     ? Lib.Colors.errorContainer
                                                     : "transparent"
@@ -902,7 +906,7 @@ Item {
                                                 delay: 300
                                                 visible: parent.hovered
                                                 background: Card {
-                                                    radius: 6
+                                                    radius: DT.DesktopTheme.rad(6)
                                                     color: Lib.Colors.surfaceContainerHighest
                                                 }
                                             }
@@ -941,10 +945,10 @@ Item {
                 // Sized to its fields and buttons (upstream's fixed 100 px left
                 // the Add / Clear row hanging off the bottom of the drawer)
                 Layout.preferredHeight: inputColumn.implicitHeight + 24
-                radius: 20
+                radius: DT.DesktopTheme.rad(20)
                 color: Lib.Colors.surfaceContainerHigh
                 border.color: (mainInput.activeFocus || subtextInput.activeFocus)
-                    ? Lib.Colors.primary
+                    ? Lib.Accent.main
                     : Lib.Colors.outlineVariant
                 border.width: 2
 
@@ -968,6 +972,8 @@ Item {
                         spacing: 8
 
                         TextField {
+
+                            font.family: Lib.Fonts.text
                             id: mainInput
                             Layout.fillWidth: true
                             Layout.preferredHeight: 36
@@ -1000,6 +1006,8 @@ Item {
                         spacing: 8
 
                         TextField {
+
+                            font.family: Lib.Fonts.text
                             id: subtextInput
                             Layout.fillWidth: true
                             Layout.preferredHeight: 36
@@ -1077,7 +1085,7 @@ Item {
                             }
 
                             background: Rectangle {
-                                radius: 16
+                                radius: DT.DesktopTheme.rad(16)
                                 color: sendButton.hovered && sendButton.enabled
                                     ? Qt.darker(Lib.Colors.primaryContainer, 1.2)
                                     : Lib.Colors.primaryContainer
@@ -1087,7 +1095,7 @@ Item {
                                     radius: parent.radius
                                     color: "transparent"
                                     border.width: 2
-                                    border.color: Lib.Colors.primary
+                                    border.color: Lib.Accent.main
                                     opacity: 0.3
                                 }
 
