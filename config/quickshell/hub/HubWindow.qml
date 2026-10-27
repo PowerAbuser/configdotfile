@@ -276,7 +276,7 @@ PanelWindow {
             Behavior on width { NumberAnimation { duration: 240; easing.type: Easing.OutCubic } }
             readonly property int maxH: Math.round(panel.parent.height - win.topGap - win.bottomGap)
             height: maxH
-            radius: win.topAnchored ? 24 : 12
+            radius: theme.panelRadius(win.topAnchored ? 24 : 12)
             color: theme.bgMain
             border.width: win.topAnchored ? 1 : 0
             border.color: theme.border

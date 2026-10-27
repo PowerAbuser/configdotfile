@@ -68,7 +68,7 @@ Item {
                 Text {
                     anchors.centerIn: parent
                     text: cell.t
-                    font.family: Theme.textFont
+                    font.family: Lib.Fonts.text
                     font.pixelSize: (cell.kind === "head") ? 10 : 10
                     font.weight: (cell.kind === "head") ? 300 : (cell.today ? 800 : 400)
 

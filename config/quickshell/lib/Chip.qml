@@ -30,7 +30,7 @@ Rectangle {
 
     Text {
       text: root.text
-      font.family: Theme.textFont
+      font.family: Fonts.text
       font.pixelSize: 9
       font.weight: 800
       color: Colors.fgSurface

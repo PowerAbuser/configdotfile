@@ -35,7 +35,7 @@ Item {
     Rectangle {
         id: bg
         anchors.fill: parent
-        radius: root.cornerRadius
+        radius: root.theme && root.theme.rad ? root.theme.rad(root.cornerRadius) : root.cornerRadius
 
         color: root.active
        ? (root.theme
@@ -102,7 +102,7 @@ Item {
             
             Text {
                 text: root.label
-                font.family: Theme.textFont
+                font.family: Fonts.text
                 font.pixelSize: 9
                 font.weight: 600
                 opacity: root.active ? 1.0 : 0.85

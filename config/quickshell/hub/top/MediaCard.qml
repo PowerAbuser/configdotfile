@@ -553,7 +553,7 @@ Rectangle {
 
                 Text {
                     text: root.title
-                    font.family: Theme.textFont
+                    font.family: Lib.Fonts.text
                     font.pixelSize: 15
                     font.weight: 600
                     color: root.titleColor
@@ -563,7 +563,7 @@ Rectangle {
 
                 Text {
                     text: root.artist
-                    font.family: Theme.textFont
+                    font.family: Lib.Fonts.text
                     font.pixelSize: 13
                     font.weight: 500
                     color: root.artistColor
@@ -573,7 +573,7 @@ Rectangle {
 
                 Text {
                     text: root.fmt(root.displayPos) + " / " + root.fmtLen()
-                    font.family: Theme.textFont
+                    font.family: Lib.Fonts.text
                     font.pixelSize: 12
                     font.weight: 600
                     color: root.timeColor

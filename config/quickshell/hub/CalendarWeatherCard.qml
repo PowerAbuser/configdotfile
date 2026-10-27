@@ -54,7 +54,7 @@ Lib.Card {
 
         Text {
           text: Qt.formatDate(root.now, "dddd").toUpperCase()
-          font.family: Theme.textFont
+          font.family: Lib.Fonts.text
           font.pixelSize: 11
           font.weight: 700
           font.letterSpacing: 1.5
@@ -64,7 +64,7 @@ Lib.Card {
         
         Text {
           text: Qt.formatDate(root.now, "d")
-          font.family: Theme.textFont
+          font.family: Lib.Fonts.text
           font.pixelSize: 68
           font.weight: 800
           color: (root.theme ? root.theme.textPrimary : Lib.Colors.fgSurface)
@@ -75,7 +75,7 @@ Lib.Card {
         // The longest month name is used for how much room is left for the weather
         Text {
           text: Qt.formatDate(root.now, "MMMM yyyy").toUpperCase()
-          font.family: Theme.textFont
+          font.family: Lib.Fonts.text
           font.pixelSize: 10
           font.weight: 600
           font.letterSpacing: 1.0
@@ -103,7 +103,7 @@ Lib.Card {
         
         Text {
           text: weather.value ? weather.value.temp : "--"
-          font.family: Theme.textFont
+          font.family: Lib.Fonts.text
           font.pixelSize: 22
           font.weight: 700
           color: (root.theme ? root.theme.textPrimary : Lib.Colors.fgSurface)
@@ -112,7 +112,7 @@ Lib.Card {
         
         Text {
           text: weather.value ? weather.value.desc : "Error"
-          font.family: Theme.textFont
+          font.family: Lib.Fonts.text
           font.pixelSize: 10
           font.weight: 500
           color: (root.theme ? root.theme.textSecondary : Lib.Colors.fgSurfaceVariant)

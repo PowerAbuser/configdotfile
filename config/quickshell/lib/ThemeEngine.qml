@@ -1,4 +1,5 @@
 import QtQuick
+import "../desktoptheme" as DT
 
 QtObject {
     id: root
@@ -33,31 +34,42 @@ QtObject {
     // Text
     readonly property color textPrimary:   Colors.fgSurface
     readonly property color textSecondary: Colors.fgSurfaceVariant
-    readonly property color textOnAccent:  Colors.fgPrimary
+    // On a theme's accent (neon, gilt...), whichever of dark or light reads
+    readonly property color textOnAccent:  !themed ? Colors.fgPrimary
+        : (accent.hslLightness > 0.55 ? Colors.surfaceContainerLowest : Colors.fgSurface)
 
     // Accents
     readonly property color customAccent:
         isDarkMode ? Configuration.customAccentDark : Configuration.customAccentLight
+    // A desktop theme (desktoptheme/DesktopTheme) gives its own toned accents
+    readonly property bool themed: DT.DesktopTheme.enabled
     readonly property color accent: Configuration.useCustomAccent
         ? customAccent
-        : Colors.primary
+        : themed ? DT.DesktopTheme.accent : Colors.primary
     readonly property color accentBlue: Configuration.useCustomAccent
         ? customAccent
-        : Colors.secondary
+        : themed ? DT.DesktopTheme.accent2 : Colors.secondary
     readonly property color accentRed:     Colors.error
-    readonly property color accentSlider:  Colors.primary
-    readonly property color accentSlider2: Colors.tertiary
+    readonly property color accentSlider:  themed ? DT.DesktopTheme.accent : Colors.primary
+    readonly property color accentSlider2: themed ? DT.DesktopTheme.accent2 : Colors.tertiary
 
     // Lines and hovers
-    readonly property color border:          Colors.alpha(Colors.primary, isDarkMode ? 0.44 : 0.25)
+    // The theme's hairline when it draws one, else a faint accent line
+    readonly property color border:          themed && DT.DesktopTheme.look.border
+        ? DT.DesktopTheme.borderColor(DT.DesktopTheme.look)
+        : Colors.alpha(Colors.primary, isDarkMode ? 0.44 : 0.25)
     readonly property color outline:         Colors.alpha(Colors.outlineVariant, 0.6)
     readonly property color subtleFill:      isDarkMode ? Qt.rgba(1,1,1,0.05) : Qt.rgba(0,0,0,0.05)
     readonly property color subtleFillHover: isDarkMode ? Qt.rgba(1,1,1,0.15) : Qt.rgba(0,0,0,0.10)
     readonly property color hoverSpotlight:  isDarkMode ? Qt.rgba(1,1,1,0.14) : Qt.rgba(0,0,0,0.10)
 
     // Sizing
-    readonly property int radiusOuter: 12
-    readonly property int radiusInner: 16
+    // Corners follow the theme: square for HUD, Neon, Art Deco..., capsules
+    // for Astral, a seal's or a plate's for Cave Abode and Wasteland
+    readonly property int radiusOuter: DT.DesktopTheme.panelRadius(12)
+    readonly property int radiusInner: DT.DesktopTheme.rad(16)
+    function rad(normal) { return DT.DesktopTheme.rad(normal) }
+    function panelRadius(normal) { return DT.DesktopTheme.panelRadius(normal) }
     readonly property int padCard:     12
     readonly property int gapCard:     10
     readonly property int btnH:        54
@@ -66,6 +78,7 @@ QtObject {
     // Used by the top-style calendar card
     readonly property color weatherColor: Colors.fgSurfaceVariant
 
-    readonly property string textFont: "Manrope"
+    // The theme's panel type (its uiFont when the bar face is too decorative)
+    readonly property string textFont: Fonts.text
     readonly property string iconFont: "JetBrainsMono Nerd Font"
 }

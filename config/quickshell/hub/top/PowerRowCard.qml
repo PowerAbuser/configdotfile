@@ -47,7 +47,7 @@ Lib.TopCard {
                 readonly property bool isArmed: root.armed === modelData.id
                 Layout.fillWidth: true
                 implicitHeight: 44
-                radius: 14
+                radius: root.theme ? root.theme.rad(14) : 14
                 color: btn.isArmed ? Lib.Colors.error
                      : (mouse.containsMouse ? (root.theme ? root.theme.bgItemHover : Lib.Colors.surfaceBright)
                                             : (root.theme ? root.theme.bgItem : Lib.Colors.surfaceContainerHighest))
@@ -66,7 +66,7 @@ Lib.TopCard {
                         anchors.horizontalCenter: parent.horizontalCenter
                         text: btn.isArmed ? "Again?" : btn.modelData.label
                         color: btn.isArmed ? Lib.Colors.fgError : (root.theme ? root.theme.textSecondary : Lib.Colors.fgSurfaceVariant)
-                        font.family: Theme.textFont; font.pixelSize: 9; font.weight: 600
+                        font.family: Lib.Fonts.text; font.pixelSize: 9; font.weight: 600
                     }
                 }
 

@@ -11,7 +11,7 @@ Rectangle {
 
     // Background
     color: themed && theme.bgCard !== undefined ? theme.bgCard : Colors.surfaceContainer
-    radius: Theme.radiusOuter
+    radius: themed && theme.radiusOuter !== undefined ? theme.radiusOuter : Theme.radiusOuter
 
     // Hover 
     HoverHandler { id: hoverHandler }

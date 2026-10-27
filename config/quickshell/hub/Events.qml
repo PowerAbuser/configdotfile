@@ -132,7 +132,7 @@ Lib.Card {
             // Day indicator 
             Text {
               text: modelData.day
-              font.family: Theme.textFont
+              font.family: Lib.Fonts.text
               font.pixelSize: 14
               font.weight: 600
               color: (root.theme ? root.theme.accent : theme.accent)

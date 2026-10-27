@@ -39,7 +39,7 @@ Lib.TopCard {
             Text {
                 text: "Machine"
                 color: root.theme ? root.theme.textPrimary : Lib.Colors.fgSurface
-                font.family: Theme.textFont; font.pixelSize: 13; font.weight: 700
+                font.family: Lib.Fonts.text; font.pixelSize: 13; font.weight: 700
             }
             Item { Layout.fillWidth: true }
             Text {
@@ -75,7 +75,7 @@ Lib.TopCard {
                         Text {
                             text: cell.modelData.label
                             color: root.theme ? root.theme.textSecondary : Lib.Colors.fgSurfaceVariant
-                            font.family: Theme.textFont; font.pixelSize: 11; font.weight: 600
+                            font.family: Lib.Fonts.text; font.pixelSize: 11; font.weight: 600
                         }
                         Item { Layout.fillWidth: true }
                         Text {
@@ -88,7 +88,7 @@ Lib.TopCard {
                     Rectangle {
                         Layout.fillWidth: true
                         implicitHeight: 6
-                        radius: 3
+                        radius: root.theme ? Math.min(3, root.theme.rad(3)) : 3
                         color: root.theme ? root.theme.bgItem : Lib.Colors.surfaceContainerHighest
 
                         Rectangle {

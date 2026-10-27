@@ -49,7 +49,7 @@ Item {
             width: root.orientation === Qt.Horizontal ? slider.availableWidth : 32
             height: root.orientation === Qt.Horizontal ? 32 : slider.availableHeight
             
-            radius: 16 
+            radius: root.theme && root.theme.rad ? root.theme.rad(16) : 16
             color: (root.theme ? root.theme.bgItem : Colors.surfaceContainerHighest) 
 
             // The Fill
@@ -63,7 +63,7 @@ Item {
                     ? parent.height
                     : Math.max(pos * parent.height, parent.width + 8)
                 y: root.orientation === Qt.Horizontal ? 0 : parent.height - height
-                radius: 16
+                radius: root.theme && root.theme.rad ? root.theme.rad(16) : 16
                 color: root.accentColor
                 opacity: 0.45 + (pos * 0.45)
             }
