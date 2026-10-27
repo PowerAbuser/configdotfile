@@ -29,6 +29,8 @@ command = "spotify"
 class = "Spotify"
 lazy = true
 process_tracking = false
+# unpinned: pinned windows draw above Spotify's XWayland popup menus
+pinned = false
 
 [wallpapers]
 
