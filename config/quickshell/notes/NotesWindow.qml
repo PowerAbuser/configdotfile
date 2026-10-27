@@ -5,10 +5,9 @@ import Quickshell.Hyprland
 
 // The notes drawer (NotesDrawer.qml, ported from dhrruvsharma/shell) on one
 // screen. It rises from the bottom centre:
-//   - hover the 900 px strip at the bottom edge to peek it; it closes again
-//     once the pointer leaves, unless you clicked into it
-//   - the notesToggle shortcut (SUPER+ALT+N) opens it pinned on the focused screen
-//   - Escape or a click outside closes it
+//   - the notesToggle shortcut (SUPER+ALT+N) opens it on the focused screen
+//     (it no longer opens when the pointer reaches the bottom edge)
+//   - SUPER+ALT+N again, Escape or a click outside closes it
 Scope {
     id: root
 
@@ -39,23 +38,6 @@ Scope {
             var mon = Hyprland.focusedMonitor
             if (!mon || mon.name !== root.screen.name) return
             if (root.opened) root.close(); else root.open(true)
-        }
-    }
-
-    // Hover strip along the bottom edge
-    PanelWindow {
-        screen: root.screen
-        visible: !root.opened
-        anchors.bottom: true
-        implicitWidth: 900
-        implicitHeight: 2
-        exclusiveZone: 0
-        color: "transparent"
-        WlrLayershell.layer: WlrLayer.Overlay
-        WlrLayershell.namespace: "notes-trigger"
-
-        HoverHandler {
-            onHoveredChanged: if (hovered) root.open(false)
         }
     }
 

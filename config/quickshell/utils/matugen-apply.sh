@@ -49,11 +49,15 @@ if [[ -f $dunst_src ]]; then
     if [[ $mode == light ]]; then icons=Papirus-Light; frame=2; else icons=Papirus-Dark; frame=1; fi
     sed -e "s|@ICONS@|$icons|g" -e "s|^\(\s*frame_width = \).*|\1$frame|" \
         "$dunst_src" > "$HOME/.config/dunst/dunstrc"
-    if systemctl --user is-active --quiet dunst.service; then
-        systemctl --user restart dunst.service 9>&-
-    elif pgrep -x dunst >/dev/null; then
-        killall dunst 2>/dev/null; sleep 0.2
-        setsid dunst >/dev/null 2>&1 9>&- &
+    # Reload in place: a kill-and-relaunch left a gap in which D-Bus started
+    # another notification daemon (swaync) and dunst couldn't come back
+    if ! dunstctl reload >/dev/null 2>&1; then
+        if systemctl --user is-active --quiet dunst.service; then
+            systemctl --user restart dunst.service 9>&-
+        elif pgrep -x dunst >/dev/null; then
+            killall dunst 2>/dev/null; sleep 0.2
+            setsid dunst >/dev/null 2>&1 9>&- &
+        fi
     fi
 fi
 exit 0
