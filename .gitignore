@@ -15,3 +15,5 @@ config/quickshell/notes.conf
 # generated from quickshell/windowlook.json by Settings > Windows
 config/hypr/confs/windowlook.lua
 config/hypr/confs/desktoptheme.lua
+# wallpaper picker settings (may hold a Wallhaven API key)
+config/quickshell/wallpicker.json

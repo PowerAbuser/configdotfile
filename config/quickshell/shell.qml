@@ -11,6 +11,7 @@ import "desktop" as Desktop
 import "hub" as SystemHub
 import "notes" as Notes
 import "desktoptheme" as DesktopThemes
+import "wallpicker" as WallPicker
 
 ShellRoot {
     Variants {
@@ -119,6 +120,10 @@ ShellRoot {
             }
 
             DesktopThemes.DesktopLayerWindow {
+                screen: v.modelData
+            }
+
+            WallPicker.WallpaperPickerWindow {
                 screen: v.modelData
             }
 

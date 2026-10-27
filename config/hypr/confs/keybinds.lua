@@ -44,7 +44,8 @@ local MOUSE    = { mouse  = true }                        -- bindm
 --------------------------------------------------------------------
 bind(mod .. " + W",              exec(wallpaper))
 bind(mod .. " + ALT + E",        exec(scripts .. "/change_wallpaper_engine.sh"))
-bind(mod .. " + SHIFT + W",      exec(wallpaper_select .. " thm1"))
+-- Wallpaper picker (quickshell wallpicker/: swatch deck + Wallhaven); was the rofi WallpaperSelect.sh thm1
+bind(mod .. " + SHIFT + W",      hl.dsp.global("quickshell:wallpaperPicker"))
 bind(mod .. " + CTRL + SHIFT + W", exec(wallpaper_select .. " thm2"))
 
 --------------------------------------------------------------------
