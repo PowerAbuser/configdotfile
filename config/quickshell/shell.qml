@@ -10,6 +10,7 @@ import "dock" as Dock
 import "desktop" as Desktop
 import "hub" as SystemHub
 import "notes" as Notes
+import "desktoptheme" as DesktopThemes
 
 ShellRoot {
     Variants {
@@ -114,6 +115,10 @@ ShellRoot {
             }
 
             Notes.NotesWindow {
+                screen: v.modelData
+            }
+
+            DesktopThemes.DesktopLayerWindow {
                 screen: v.modelData
             }
 

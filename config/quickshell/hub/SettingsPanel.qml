@@ -4,6 +4,7 @@ import Qt5Compat.GraphicalEffects
 import Quickshell
 import Quickshell.Io
 import "../lib" as Lib
+import "../desktoptheme" as DT
 
 Item {
     id: root
@@ -262,6 +263,96 @@ Item {
                     from: -10; to: 10
                     value: Math.round(Number(colourCard.palette.contrast) * 10)
                     onMoved: (v) => colourCard.setPalette("contrast", v / 10)
+                }
+            }
+
+            //  1d. DESKTOP THEME (from dhrruvsharma/shell: window look + desktop layer)
+            SCard {
+                id: themeCard
+                label: "Desktop theme"
+                Layout.columnSpan: 2; Layout.fillWidth: true
+
+                readonly property var cur: DT.DesktopTheme.current
+
+                Text {
+                    Layout.fillWidth: true
+                    wrapMode: Text.WordWrap
+                    text: themeCard.cur ? themeCard.cur.description
+                        : "Off. Pick a theme to restyle windows and draw over the wallpaper, in the wallpaper's colours."
+                    font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 12
+                    color: root.theme ? root.theme.textSecondary : "#888"
+                }
+
+                Flow {
+                    Layout.fillWidth: true
+                    spacing: 6
+                    Repeater {
+                        model: [{ id: "", name: "Off", tagline: "Your own look" }].concat(DT.DesktopTheme.themes)
+                        Rectangle {
+                            id: tc
+                            required property var modelData
+                            readonly property bool current: DT.DesktopTheme.theme === modelData.id
+                            width: (grid.width - 20 - 12) / 3; height: 52; radius: 10
+                            color: tcHov.hovered ? (root.theme ? root.theme.bgItemHover : "#45475a") : (root.theme ? root.theme.bgItem : "#313244")
+                            border.width: tc.current ? 2 : 1
+                            border.color: tc.current ? (root.theme ? root.theme.accent : "#b4befe") : (root.theme ? root.theme.outline : "#333")
+                            Behavior on color { ColorAnimation { duration: 120 } }
+                            HoverHandler { id: tcHov; cursorShape: Qt.PointingHandCursor }
+                            TapHandler { onTapped: DT.DesktopTheme.setTheme(tc.modelData.id) }
+                            RowLayout {
+                                anchors { fill: parent; leftMargin: 8; rightMargin: 8 }
+                                spacing: 6
+                                Column {
+                                    spacing: 2
+                                    visible: tc.modelData.id !== ""
+                                    Rectangle { width: 10; height: 10; radius: 5; color: tc.modelData.id ? DT.DesktopTheme.accentOf(tc.modelData.id) : "transparent" }
+                                    Rectangle { width: 10; height: 10; radius: 5; color: tc.modelData.id ? DT.DesktopTheme.accent2Of(tc.modelData.id) : "transparent" }
+                                }
+                                Column {
+                                    Layout.fillWidth: true
+                                    spacing: 1
+                                    Text {
+                                        width: parent.width; elide: Text.ElideRight
+                                        text: tc.modelData.name
+                                        font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 12
+                                        font.weight: tc.current ? 700 : 600
+                                        color: root.theme ? root.theme.textPrimary : "#cdd6f4"
+                                    }
+                                    Text {
+                                        width: parent.width; elide: Text.ElideRight
+                                        text: tc.modelData.tagline
+                                        font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 10
+                                        color: root.theme ? root.theme.textSecondary : "#888"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                RowLayout {
+                    Layout.fillWidth: true
+                    enabled: DT.DesktopTheme.enabled
+                    opacity: enabled ? 1 : 0.4
+                    spacing: 6
+                    SLabel { text: "Screen effect" }
+                    Repeater {
+                        model: [{ id: "off", name: "Off" }, { id: "subtle", name: "Subtle" }, { id: "strong", name: "Strong" }]
+                        SBtn {
+                            required property var modelData
+                            label: modelData.name
+                            accent: DT.DesktopTheme.screenEffect === modelData.id
+                            onTriggered: DT.DesktopTheme.setScreenEffect(modelData.id)
+                        }
+                    }
+                }
+                Text {
+                    Layout.fillWidth: true
+                    wrapMode: Text.WordWrap
+                    visible: themeCard.cur && DT.DesktopTheme.screenEffect !== "off"
+                    text: themeCard.cur && themeCard.cur.effects ? (themeCard.cur.effects[DT.DesktopTheme.screenEffect] || "") + " (Night light takes over the screen while it's on.)" : ""
+                    font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 11
+                    color: root.theme ? root.theme.textSecondary : "#888"
                 }
             }
 
