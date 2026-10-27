@@ -13,6 +13,7 @@ Scope {
     required property var screen
 
     function toggle() { menu.toggle() }
+    readonly property alias menu: menu
 
     GlobalShortcut {
         name: "powerMenu"
@@ -27,13 +28,16 @@ Scope {
     PanelWindow {
         id: win
         screen: root.screen
-        visible: menu.visible
+        // From the phase, not menu.visible: an item in a hidden window reads
+        // as hidden, so that would never show the window again once closed.
+        readonly property bool shown: menu.phase !== "closed" && menu.phase !== "capturing"
+        visible: shown
         anchors { top: true; bottom: true; left: true; right: true }
         exclusionMode: ExclusionMode.Ignore
         color: "transparent"
         WlrLayershell.layer: WlrLayer.Overlay
         WlrLayershell.namespace: "power-menu"
-        WlrLayershell.keyboardFocus: menu.visible ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
+        WlrLayershell.keyboardFocus: shown ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
 
         PowerMenu {
             id: menu
