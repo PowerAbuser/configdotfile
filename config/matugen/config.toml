@@ -22,7 +22,7 @@ output_path = "~/.config/quickshell/colors/Colors.json"
 [templates.hyprland]
 input_path  = "~/.config/matugen/templates/hyprland.lua"
 output_path = "~/.config/hypr/confs/matugen_colors.lua"
-post_hook   = "hyprctl reload >/dev/null 2>&1 || true"
+post_hook   = "~/.config/hypr/scripts/safe-reload.sh >/dev/null 2>&1 || true"
 
 [templates.kitty]
 input_path  = "~/.config/matugen/templates/kitty.conf"

@@ -14,3 +14,4 @@ config/dunst/dunstrc
 config/quickshell/notes.conf
 # generated from quickshell/windowlook.json by Settings > Windows
 config/hypr/confs/windowlook.lua
+config/hypr/confs/desktoptheme.lua

@@ -195,7 +195,7 @@ apply_theme() {
 
   # Hyprland borders: confs/decoration.lua picks Mocha/Latte from the state
   # file, so a reload is all it takes (and keeps one source of truth)
-  command -v hyprctl &>/dev/null && hyprctl reload >/dev/null 2>&1 || true
+  "$HOME/.config/hypr/scripts/safe-reload.sh" >/dev/null 2>&1 || true
 
   # Wallpaper (opt-in)
   if [[ "$NO_WALLPAPER" != "1" && -n "$wallpaper" && -f "$wallpaper" ]]; then

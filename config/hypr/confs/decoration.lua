@@ -34,8 +34,20 @@ if ok and type(wall) == "table" then
     theme.inactive = wall.inactive or theme.inactive
 end
 
--- Night light (quickshell/utils/night-light.sh) survives reloads
 local home = os.getenv("HOME")
+local applied = require("confs.decoration_common").apply(theme)
+
+-- The quickshell desktop theme (desktoptheme/DesktopTheme.qml): rounding,
+-- glow, borders and its screen shader
+local okt, desk = pcall(dofile, home .. "/.config/hypr/confs/desktoptheme.lua")
+if okt and type(desk) == "table" then hl.config(desk) end
+
+-- Settings > Windows in the quickshell hub (lib/WindowLook.qml) goes on top
+local okw, look = pcall(dofile, home .. "/.config/hypr/confs/windowlook.lua")
+if okw and type(look) == "table" then hl.config(look) end
+
+-- Night light (quickshell/utils/night-light.sh) wins over a theme's screen
+-- shader while it is on, and survives reloads
 local nl = io.open(home .. "/.cache/quickshell/night_light", "r")
 if nl then
     if (nl:read("l") or ""):gsub("%s+", "") == "on" then
@@ -43,11 +55,5 @@ if nl then
     end
     nl:close()
 end
-
-local applied = require("confs.decoration_common").apply(theme)
-
--- Settings > Windows in the quickshell hub (lib/WindowLook.qml) goes on top
-local okw, look = pcall(dofile, home .. "/.config/hypr/confs/windowlook.lua")
-if okw and type(look) == "table" then hl.config(look) end
 
 return applied

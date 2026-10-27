@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Night light: night-light.sh on | off | toggle
 # Writes ~/.cache/quickshell/night_light (the hub's toggle and ThemeOSD read
-# it) and applies the shader live. confs/decoration.lua reapplies it on every
+# it) and applies the shader live (on) or reloads Hyprland (off). confs/decoration.lua reapplies it on every
 # Hyprland reload from the same file.
 state=$HOME/.cache/quickshell/night_light
 shader=$HOME/.config/hypr/shaders/night_light.frag
@@ -15,5 +15,6 @@ echo "$next" > "$state.tmp" && mv -f "$state.tmp" "$state"
 if [[ $next == on ]]; then
     hyprctl eval "hl.config({ decoration = { screen_shader = \"$shader\" } })" >/dev/null
 else
-    hyprctl eval 'hl.config({ decoration = { screen_shader = "" } })' >/dev/null
+    # A reload puts back whatever shader the desktop theme sets (or none)
+    "$HOME/.config/hypr/scripts/safe-reload.sh" >/dev/null
 fi

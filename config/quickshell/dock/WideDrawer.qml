@@ -210,7 +210,7 @@ PanelWindow {
                 + 'while echo "$active" | grep -q "^$ws$"; do ws=$((ws+1)); done; '
                 + 'hyprctl dispatch "hl.dsp.focus({ workspace = $ws })" >/dev/null 2>&1; '
         var act = (path === "OFF")
-            ? 'hyprctl reload >/dev/null 2>&1'
+            ? '~/.config/hypr/scripts/safe-reload.sh >/dev/null 2>&1'
             : 'hyprctl eval "hl.config({ decoration = { screen_shader = \\"' + path + '\\" } })" >/dev/null 2>&1'
         Lib.Shell.det(hop + act)
     }
