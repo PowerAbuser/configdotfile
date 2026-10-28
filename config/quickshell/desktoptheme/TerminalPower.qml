@@ -109,10 +109,10 @@ PowerScene {
 
     // ── The tube ─────────────────────────────────────────────────────────
 
-    // Dark behind a collapsing picture.
+    // Dark round the tube: its curve pulls the picture in from the edges,
+    // and behind it as it collapses.
     Rectangle {
         anchors.fill: parent
-        visible: scene.chosen >= 0 && !scene.quickChosen
         color: "black"
     }
 
