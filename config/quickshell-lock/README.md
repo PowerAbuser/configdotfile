@@ -10,16 +10,13 @@ Try a theme without locking (PAM is never touched, any passcode unlocks):
 
     QS_LOCK_THEME=arcade qs -p ~/.config/quickshell-lock/LockPreview.qml
 
-Only the files these themes need were copied: `arcade` (HUD), `terminal`
-(Mainframe) and `zen` (Still). The lock follows the desktop theme
-(`desktoptheme.json`'s `matchLock`); a desktop theme whose lock isn't here
-gets `arcade`. Otherwise `../quickshell/lockscreen.json` picks.
+Only the lock and what it needs were copied, with all 16 upstream themes
+(ids in `services/LockScreen.qml`). The lock follows the desktop theme
+(`desktoptheme.json`'s `matchLock`); otherwise `../quickshell/lockscreen.json`
+picks (`active`, `shuffle`).
 
-Changes from upstream:
-
-- `services/LockScreen.qml` and `modules/lock/ThemeHost.qml` list only the
-  three themes above.
-- `LockContext.suspend()` turns the screens off (suspend is masked here).
+The one change from upstream: `LockContext.suspend()` turns the screens off,
+as suspend is masked here.
 
 Upstream's paths that differ from this config are linked by `lock.sh` before
 each lock: `~/.cache/current_wallpaper` and `~/.cache/current_avatar`.

@@ -28,12 +28,30 @@ Singleton {
             ambient: false
         },
         {
+            id: "xianxia",
+            name: "Sealed Cave Abode",
+            tagline: "Xianxia · 洞府封印",
+            description: "Your wallpaper as a moonlit ink painting, sealed by a golden formation. Incense sticks are lives; unlocking is a breakthrough.",
+            source: Qt.resolvedUrl("../modules/lock/themes/xianxia/XianxiaSurface.qml"),
+            introMs: 1700, outroMs: 1150, rewardBaseMs: 1400, rewardLevelUpMs: 1000, rewardAchievementMs: 450,
+            ambient: true
+        },
+        {
             id: "terminal",
             name: "Mainframe",
             tagline: "Phosphor CRT terminal",
             description: "A glowing CRT console: the desktop collapses to a line and a dot, and you log in like it's 1985.",
             source: Qt.resolvedUrl("../modules/lock/themes/terminal/TerminalSurface.qml"),
             introMs: 1350, outroMs: 1050, rewardBaseMs: 1500, rewardLevelUpMs: 500, rewardAchievementMs: 350,
+            ambient: true
+        },
+        {
+            id: "cosmos",
+            name: "Astral",
+            tagline: "Deep space",
+            description: "The desktop spirals into a singularity; your passcode charts a constellation across a living starfield.",
+            source: Qt.resolvedUrl("../modules/lock/themes/cosmos/CosmosSurface.qml"),
+            introMs: 1600, outroMs: 1100, rewardBaseMs: 1300, rewardLevelUpMs: 900, rewardAchievementMs: 450,
             ambient: true
         },
         {
@@ -44,6 +62,105 @@ Singleton {
             source: Qt.resolvedUrl("../modules/lock/themes/zen/ZenSurface.qml"),
             introMs: 900, outroMs: 520, rewardBaseMs: 280, rewardLevelUpMs: 0, rewardAchievementMs: 0,
             ambient: false
+        },
+        {
+            id: "cyberpunk",
+            name: "Black ICE",
+            tagline: "Cyberpunk · 攻性防壁",
+            description: "Your deck behind black ICE in a rain-slick neon city. The desktop glitches out, your passcode is a breach, wrong ones raise the trace, and getting in pays street cred.",
+            source: Qt.resolvedUrl("../modules/lock/themes/cyberpunk/CyberpunkSurface.qml"),
+            introMs: 1250, outroMs: 950, rewardBaseMs: 1350, rewardLevelUpMs: 900, rewardAchievementMs: 450,
+            ambient: true
+        },
+        {
+            id: "wabisabi",
+            name: "Ensō",
+            tagline: "Wabi-sabi · 円相",
+            description: "The desktop yellows into old washi paper. Each keystroke moves the brush around an ensō; mistakes crack it, and coming home mends the cracks with gold.",
+            source: Qt.resolvedUrl("../modules/lock/themes/wabisabi/WabisabiSurface.qml"),
+            introMs: 1500, outroMs: 1100, rewardBaseMs: 1350, rewardLevelUpMs: 850, rewardAchievementMs: 400,
+            ambient: true
+        },
+        {
+            id: "artdeco",
+            name: "Express Elevator",
+            tagline: "Art Deco · Going up",
+            description: "A 1920s skyscraper's lift: gold-and-lacquer doors engraved with your wallpaper slide shut. Each keystroke takes you up a floor; a wrong floor drops you to the lobby, and the right one rings the bell for the penthouse.",
+            source: Qt.resolvedUrl("../modules/lock/themes/artdeco/ArtdecoSurface.qml"),
+            introMs: 1400, outroMs: 1100, rewardBaseMs: 1500, rewardLevelUpMs: 800, rewardAchievementMs: 400,
+            ambient: false
+        },
+        {
+            id: "gothic",
+            name: "Rose Window",
+            tagline: "Cathedral · Fenestra rosea",
+            description: "The desktop turns to leaded glass and falls away into a candlelit nave. Each keystroke lights a pane of a rose window glazed in your wallpaper's colours; a wrong one cracks the glass and snuffs a candle, and coming home floods it with light.",
+            source: Qt.resolvedUrl("../modules/lock/themes/gothic/GothicSurface.qml"),
+            introMs: 1450, outroMs: 1150, rewardBaseMs: 1500, rewardLevelUpMs: 850, rewardAchievementMs: 400,
+            ambient: true
+        },
+        {
+            id: "newspaper",
+            name: "Extra! Extra!",
+            tagline: "Broadsheet · Stop the press",
+            description: "Your desktop becomes the front-page photograph of your own paper. The passcode fills today's crossword, wrong ones print corrections, too many halt the presses, and getting in spins an EXTRA edition onto the screen.",
+            source: Qt.resolvedUrl("../modules/lock/themes/newspaper/NewspaperSurface.qml"),
+            introMs: 1300, outroMs: 1150, rewardBaseMs: 1600, rewardLevelUpMs: 800, rewardAchievementMs: 400,
+            ambient: false
+        },
+        {
+            id: "wasteland",
+            name: "Blast Door",
+            tagline: "Wasteland · Bunker 7",
+            description: "A rusted blast shutter slams down over the desktop in a cloud of dust. Each keystroke lights a code lamp; wrong codes rattle the door and push the Geiger counter up, and the right one rolls the shutter back up.",
+            source: Qt.resolvedUrl("../modules/lock/themes/wasteland/WastelandSurface.qml"),
+            introMs: 1250, outroMs: 1100, rewardBaseMs: 1450, rewardLevelUpMs: 850, rewardAchievementMs: 400,
+            ambient: false
+        },
+        {
+            id: "observatory",
+            name: "Astrolabe",
+            tagline: "Observatory · Stellae fixae",
+            description: "Night falls on the desktop and the dome opens on tonight's sky. An astrolabe set for your latitude turns with the stars: each keystroke sights one on the rete, a wrong one clouds the sky and brings an eclipse closer, and the right one clears the heavens.",
+            source: Qt.resolvedUrl("../modules/lock/themes/observatory/ObservatorySurface.qml"),
+            introMs: 1550, outroMs: 1200, rewardBaseMs: 1450, rewardLevelUpMs: 850, rewardAchievementMs: 400,
+            ambient: false
+        },
+        {
+            id: "abyss",
+            name: "Bathysphere",
+            tagline: "Abyss · Half a mile down",
+            description: "The desktop floods and sinks into the deep, and you're watching the dark through a bathysphere's porthole. Each keystroke pings the sonar and wakes a light in the water; wrong ones spring a leak and cost you air, and the right one blows the ballast and brings you back up.",
+            source: Qt.resolvedUrl("../modules/lock/themes/abyss/AbyssSurface.qml"),
+            introMs: 1450, outroMs: 1250, rewardBaseMs: 1450, rewardLevelUpMs: 850, rewardAchievementMs: 400,
+            ambient: true
+        },
+        {
+            id: "devaloka",
+            name: "Samudra Manthan",
+            tagline: "Devaloka · समुद्र मन्थन",
+            description: "The desktop is churned into the ocean of milk. Mount Mandara turns in the serpent Vasuki's coils: each keystroke brings a treasure up out of the sea, a wrong one raises the Halahala poison and spoils a kalash of amrita, and the right one brings up the amrita itself.",
+            source: Qt.resolvedUrl("../modules/lock/themes/devaloka/DevalokaSurface.qml"),
+            introMs: 1450, outroMs: 1200, rewardBaseMs: 1450, rewardLevelUpMs: 850, rewardAchievementMs: 400,
+            ambient: true
+        },
+        {
+            id: "siege",
+            name: "Portcullis",
+            tagline: "Siege · hold the gate",
+            description: "Night falls and the portcullis crashes down over the desktop, torches in the gatehouse and your banner on the lintel. Each letter of the watchword winches the gate up a notch and calls a knight to the muster; a false one drops it with a crash and strikes one of your banners, the true one lets you in.",
+            source: Qt.resolvedUrl("../modules/lock/themes/siege/SiegeSurface.qml"),
+            introMs: 1600, outroMs: 1250, rewardBaseMs: 1450, rewardLevelUpMs: 850, rewardAchievementMs: 400,
+            ambient: true
+        },
+        {
+            id: "sekiro",
+            name: "Deathblow",
+            tagline: "Sekiro · 忍殺",
+            description: "Night falls on Ashina, a great moon over the desktop and the silver grass rising. Your passcode is a duel: each keystroke deflects a blow and fills the foe's posture, a wrong one is a perilous attack that strikes out a resurrection node (spend them all and it's 死 until you rise again), and the right one is the deathblow: 忍殺.",
+            source: Qt.resolvedUrl("../modules/lock/themes/sekiro/SekiroSurface.qml"),
+            introMs: 1500, outroMs: 1250, rewardBaseMs: 1600, rewardLevelUpMs: 850, rewardAchievementMs: 400,
+            ambient: true
         }
     ]
 
