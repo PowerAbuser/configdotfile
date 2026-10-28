@@ -21,3 +21,8 @@ echo "${name%.*}" >"$cacheDir/.wallpaper"
 
 # Colour scheme from the new wallpaper (backgrounded: matugen takes ~1 s)
 setsid "$HOME/.config/quickshell/utils/matugen-apply.sh" "$img" >/dev/null 2>&1 &
+
+# The login screen too, when the picker's switch is on
+if [[ $(jq -r '.sddmWallpaper // false' "$HOME/.config/quickshell/wallpicker.json" 2>/dev/null) == true ]]; then
+    setsid "$HOME/.config/quickshell/utils/sddm-wallpaper.sh" "$img" >/dev/null 2>&1 &
+fi

@@ -78,8 +78,8 @@ export NODE_OPTIONS="--max-old-space-size=8192"
 [ -s "/home/nazir-maman/.bun/_bun" ] && source "/home/nazir-maman/.bun/_bun"
 
 # bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
+# export BUN_INSTALL="$HOME/.bun"
+# export PATH="$BUN_INSTALL/bin:$PATH"
 
 eval "$(starship init zsh)"
 

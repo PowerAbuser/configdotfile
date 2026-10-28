@@ -5,6 +5,7 @@ import Quickshell
 import Quickshell.Io
 import "../lib" as Lib
 import "../desktoptheme" as DT
+import "../wallpicker" as WP
 
 Item {
     id: root
@@ -507,6 +508,125 @@ Item {
                     }
                     SSlider { from: 2; to: 30; value: Math.round(Number(wallCard.val("duration")) * 10)
                               onMoved: (v) => wallCard.setVal("duration", v / 10) }
+                }
+            }
+
+            //  1f. LOGIN SCREEN: SDDM's sddm-astronaut-theme. utils/sddm-preset.sh writes
+            //      a preset into the theme's config, utils/sddm-wallpaper.sh its background;
+            //      both files are made yours once by `sudo sddm/install.sh` in the repo.
+            SCard {
+                id: loginCard
+                label: "Login screen"
+                Layout.columnSpan: 2; Layout.fillWidth: true
+
+                readonly property string themeDir: "/usr/share/sddm/themes/sddm-astronaut-theme"
+                readonly property var presets: [
+                    { id: "hud", name: "HUD", tagline: "Arcade HUD in your wallpaper's colours: Orbitron, sharp corners, centred." },
+                    { id: "mainframe", name: "Mainframe", tagline: "Green phosphor on black, monospace, a login prompt on the left." },
+                    { id: "neon-noir", name: "Neon Noir", tagline: "Pink and cyan neon on deep violet, the form on the right." },
+                    { id: "sekiro", name: "Sekiro", tagline: "Ink black and blood red in Zen Old Mincho, the form on the left." },
+                    { id: "still", name: "Still", tagline: "Quiet: the whole wallpaper blurred, a clock and a field." }
+                ]
+                // The preset in the theme's config, from its first line
+                property string preset: ""
+                // false until sddm/install.sh has made the config yours
+                property bool ready: true
+                property string error: ""
+                function util(name) { return Qt.resolvedUrl("../utils/" + name).toString().replace("file://", "") }
+                function apply(id) {
+                    loginCard.error = ""
+                    presetProc.exec([util("sddm-preset.sh"), id])
+                }
+                // Checked again whenever the card shows: install.sh may have run since
+                function refresh() {
+                    readyCheck.running = true
+                    loginConf.reload()
+                }
+                onVisibleChanged: if (visible) refresh()
+
+                FileView {
+                    id: loginConf
+                    path: loginCard.themeDir + "/Themes/qs-active.conf"
+                    preload: true; watchChanges: true; printErrors: false
+                    onFileChanged: reload()
+                    onLoaded: { var m = text().match(/^# qs-preset=(\S+)/); loginCard.preset = m ? m[1] : "" }
+                }
+                Process {
+                    id: readyCheck
+                    running: true
+                    command: ["test", "-w", loginConf.path]
+                    onExited: (code) => loginCard.ready = code === 0
+                }
+                Process {
+                    id: presetProc
+                    stderr: StdioCollector { onStreamFinished: loginCard.error = text.trim() }
+                    onExited: (code) => { if (code === 0) root.toastRequested("Login screen updated") }
+                }
+
+                Text {
+                    Layout.fillWidth: true; wrapMode: Text.WordWrap
+                    visible: !loginCard.ready
+                    text: "Not set up yet. Run once in a terminal: sudo ~/repos/configdotfile/sddm/install.sh"
+                    font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 12
+                    color: root.theme ? root.theme.accentRed : "#f38ba8"
+                }
+
+                ColumnLayout {
+                    Layout.fillWidth: true; spacing: 8
+                    enabled: loginCard.ready
+                    opacity: enabled ? 1 : 0.4
+
+                    SLabel { text: "Style" }
+                    Flow {
+                        Layout.fillWidth: true
+                        spacing: 6
+                        Repeater {
+                            model: loginCard.presets
+                            SBtn {
+                                required property var modelData
+                                label: modelData.name
+                                accent: loginCard.preset === modelData.id
+                                onTriggered: loginCard.apply(modelData.id)
+                            }
+                        }
+                    }
+                    Text {
+                        Layout.fillWidth: true; wrapMode: Text.WordWrap
+                        text: loginCard.error || (loginCard.presets.find(p => p.id === loginCard.preset) || { tagline: "" }).tagline
+                        font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 11
+                        color: loginCard.error ? (root.theme ? root.theme.accentRed : "#f38ba8") : (root.theme ? root.theme.textSecondary : "#888")
+                    }
+
+                    SDivider {}
+                    // Shared with the wallpaper picker's settings (wallpicker.json)
+                    SToggle {
+                        label: "Use the desktop wallpaper"
+                        checked: WP.SettingsConfig.sddmWallpaper
+                        onToggled: (v) => {
+                            WP.SettingsConfig.sddmWallpaper = v
+                            if (v)
+                                Quickshell.execDetached(["sh", "-c", 'exec "$1" "$(readlink -f "$2")"', "sh", loginCard.util("sddm-wallpaper.sh"),
+                                                         Quickshell.env("HOME") + "/.config/hypr/.cache/current_wallpaper.png"])
+                        }
+                    }
+                    Text {
+                        Layout.fillWidth: true; wrapMode: Text.WordWrap
+                        text: WP.SettingsConfig.sddmWallpaper ? "Each wallpaper you set goes to the login screen too."
+                            : "The login screen keeps the last wallpaper it was given."
+                        font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 11
+                        color: root.theme ? root.theme.textSecondary : "#888"
+                    }
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Text {
+                            Layout.fillWidth: true; wrapMode: Text.WordWrap
+                            text: "Shows on the next login. Preview opens it in a window."
+                            font.family: root.theme ? root.theme.textFont : ""; font.pixelSize: 11
+                            color: root.theme ? root.theme.textSecondary : "#888"
+                        }
+                        SBtn { label: "Preview"; onTriggered: Quickshell.execDetached(["sddm-greeter-qt6", "--test-mode", "--theme", loginCard.themeDir]) }
+                    }
                 }
             }
 

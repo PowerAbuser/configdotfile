@@ -1,14 +1,16 @@
 pragma ComponentBehavior: Bound
 import QtQuick
+import Quickshell
 import Quickshell.Io
 import "../desktoptheme"
 // The wallpaper picker's settings (the gear in its head): the folder it
 // lists, which Wallhaven downloads are saved to as well; the command that
 // sets a wallpaper when another program draws it (swww, swaybg, …); a
-// Wallhaven API key; and whether a card set grows into the wallpaper. Each
-// field applies on Enter: a folder once it's found (or made), a command
-// after a try on the wallpaper on screen, a key after Wallhaven is asked
-// whether it knows it. The switch applies as it's clicked.
+// Wallhaven API key; whether a card set grows into the wallpaper; and
+// whether wallpapers go to the SDDM login screen too. Each field applies on
+// Enter: a folder once it's found (or made), a command after a try on the
+// wallpaper on screen, a key after Wallhaven is asked whether it knows it.
+// The switches apply as they're clicked.
 Rectangle {
     id: card
 
@@ -33,6 +35,10 @@ Rectangle {
     // "", "checking", "ok", "rejected" or "unreachable"
     property string keyStatus: ""
     property bool showKey: false
+    // "", "missing" (no sddm/install.sh yet), "copying", "ok" or "failed"
+    property string sddmStatus: ""
+    property string sddmMessage: ""
+    readonly property string sddmTarget: "/usr/share/sddm/themes/sddm-astronaut-theme/Backgrounds/qs-wallpaper.jpg"
 
     readonly property bool folderEdited: folderField.text.trim().replace(/\/+$/, "") !== SettingsConfig.wallpaperDir
     readonly property bool commandEdited: commandField.text.trim() !== SettingsConfig.wallpaperCommand
@@ -47,6 +53,8 @@ Rectangle {
         folderStatus = "";
         keyStatus = "";
         showKey = false;
+        sddmStatus = "";
+        sddmCheck.exec(["test", "-w", sddmTarget]);
         folderField.forceActiveFocus();
         folderField.selectAll();
     }
@@ -87,6 +95,21 @@ Rectangle {
         commandField.text = cmd;
         commandStatus = cmd && WallpaperEngine.current ? "running" : "";
         WallpaperEngine.runCommand(WallpaperEngine.current);
+    }
+
+    // Switched on, the wallpaper on screen goes to the login screen at once.
+    function toggleSddm() {
+        const on = !SettingsConfig.sddmWallpaper;
+        SettingsConfig.sddmWallpaper = on;
+        if (!on || sddmStatus === "missing") {
+            if (!on && sddmStatus !== "missing")
+                sddmStatus = "";
+            return;
+        }
+        if (!WallpaperEngine.current)
+            return;
+        sddmStatus = "copying";
+        sddmCopy.exec([Quickshell.shellPath("utils/sddm-wallpaper.sh"), WallpaperEngine.current]);
     }
 
     function applyKey() {
@@ -148,6 +171,24 @@ Rectangle {
         }
     }
 
+    // The login screen's wallpaper file exists and is yours once
+    // sddm/install.sh has run.
+    Process {
+        id: sddmCheck
+        onExited: code => {
+            if (code !== 0)
+                card.sddmStatus = "missing";
+        }
+    }
+
+    Process {
+        id: sddmCopy
+        stderr: StdioCollector {
+            onStreamFinished: card.sddmMessage = text.trim()
+        }
+        onExited: code => card.sddmStatus = code === 0 ? "ok" : "failed"
+    }
+
     // Clicks stay on the card rather than reaching the deck under it.
     MouseArea {
         anchors.fill: parent
@@ -203,6 +244,65 @@ Rectangle {
             font.pixelSize: 12 * card.u
             font.weight: Font.DemiBold
             color: card.accentInk
+        }
+    }
+
+    // A labelled switch; the whole row flips it.
+    component SwitchRow: ClickableRect {
+        id: row
+
+        property bool checked
+        property string text
+
+        width: parent.width
+        height: 40 * card.u
+        radius: DesktopTheme.rad(12) * card.u
+        color: row.hovered ? Colors.withAlpha(card.ink, 0.1) : Colors.withAlpha(card.ink, 0.06)
+        border.width: 1
+        border.color: Colors.withAlpha(card.ink, 0.12)
+        cursorShape: Qt.PointingHandCursor
+
+        StyledText {
+            anchors.left: parent.left
+            anchors.leftMargin: 14 * card.u
+            anchors.right: track.left
+            anchors.rightMargin: 12 * card.u
+            anchors.verticalCenter: parent.verticalCenter
+            text: row.text
+            elide: Text.ElideRight
+            font.pixelSize: 13 * card.u
+            color: card.ink
+        }
+
+        // The switch, as round as the theme's controls.
+        Rectangle {
+            id: track
+            anchors.right: parent.right
+            anchors.rightMargin: 8 * card.u
+            anchors.verticalCenter: parent.verticalCenter
+            width: 42 * card.u
+            height: 24 * card.u
+            radius: Math.min(height / 2, row.radius)
+            color: row.checked ? card.accent : Colors.withAlpha(card.ink, 0.16)
+
+            Behavior on color {
+                ColorAnimation { duration: 160 }
+            }
+
+            Rectangle {
+                readonly property real inset: 3 * card.u
+
+                x: row.checked ? parent.width - width - inset : inset
+                y: inset
+                width: parent.height - inset * 2
+                height: width
+                radius: Math.max(0, track.radius - inset)
+                color: row.checked ? card.accentInk : card.ink
+
+                Behavior on x {
+                    NumberAnimation { duration: 160; easing.type: Easing.OutCubic }
+                }
+            }
         }
     }
 
@@ -382,68 +482,33 @@ Rectangle {
             text: "SETTING A WALLPAPER"
         }
 
-        // The whole row flips the switch.
-        ClickableRect {
+        SwitchRow {
             id: animateRow
-
-            readonly property bool checked: SettingsConfig.wallpaperAnimateChoice
-
-            width: parent.width
-            height: 40 * card.u
-            radius: DesktopTheme.rad(12) * card.u
-            color: animateRow.hovered ? Colors.withAlpha(card.ink, 0.1) : Colors.withAlpha(card.ink, 0.06)
-            border.width: 1
-            border.color: Colors.withAlpha(card.ink, 0.12)
-            cursorShape: Qt.PointingHandCursor
+            checked: SettingsConfig.wallpaperAnimateChoice
+            text: "Grow the chosen card into the wallpaper"
             onClicked: SettingsConfig.wallpaperAnimateChoice = !SettingsConfig.wallpaperAnimateChoice
-
-            StyledText {
-                anchors.left: parent.left
-                anchors.leftMargin: 14 * card.u
-                anchors.right: track.left
-                anchors.rightMargin: 12 * card.u
-                anchors.verticalCenter: parent.verticalCenter
-                text: "Grow the chosen card into the wallpaper"
-                elide: Text.ElideRight
-                font.pixelSize: 13 * card.u
-                color: card.ink
-            }
-
-            // The switch, as round as the theme's controls.
-            Rectangle {
-                id: track
-                anchors.right: parent.right
-                anchors.rightMargin: 8 * card.u
-                anchors.verticalCenter: parent.verticalCenter
-                width: 42 * card.u
-                height: 24 * card.u
-                radius: Math.min(height / 2, animateRow.radius)
-                color: animateRow.checked ? card.accent : Colors.withAlpha(card.ink, 0.16)
-
-                Behavior on color {
-                    ColorAnimation { duration: 160 }
-                }
-
-                Rectangle {
-                    readonly property real inset: 3 * card.u
-
-                    x: animateRow.checked ? parent.width - width - inset : inset
-                    y: inset
-                    width: parent.height - inset * 2
-                    height: width
-                    radius: Math.max(0, track.radius - inset)
-                    color: animateRow.checked ? card.accentInk : card.ink
-
-                    Behavior on x {
-                        NumberAnimation { duration: 160; easing.type: Easing.OutCubic }
-                    }
-                }
-            }
         }
 
         Note {
             text: animateRow.checked ? "The card comes to the middle of the screen and grows into the wallpaper, then the picker closes."
                 : "The wallpaper changes straight away and the deck stays open, for more browsing."
+        }
+
+        SwitchRow {
+            id: sddmRow
+            checked: SettingsConfig.sddmWallpaper
+            text: "Use it on the login screen too"
+            onClicked: card.toggleSddm()
+        }
+
+        Note {
+            text: card.sddmStatus === "missing" ? "Login screen isn't set up yet. Run once: sudo ~/repos/configdotfile/sddm/install.sh"
+                : card.sddmStatus === "copying" ? "Copying the wallpaper on screen to the login screen…"
+                : card.sddmStatus === "ok" ? "The login screen has the wallpaper on screen now."
+                : card.sddmStatus === "failed" ? "Couldn't copy it: " + card.sddmMessage
+                : sddmRow.checked ? "Each wallpaper you set is copied to the SDDM login screen as well."
+                : "The SDDM login screen keeps its own wallpaper."
+            color: card.sddmStatus === "missing" || card.sddmStatus === "failed" ? Colors.error : card.sddmStatus === "ok" ? card.accent : card.muted
         }
     }
 }
