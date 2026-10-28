@@ -264,7 +264,7 @@ Item {
         unriteAnim.restart();
     }
 
-    // utils/lock.sh: hyprlock, then the unlock counts towards LockStats
+    // utils/lock.sh: the Quickshell lock (hyprlock if it can't start)
     readonly property string lockCommand: "exec \"$HOME/.config/quickshell/utils/lock.sh\""
     readonly property string sleepCommand: "(\"$HOME/.config/quickshell/utils/lock.sh\" &); sleep 1; "
         + "hyprctl dispatch 'hl.dsp.dpms({ action = \"off\" })'"

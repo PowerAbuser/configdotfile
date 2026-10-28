@@ -53,6 +53,9 @@ hl.config({
         initial_workspace_tracking = 0,
         middle_click_paste         = false,
         mouse_move_focuses_monitor = true,
+        -- If the Quickshell lock crashes, a new locker (lock.sh falls back to
+        -- hyprlock) may take over the session lock instead of leaving it dead.
+        allow_session_lock_restore = true,
     },
 
     -- See https://wiki.hypr.land/Configuring/Layouts/Dwindle-Layout/
