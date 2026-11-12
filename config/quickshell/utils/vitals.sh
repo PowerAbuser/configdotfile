@@ -15,9 +15,12 @@ for h in /sys/class/hwmon/hwmon*; do
     [[ $(cat "$h/name" 2>/dev/null) == k10temp ]] && temp=$(( $(cat "$h/temp1_input") / 1000 )) && break
 done
 gpu=0
-for h in /sys/class/hwmon/hwmon*; do
-    [[ $(cat "$h/name" 2>/dev/null) == amdgpu && -r $h/temp1_input ]] && gpu=$(( $(cat "$h/temp1_input") / 1000 )) && break
-done
+# CRASH TEST (2026-11-12): amdgpu sensor read disabled. Each read is an SMU
+# query that wakes the GPU every 2 s; suspected trigger of the data-fabric
+# sync-flood resets. Restore the loop below if the crashes continue anyway.
+# for h in /sys/class/hwmon/hwmon*; do
+#     [[ $(cat "$h/name" 2>/dev/null) == amdgpu && -r $h/temp1_input ]] && gpu=$(( $(cat "$h/temp1_input") / 1000 )) && break
+# done
 disk=$(df --output=pcent / | tail -1 | tr -dc '0-9')
 up=$(awk '{s=int($1); d=int(s/86400); h=int(s%86400/3600); m=int(s%3600/60);
     if (d) printf "%dd %dh", d, h; else if (h) printf "%dh %dm", h, m; else printf "%dm", m}' /proc/uptime)
