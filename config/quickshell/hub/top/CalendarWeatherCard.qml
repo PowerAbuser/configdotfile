@@ -21,7 +21,7 @@ Lib.TopCard {
     id: weather
     running: root.active && root.visible
     interval: 60000
-    command: ["bash","-lc", Qt.resolvedUrl("../../lib/weather.sh").toString().replace("file://", "")]
+    command: ["bash", "-c", Qt.resolvedUrl("../../lib/weather.sh").toString().replace("file://", "")]
     parse: function(out) {
       try {
         var d = JSON.parse(String(out))
@@ -37,7 +37,7 @@ Lib.TopCard {
     id: calEvent
     running: root.active && root.visible
     interval: 60000
-    command: ["bash", "-lc", "khal list now 1h --format '{title}::{start-time}-{end-time}' 2>/dev/null || true"]
+    command: ["bash", "-c", "khal list now 1h --format '{title}::{start-time}-{end-time}' 2>/dev/null || true"]
     parse: function(out) {
       var lines = String(out).split("\n")
       var events = []

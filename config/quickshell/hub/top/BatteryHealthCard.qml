@@ -41,7 +41,7 @@ Lib.TopCard {
         id: batteryPoll
         running: root.active && root.visible
         interval: 8000
-        command: ["bash", "-lc", "DEV=$(upower -e 2>/dev/null | grep -m1 -i battery); [ -n \"$DEV\" ] && upower -i \"$DEV\" 2>/dev/null || true"]
+        command: ["bash", "-c", "DEV=$(upower -e 2>/dev/null | grep -m1 -i battery); [ -n \"$DEV\" ] && upower -i \"$DEV\" 2>/dev/null || true"]
         parse: function(out) {
             var info = {
                 percentage: 0,

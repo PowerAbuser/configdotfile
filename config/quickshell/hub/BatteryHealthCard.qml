@@ -49,7 +49,7 @@ Lib.Card {
         running: root.active && root.visible
         interval: 3000
         property var prevIdle: 0; property var prevTotal: 0
-        command: ["bash","-lc","grep 'cpu ' /proc/stat"]
+        command: ["bash", "-c","grep 'cpu ' /proc/stat"]
         parse: function(out) {
             var parts = String(out).split(/\s+/)
             var idle = Number(parts[4]) + Number(parts[5])
@@ -66,7 +66,7 @@ Lib.Card {
         id: ram
         running: root.active && root.visible
         interval: 4000
-        command: ["bash","-lc","awk '/MemTotal/ {t=$2} /MemAvailable/ {a=$2} END{ if(t>0) printf(\"%d\", (100-(a*100/t))); else print \"0\" }' /proc/meminfo || true"]
+        command: ["bash", "-c","awk '/MemTotal/ {t=$2} /MemAvailable/ {a=$2} END{ if(t>0) printf(\"%d\", (100-(a*100/t))); else print \"0\" }' /proc/meminfo || true"]
         parse: function(o) { return Number(String(o).trim()) || 0 }
     }
 
@@ -74,7 +74,7 @@ Lib.Card {
         id: batteryPoll
         running: root.active && root.visible
         interval: 8000
-        command: ["bash", "-lc", "DEV=$(upower -e 2>/dev/null | grep -m1 -i battery); [ -n \"$DEV\" ] && upower -i \"$DEV\" 2>/dev/null || true"]
+        command: ["bash", "-c", "DEV=$(upower -e 2>/dev/null | grep -m1 -i battery); [ -n \"$DEV\" ] && upower -i \"$DEV\" 2>/dev/null || true"]
         parse: function(out) {
             var info = { percentage: 0, capacity: 0, cycles: 0, state: "", time: "", energy: "" }
             var lines = String(out || "").split("\n")

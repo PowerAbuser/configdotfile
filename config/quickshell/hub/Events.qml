@@ -15,7 +15,7 @@ Lib.Card {
     id: calEvent
     running: root.active
     interval: 60000
-    command: ["bash", "-lc", "khal list today 30d --format '{start-date}::{title}::{start-time}-{end-time}::{location}' 2>/dev/null || true"]
+    command: ["bash", "-c", "khal list today 30d --format '{start-date}::{title}::{start-time}-{end-time}::{location}' 2>/dev/null || true"]
     parse: function(out) {
       var lines = String(out).split("\n")
       var events = []

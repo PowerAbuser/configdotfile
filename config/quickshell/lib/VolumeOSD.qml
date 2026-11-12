@@ -40,7 +40,7 @@ PanelWindow {
         // CommandPoll fires once on start (triggeredOnStart), so the headphone
         // icon is correct the moment the OSD appears; zero work while hidden.
         running: root.osdVisible
-        command: ["bash", "-lc", "pactl get-default-sink 2>/dev/null || echo ''"]
+        command: ["bash", "-c", "pactl get-default-sink 2>/dev/null || echo ''"]
         parse: function(o) {
             var s = String(o).trim().toLowerCase()
             return s.indexOf("bluez")      !== -1

@@ -43,7 +43,7 @@ Lib.TopCard {
   property var dismissed: ({})
   property bool animationsEnabled: true
 
-  function sh(cmd) { return ["bash","-lc", cmd] }
+  function sh(cmd) { return ["bash", "-c", cmd] }
   function det(cmd) { Quickshell.execDetached(sh(cmd)) }
 
   property var pollCommand: sh("dunstctl history 2>/dev/null || true")

@@ -14,7 +14,7 @@ Lib.TopCard {
   property bool active: true
 
   property bool autoMode: false  // no auto-cpufreq here: show the live governor
-  function sh(cmd) { return ["bash","-lc", cmd] }
+  function sh(cmd) { return ["bash", "-c", cmd] }
   function det(cmd) { Quickshell.execDetached(sh(cmd)) }
 
   // --- WIFI ---

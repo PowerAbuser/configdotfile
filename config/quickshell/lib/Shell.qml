@@ -3,7 +3,7 @@ import QtQuick
 import Quickshell
 
 QtObject {
-    function sh(cmd)  { return ["bash", "-lc", cmd] }
+    function sh(cmd)  { return ["bash", "-c", cmd] }
     function det(cmd) { Quickshell.execDetached(sh(cmd)) }
 
     // Warp the pointer onto its own position.

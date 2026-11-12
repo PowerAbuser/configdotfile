@@ -24,7 +24,7 @@ Lib.Card {
     id: weather
     running: root.active && root.visible
     interval: 60000
-    command: ["bash","-lc", Qt.resolvedUrl("../lib/weather.sh").toString().replace("file://", "")]
+    command: ["bash", "-c", Qt.resolvedUrl("../lib/weather.sh").toString().replace("file://", "")]
     parse: function(out) {
       try {
         var d = JSON.parse(String(out))
