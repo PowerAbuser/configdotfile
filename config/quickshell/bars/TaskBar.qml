@@ -238,23 +238,6 @@ PanelWindow {
     // POLLERS
     // ----------------------------------------------- 
     
-    // Updates
-    Lib.CommandPoll {
-        id: updates
-        interval: updateProc.running ? 999999999 : 1800000
-        command: Lib.Shell.sh(`
-            # apt list doesn't take the dpkg lock, so no lock check is needed
-            n=$(apt list --upgradable 2>/dev/null | grep -c upgradable)
-            echo "$n" | tee /tmp/qs_updates_count
-        `)
-        parse: function(o) { return String(o ?? "").trim() }
-    }
-
-    Timer {
-        interval: 15000
-        running: true; repeat: false
-        onTriggered: { if (!updateProc.running) updates.poll() }
-    }
     
     // Battery
     Lib.CommandPoll {
@@ -1049,27 +1032,6 @@ PanelWindow {
                         }
                     }
 
-                    // Updates
-                    TaskbarItem {
-                        property color updatesBg: taskbar.isDarkMode ? pal.accent : '#be7287fd'
-                        property color updatesFg: taskbar.isDarkMode ? "#313244" : "#1e1e2e"
-
-                        visible: updateProc.running || (updates.value !== "0" && updates.value !== "")
-                        iconSource: "../lib/pacman.svg"
-                        text: updateProc.running ? "…" : updates.value
-                        bgColor: updatesBg
-                        textColor: updatesFg
-                        iconColor: updatesFg
-
-                        Process {
-                            id: updateProc
-                            running: false
-                            command: ["kitty", "-e", "bash", "-lc", "sudo apt update && sudo apt upgrade"]
-                            onRunningChanged: { if (!running) updates.poll() }
-                        }
-
-                        onClicked: updateProc.running = true
-                    }
                     
                     // System Tray
                     Rectangle {
