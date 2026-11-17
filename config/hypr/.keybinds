@@ -22,7 +22,7 @@
  + C | open VS Code
  + B | open browser (Default)
 ALT + B | reset default browser
-CTRL + ESCAPE | reload Waybar
+CTRL + ESCAPE | restart Quickshell bar
 CTRL + ALT + ESCAPE | toggle Waybar visibility
  + SHIFT + L | lockscreen (hyprlock)
  + ALT + L | lockscreen theme (hyprlock)

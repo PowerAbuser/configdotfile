@@ -15,8 +15,11 @@ Only the lock and what it needs were copied, with all 16 upstream themes
 (`desktoptheme.json`'s `matchLock`); otherwise `../quickshell/lockscreen.json`
 picks (`active`, `shuffle`).
 
-The one change from upstream: `LockContext.suspend()` turns the screens off,
-as suspend is masked here.
+Changes from upstream:
+
+- `LockContext.suspend()` turns the screens off, as suspend is masked here.
+- The terminal theme's phosphor never goes below 75% lightness, so a dark
+  scheme's accent stays readable.
 
 Upstream's paths that differ from this config are linked by `lock.sh` before
 each lock: `~/.cache/current_wallpaper` and `~/.cache/current_avatar`.

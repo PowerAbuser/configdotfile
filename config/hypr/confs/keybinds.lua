@@ -84,7 +84,7 @@ bind(mod .. " + B",              exec(scripts .. "/browser.sh op")) -- open brav
 -- never defined -- hyprlang left the literal text in place, so the modifier
 -- was dropped. Translated to the evidently intended ALT / CTRL.
 bind("ALT + B",     exec(scripts .. "/default_browser.sh --reset")) -- reset default browser
-bind("CTRL + ESCAPE", exec(scripts .. "/waybar-reload.sh --reload")) -- reload waybar
+bind("CTRL + ESCAPE", exec(scripts .. "/quickshell-reload.sh")) -- restart the quickshell bar
 -- bind("CTRL + ESCAPE",       exec("hyprpanel r"))
 -- bind("CTRL + ALT + ESCAPE", exec(scripts .. "/waybar-reload.sh --toggle"))
 

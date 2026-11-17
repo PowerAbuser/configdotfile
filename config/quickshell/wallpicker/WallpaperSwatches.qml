@@ -246,7 +246,7 @@ Singleton {
     Timer {
         id: saveTimer
         interval: 1500
-        onTriggered: cache.setText(JSON.stringify({ version: 1, scheme: root.schemeKey, entries: root.entries }))
+        onTriggered: cache.setText(JSON.stringify({ version: 2, scheme: root.schemeKey, entries: root.entries }))
     }
 
     FileView {
@@ -256,7 +256,7 @@ Singleton {
         onLoaded: {
             try {
                 const d = JSON.parse(text());
-                if (d && d.version === 1 && d.entries && (d.scheme ?? root.defaultSchemeKey) === root.schemeKey)
+                if (d && d.version === 2 && d.entries && (d.scheme ?? root.defaultSchemeKey) === root.schemeKey)
                     root.entries = d.entries;
             } catch (e) {
                 console.warn("wallpaper swatches: unreadable cache,", e);

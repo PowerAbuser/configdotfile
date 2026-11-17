@@ -146,7 +146,7 @@ def still(path):
 def scheme(path):
     try:
         out = subprocess.run(
-            [MATUGEN, "image", path, "--source-color-index", "0", *OPTIONS, "--dry-run", "-j", "hex", "-q"],
+            [MATUGEN, "image", path, "--prefer", "saturation", *OPTIONS, "--dry-run", "-j", "hex", "-q"],
             capture_output=True, text=True, timeout=90,
         )
         colors = json.loads(out.stdout)["colors"]

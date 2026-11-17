@@ -37,7 +37,7 @@ exec 9>"${XDG_RUNTIME_DIR:-/tmp}/matugen-apply.lock"
 flock -w 30 9 || { echo "matugen-apply: lock busy" >&2; exit 1; }
 
 # Niced: a big image takes most of a second on every core
-nice -n 19 "$MATUGEN" image "$img" --source-color-index 0 -q "${opts[@]}" 9>&- || exit 1
+nice -n 19 "$MATUGEN" image "$img" --prefer saturation -q "${opts[@]}" 9>&- || exit 1
 
 # kitty and rofi read the generated files through these links
 ln -sf "$HOME/.config/kitty/colors/matugen.conf" "$HOME/.config/kitty/theme.conf"

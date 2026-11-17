@@ -26,9 +26,16 @@ PowerScene {
     readonly property real cw: metrics.advanceWidth
     readonly property real margin: 64 * sc
 
-    readonly property color ph: LockTheme.accent
+    // The accent as phosphor, never dimmer than this: a dark scheme's
+    // accent would barely glow through the tube's scanlines and vignette.
+    readonly property color ph: {
+        const a = LockTheme.accent;
+        return Qt.hsla(Math.max(0, a.hslHue), a.hslSaturation, Math.max(a.hslLightness, 0.75), 1);
+    }
     readonly property color phHi: Qt.lighter(ph, 1.2)
-    readonly property color phDim: Qt.rgba(ph.r * 0.55, ph.g * 0.55, ph.b * 0.55, 1)
+    readonly property color phDim: Qt.rgba(ph.r * 0.65, ph.g * 0.65, ph.b * 0.65, 1)
+    // The desktop's brightest, kept low so the dialog stands out against it.
+    readonly property color phBack: Qt.rgba(ph.r * 0.3, ph.g * 0.3, ph.b * 0.3, 1)
     readonly property color glass: Qt.rgba(ph.r * 0.035, ph.g * 0.035, ph.b * 0.035, 1)
 
     readonly property string user: menu.userName
@@ -150,7 +157,7 @@ PowerScene {
             contrast: 1.15
             duo: 1
             shadowColor: scene.glass
-            lightColor: scene.phDim
+            lightColor: scene.phBack
             vignette: 0.3
         }
 

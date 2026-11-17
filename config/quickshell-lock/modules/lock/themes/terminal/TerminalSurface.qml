@@ -29,9 +29,14 @@ Item {
     readonly property real margin: 64 * sc
     readonly property int cols: Math.max(20, Math.floor((width - 2 * margin) / Math.max(1, glyph.advanceWidth)))
 
-    readonly property color ph: LockTheme.accent
+    // Local change: the accent as phosphor, never dimmer than this, as a
+    // dark scheme's accent barely glows through the CRT's scanlines.
+    readonly property color ph: {
+        const a = LockTheme.accent;
+        return Qt.hsla(Math.max(0, a.hslHue), a.hslSaturation, Math.max(a.hslLightness, 0.75), 1);
+    }
     readonly property color phHi: Qt.lighter(ph, 1.18)
-    readonly property color phDim: Qt.rgba(ph.r * 0.55, ph.g * 0.55, ph.b * 0.55, 1)
+    readonly property color phDim: Qt.rgba(ph.r * 0.65, ph.g * 0.65, ph.b * 0.65, 1)
     readonly property color err: LockTheme.danger
     readonly property string user: ctx.userName
     property string host: "mainframe"
